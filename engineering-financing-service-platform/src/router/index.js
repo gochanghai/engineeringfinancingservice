@@ -92,6 +92,31 @@ export default new Router({
                     component: resolve => require(['../components/page/engineeringloan/ApplyInfo.vue'], resolve),
                     meta: { title: 'engineeringloan-credit-apply-info' }
                 },
+                {
+                    path: '/engineeringloan-credit-apply-list',
+                    component: resolve => require(['../components/page/engineeringloan/CreditApplyList.vue'], resolve),
+                    meta: { title: 'engineeringloan-credit-apply-list' }
+                },
+                {
+                    path: '/engineeringloan-loan-apply-list',
+                    component: resolve => require(['../components/page/engineeringloan/LoanApplyList.vue'], resolve),
+                    meta: { title: 'engineeringloan-loan-apply-list' }
+                },
+                {
+                    path: '/fire-project-list',
+                    component: resolve => require(['../components/page/project/FireProjectList.vue'], resolve),
+                    meta: { title: 'fire-project-list' }
+                },
+                {
+                    path: '/mainten-priject-list',
+                    component: resolve => require(['../components/page/project/FireMaintenanceProjectList.vue'], resolve),
+                    meta: { title: 'mainten-priject-list' }
+                },
+                {
+                    path: '/message-list',
+                    component: resolve => require(['../components/page/message/List.vue'], resolve),
+                    meta: { title: 'message-list' }
+                },
                 // onlian end
 
 
@@ -125,13 +150,13 @@ export default new Router({
                     // markdown组件
                     path: '/markdown',
                     component: resolve => require(['../components/page/Markdown.vue'], resolve),
-                    meta: { title: 'markdown编辑器' }    
+                    meta: { title: 'markdown编辑器' }
                 },
                 {
                     // 图片上传组件
                     path: '/upload',
                     component: resolve => require(['../components/page/Upload.vue'], resolve),
-                    meta: { title: '文件上传' }   
+                    meta: { title: '文件上传' }
                 },
                 {
                     // vue-schart组件

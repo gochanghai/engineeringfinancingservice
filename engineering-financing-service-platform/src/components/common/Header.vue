@@ -4,7 +4,11 @@
         <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>
         </div>
-        <div class="logo" v-show="!collapse"><img src="../../../static/img/logo.png"></div> <!--后台管理系统-->
+        <div class="logo" v-show="!collapse">
+            <!--<img src="../../../static/img/logo.png">-->
+            <!--后台管理系统-->
+            <div class="logo-name">工程融资平台</div>
+        </div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
@@ -139,6 +143,14 @@
         width: 130px;
         height: 30px;
         margin: 20px 3px;
+    }
+    .logo .logo-name{
+        width: 130px;
+        height: 30px;
+        margin: 20px 3px;
+        line-height: 30px;
+        text-align: left;
+        font-size: 18px;
     }
     .header-right{
         float: right;

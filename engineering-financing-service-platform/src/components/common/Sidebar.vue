@@ -114,6 +114,36 @@
                         index: 'engineeringloan-credit-apply-info',
                         title: '授信申请信息'
                     },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'engineeringloan-credit-apply-list',
+                        title: '授信申请列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'engineeringloan-loan-apply-list',
+                        title: '放款申请列表'
+                    },
+                    {
+                        icon: 'el-icon-rank',
+                        index: 'project',
+                        title: '工程管理',
+                        subs: [
+                            {
+                                index: 'fire-project-list',
+                                title: '消防工程',
+                            },
+                            {
+                                index: 'mainten-priject-list',
+                                title: '维保工程',
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'message-list',
+                        title: '消息'
+                    },
                     // online end
                     {
                         icon: 'el-icon-lx-home',
