@@ -1,226 +1,227 @@
 <template>
-    <div class="">
-        <div class="crumbs">
-            <!--<el-breadcrumb separator="/">-->
-                <!--<el-breadcrumb-item><i class="el-icon-lx-copy"></i> tab选项卡</el-breadcrumb-item>-->
-            <!--</el-breadcrumb>-->
-        </div>
-        <div class="container">
-            <div style="width: 100%; border-left: 3px solid #ff8208; padding: 5px 20px; margin-bottom: 20px">消息</div>
-            <div>
-                <div class="message-nav-scroll">
-                    <div style="width: 300px; margin: 0 auto;">
-                        <div class="message-nav-item" :class="{'is-nav-item': isMessageType === 1}" @click="isMessageType = 1">消息通知</div>
-                        <div class="message-nav-item" :class="{'is-nav-item': isMessageType === 0}" @click="isMessageType = 0 ">系统公告</div>
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="24">
+                <el-card shadow="hover">
+                    <div slot="header" class="clearfix">
+                        <span>消息</span>
                     </div>
-                </div>
-                <div v-show="isMessageType === 1">
-                    <div class="message-item" v-for=" item in MessageList">
-                        <div class="message-item-title">
-                            <div class="message-badge" v-if="item.status === 0">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">{{item.createDate}}</div>
+                    <div class="message-box">
+                        <div class="message-nav-scroll">
+                            <div style="width: 300px; margin: 0 auto;">
+                                <div class="message-nav-item" :class="{'is-nav-item': isMessageType === 1}" @click="isMessageType = 1">消息通知</div>
+                                <div class="message-nav-item" :class="{'is-nav-item': isMessageType === 0}" @click="isMessageType = 0 ">系统公告</div>
+                            </div>
                         </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">{{item.title}}：</div>
-                            <div class="message-content">{{item.content}}</div>
+                        <div v-show="isMessageType === 1">
+                            <div class="message-item" v-for=" item in MessageList">
+                                <div class="message-item-title">
+                                    <div class="message-badge" v-if="item.status === 0">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">{{item.createDate}}</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">{{item.title}}：</div>
+                                    <div class="message-content">{{item.content}}</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <!--<div class="message-badge">NEW</div>-->
+                                    <div class="message-type2">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <!--<div class="message-badge">NEW</div>-->
+                                    <div class="message-type2">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="handle-row">
+                                <el-button type="warning">全部标为已读</el-button>
+                            </div>
+                        </div>
+                        <div v-show="isMessageType === 0">
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2020-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <div class="message-badge">NEW</div>
+                                    <div class="message-type">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <!--<div class="message-badge">NEW</div>-->
+                                    <div class="message-type2">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-item-title">
+                                    <!--<div class="message-badge">NEW</div>-->
+                                    <div class="message-type2">• 消息通知</div>
+                                    <div class="message-date">2019-01-22 15:30:36</div>
+                                </div>
+                                <div class="message-item-content">
+                                    <div class="message-content-title">放款完成通知：</div>
+                                    <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <!--<div class="message-badge">NEW</div>-->
-                            <div class="message-type2">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <!--<div class="message-badge">NEW</div>-->
-                            <div class="message-type2">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="handle-row">
-                        <el-button type="warning">全部标为已读</el-button>
-                    </div>
-                </div>
-                <div v-show="isMessageType === 0">
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2020-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <div class="message-badge">NEW</div>
-                            <div class="message-type">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <!--<div class="message-badge">NEW</div>-->
-                            <div class="message-type2">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-item-title">
-                            <!--<div class="message-badge">NEW</div>-->
-                            <div class="message-type2">• 消息通知</div>
-                            <div class="message-date">2019-01-22 15:30:36</div>
-                        </div>
-                        <div class="message-item-content">
-                            <div class="message-content-title">放款完成通知：</div>
-                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 

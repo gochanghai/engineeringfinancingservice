@@ -117,6 +117,21 @@ export default new Router({
                     component: resolve => require(['../components/page/message/List.vue'], resolve),
                     meta: { title: 'message-list' }
                 },
+                {
+                    path: '/file-list',
+                    component: resolve => require(['../components/page/filesystem/List.vue'], resolve),
+                    meta: { title: 'message-list' }
+                },
+                {
+                    path: '/file-preview',
+                    component: resolve => require(['../components/page/filesystem/Preview.vue'], resolve),
+                    meta: { title: 'message-list' }
+                },
+                {
+                    path: '/product-list',
+                    component: resolve => require(['../components/page/product/List.vue'], resolve),
+                    meta: { title: 'product-list' }
+                },
                 // onlian end
 
 

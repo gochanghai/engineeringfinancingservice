@@ -1,110 +1,86 @@
 <template>
-    <div class="table">
-        <!--<div class="crumbs">-->
-            <!--<el-breadcrumb class="breadcrumb" separator="/">-->
-                <!--<el-breadcrumb-item class="breadcrumb-item">-->
-                    <!--<i class="el-icon-lx-cascades"></i> -->
-                    <!--放款审批列表</el-breadcrumb-item>-->
-            <!--</el-breadcrumb>-->
-        <!--</div>-->
-        <div class="container" >
-            <div style="width: 100%; color: #f1561d; border-left: 3px solid #f1561d; padding: 5px 20px; margin-bottom: 20px">放款审批列表</div>
-            <div class="handle-box">
-                <!--<el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>-->
-                状态
-                <el-select v-model="select_cate" placeholder="请选择" class="handle-select mr10">
-                    <el-option key="1" label="待完善项目资料" value="1001"></el-option>
-                    <el-option key="2" label="待提交" value="1002"></el-option>
-                </el-select>
-                <!--<el-input v-model="select_word" placeholder="请输入融资人或项目名称或合同编号" class="handle-input mr10"></el-input>-->
-                <el-button type="primary" class="btn-search" icon="search" @click="search">查询</el-button>
-                <!--<el-button type="primary" icon="search" @click="add" style="margin-left: 300px">新增</el-button>-->
-            </div>
-            <div class="loan-info-box" >
-                <div class="list" v-for=" (item, index) in tableData">
-                    <div class="loan-info-box list loan-info">
-                        <div class="item">申请日期: {{item.loanDate}}</div>
-                        <div class="item">申请编号: {{item.loanNo}}</div>
-                        <div class="item">申请人: {{item.name}}</div>
-                        <div class="item">项目名称: {{item.projectName}}</div>
-                        <div class="item">申请放款金额: {{item.loanAmount}} 万</div>
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="24">
+                <el-card shadow="hover">
+                    <div slot="header" class="clearfix">
+                        <span>放款审批列表</span>
+                    </div>
+                    <div class="top-btn-box">
+                        状态
+                        <el-select v-model="select_cate" placeholder="请选择" class="handle-select mr10">
+                            <el-option key="1" label="待完善项目资料" value="1001"></el-option>
+                            <el-option key="2" label="待提交" value="1002"></el-option>
+                        </el-select>
+                        <!--<el-input v-model="select_word" placeholder="请输入融资人或项目名称或合同编号" class="handle-input mr10"></el-input>-->
+                        <el-button type="primary" class="btn-search" icon="search" @click="search">查询</el-button>
+                    </div>
+                    <div class="loan-info-box">
+                        <div class="list" v-for=" (item, index) in tableData">
+                            <div class="loan-info-box list loan-info">
+                                <div class="item">申请日期: {{item.loanDate}}</div>
+                                <div class="item">申请编号: {{item.loanNo}}</div>
+                                <div class="item">申请人: {{item.name}}</div>
+                                <div class="item">项目名称: {{item.projectName}}</div>
+                                <div class="item">申请放款金额: {{item.loanAmount}} 万</div>
 
-                        <div class="btn-sz" v-show="isShowPurchase === index" @click="isShowPurchaseInfo(-1)">收起 ▲</div>
-                        <div class="btn-sz" v-show="isShowPurchase !== index" @click="isShowPurchaseInfo(index)">展开 ▼</div>
-                        <div class="tag-status">待确认</div>
-                        <div class="btn-cancel" @click="gotoSubmit(item.id, -1)">拒绝</div>
-                        <div class="btn-submit" @click="gotoSubmit(item.id, 1)">确认</div>
+                                <div class="btn-sz" v-show="isShowPurchase === index" @click="isShowPurchaseInfo(-1)">收起 ▲</div>
+                                <div class="btn-sz" v-show="isShowPurchase !== index" @click="isShowPurchaseInfo(index)">展开 ▼</div>
+                                <div class="tag-status">待确认</div>
+                                <div class="btn-cancel" @click="gotoSubmit(item.id, -1)">拒绝</div>
+                                <div class="btn-submit" @click="gotoSubmit(item.id, 1)">确认</div>
+                            </div>
+                            <div class="purchase-info" v-show="isShowPurchase === index">
+                                <el-table border :data="item.purchaseOrders">
+                                    <el-table-column prop="contractNo" label="采购合同编号" align="center">
+                                    </el-table-column>
+                                    <el-table-column prop="contractFile" label="采购合同附件" align="center">
+                                        <template slot-scope="scope">
+                                            <img :src="filesysip + scope.row.contractFile" @click="filePreview(scope.row.contractFile)" width="30" height="25"/>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="orderSumAmount" label="采购订单总金额" align="center">
+                                        <template slot-scope="scope">
+                                            {{ scope.row.orderSumAmount}} 万
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="orderFile" label="采购订单附件" align="center">
+                                        <template slot-scope="scope">
+                                            <img :src="filesysip + scope.row.orderFile" @click="filePreview(scope.row.orderFile)" width="30" height="25"/>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="invoiceSumAmount" label="采购发票总金额" align="center">
+                                        <template slot-scope="scope">
+                                            {{ scope.row.invoiceSumAmount}} 万
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="invoiceFile" label="采购发票附件" align="center">
+                                        <template slot-scope="scope">
+                                            <img :src="filesysip + scope.row.invoiceFile" @click="filePreview(scope.row.invoiceFile)" width="30" height="25"/>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="deliveryBillFile" label="送货单附件" align="center">
+                                        <template slot-scope="scope">
+                                            <img :src="filesysip + scope.row.deliveryBillFile" @click="filePreview(scope.row.deliveryBillFile)" width="30" height="25"/>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="bankCardNo" label="供应商银行账户名" align="center">
+                                    </el-table-column>
+                                    <el-table-column prop="bankAccountName" label="供应商银行账号" align="center">
+                                    </el-table-column>
+                                    <el-table-column prop="openAccountBank" label="开户行" align="center">
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                        </div>
+                        <div class="pagination">
+                            <!--<el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">-->
+                            <!--</el-pagination>-->
+                        </div>
                     </div>
-                    <div class="purchase-info" v-show="isShowPurchase === index">
-                        <el-table border :data="item.purchaseOrders">
-                            <el-table-column prop="contractNo" label="采购合同编号" align="center">
-                            </el-table-column>
-                            <el-table-column prop="contractFile" label="采购合同附件" align="center">
-                                <template slot-scope="scope">
-                                    <img :src="filesysip + scope.row.contractFile" @click="filePreview(scope.row.contractFile)" width="30" height="25"/>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="orderSumAmount" label="采购订单总金额" align="center">
-                                <template slot-scope="scope">
-                                    {{ scope.row.orderSumAmount}} 万
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="orderFile" label="采购订单附件" align="center">
-                                <template slot-scope="scope">
-                                    <img :src="filesysip + scope.row.orderFile" @click="filePreview(scope.row.orderFile)" width="30" height="25"/>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="invoiceSumAmount" label="采购发票总金额" align="center">
-                                <template slot-scope="scope">
-                                    {{ scope.row.invoiceSumAmount}} 万
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="invoiceFile" label="采购发票附件" align="center">
-                                <template slot-scope="scope">
-                                    <img :src="filesysip + scope.row.invoiceFile" @click="filePreview(scope.row.invoiceFile)" width="30" height="25"/>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="deliveryBillFile" label="送货单附件" align="center">
-                                <template slot-scope="scope">
-                                    <img :src="filesysip + scope.row.deliveryBillFile" @click="filePreview(scope.row.deliveryBillFile)" width="30" height="25"/>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="bankCardNo" label="供应商银行账户名" align="center">
-                            </el-table-column>
-                            <el-table-column prop="bankAccountName" label="供应商银行账号" align="center">
-                            </el-table-column>
-                            <el-table-column prop="openAccountBank" label="开户行" align="center">
-                            </el-table-column>
-                        </el-table>
-                    </div>
-                </div>
-            </div>
-            <!--<el-table :data="tableData">-->
-            <!--<el-table-column prop="loanDate" label="申请日期" width="100" align="center">-->
-            <!--</el-table-column>-->
-            <!--<el-table-column prop="loanNumber" label="申请编号" width="150" align="center">-->
-            <!--</el-table-column>-->
-            <!--<el-table-column prop="name" label="申请人" width="150" align="center">-->
-            <!--</el-table-column>-->
-            <!--<el-table-column prop="projectName" label="项目名称" width="200" align="center">-->
-            <!--</el-table-column>-->
-            <!--<el-table-column label="申请放款金额" width="150" align="center">-->
-            <!--<template slot-scope="scope">-->
-            <!--{{ scope.row.loanAmount }} 万-->
-            <!--</template>-->
-            <!--</el-table-column>-->
-            <!--<el-table-column label="操作"  align="center">-->
-            <!--<template slot-scope="scope">-->
-            <!--<el-button type="warning" plain @click="handleEdit(scope.$index, scope.row)">详情</el-button>-->
-            <!--<el-button type="warning" plain @click="handleEdit(scope.$index, scope.row)">去审批</el-button>-->
-            <!--</template>-->
-            <!--</el-table-column>-->
-            <!--</el-table>-->
-            <div class="pagination">
-                <!--<el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">-->
-                <!--</el-pagination>-->
-            </div>
-        </div>
+                </el-card>
+            </el-col>
+        </el-row>
 
         <!-- 审批弹出框 -->
         <el-dialog :visible.sync="submitVisible" center width="30%">
@@ -121,17 +97,17 @@
                     </el-form-item>
                     <el-form-item label="项目资信评估表">
                         <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-change="handleChange">
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-change="handleChange">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="项目现场情况">
                         <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-change="handleChange">
+                                class="upload-demo"
+                                action="https://jsonplaceholder.typicode.com/posts/"
+                                :on-change="handleChange">
                             <el-button size="small" type="primary">点击上传</el-button>
                         </el-upload>
                     </el-form-item>
@@ -159,9 +135,9 @@
                 </el-form-item>
                 <el-form-item label="收款通知书">
                     <el-upload
-                        class="upload-demo"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :on-change="handleChange">
+                            class="upload-demo"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-change="handleChange">
                         <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>

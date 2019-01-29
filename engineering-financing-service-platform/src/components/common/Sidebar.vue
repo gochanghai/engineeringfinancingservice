@@ -144,6 +144,36 @@
                         index: 'message-list',
                         title: '消息'
                     },
+                    {
+                        icon: 'el-icon-lx-file',
+                        index: 'file',
+                        title: '文件管理',
+                        subs: [
+                            {
+                                index: 'file-list',
+                                title: '文件列表',
+                            },
+                            {
+                                index: 'file-preview',
+                                title: '文件预览',
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-lx-newsfill',
+                        index: 'product',
+                        title: '金融产品管理',
+                        subs: [
+                            {
+                                index: 'product-list',
+                                title: '产品列表',
+                            },
+                            {
+                                index: 'product-preview',
+                                title: '文件预览',
+                            }
+                        ]
+                    },
                     // online end
                     {
                         icon: 'el-icon-lx-home',

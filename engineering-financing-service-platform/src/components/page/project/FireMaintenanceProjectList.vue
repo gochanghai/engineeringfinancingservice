@@ -1,53 +1,50 @@
 <template>
-    <div class="">
-        <!--<div class="crumbs">-->
-            <!--<el-breadcrumb separator="/">-->
-                <!--<el-breadcrumb-item><i class="el-icon-lx-copy"></i> tab选项卡</el-breadcrumb-item>-->
-            <!--</el-breadcrumb>-->
-        <!--</div>-->
-        <div class="container" >
-            <div style="width: 100%; border-left: 3px solid #f1561d; padding: 5px 20px; margin-bottom: 20px">维保与检测业绩</div>
-            <div class="handle-box">
-                <el-button type="warning" icon="le-icon-text" @click="addListVisible = true">批量导入</el-button>
-                <!--<el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">-->
-                    <!--<el-option key="1" label="广东省" value="广东省"></el-option>-->
-                    <!--<el-option key="2" label="湖南省" value="湖南省"></el-option>-->
-                <!--</el-select>-->
-                <!--<el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>-->
-                <el-button type="warning" icon="el-icon-plus" @click="addVisible = true">添加项目</el-button>
-            </div>
-            <el-table :data="tableData" border class="table" ref="multipleTable"
-                      :header-cell-style="{background:'#e84d10',color: '#fff'}" :row-class-name="tableRowClassName">
-                <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-                <el-table-column prop="projectName" label="项目名称" align="center">
-                </el-table-column>
-                <el-table-column prop="floorArea" label="建筑面积（㎡）" align="center">
-                    <template slot-scope="scope">
-                        {{scope.row.floorArea}}
-                    </template>
-                </el-table-column>
-                <el-table-column prop="projectType" label="建筑类型" align="center" width="200px">
-                    <!--<template slot-scope="scope">-->
-                        <!--<el-tag type="success" v-show=" scope.row.userType === 1 " >一类</el-tag>-->
-                        <!--<el-tag type="success" v-show=" scope.row.userType === 2 " >二类</el-tag>-->
-                    <!--</template>-->
-                </el-table-column>
-                <el-table-column prop="projectLocation" label="项目地点" align="center" width="200px">
-                    <!--<template slot-scope="scope">-->
-                        <!--<el-tag type="success" v-show=" scope.row.status === 1 " >正常</el-tag>-->
-                        <!--<el-tag type="danger" v-show=" scope.row.status === 0 " >停止</el-tag>-->
-                    <!--</template>-->
-                </el-table-column>
-                <el-table-column prop="remark" label="备注" width="150" align="center">
-                    <!--<template slot-scope="scope">-->
-                        <!--<el-tag type="warning">修改密码</el-tag>-->
-                        <!--<el-tag type="success" v-show=" scope.row.status === 0 ">启用</el-tag>-->
-                        <!--<el-tag type="danger" v-show=" scope.row.status === 1 " >停止</el-tag>-->
-                    <!--</template>-->
-                </el-table-column>
-            </el-table>
-
-        </div>
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="24">
+                <el-card shadow="hover">
+                    <div slot="header" class="clearfix">
+                        <span>维保与检测工程</span>
+                    </div>
+                    <div class="top-btn-box">
+                        <el-button type="warning" icon="le-icon-text" @click="addListVisible = true">批量导入</el-button>
+                        <el-button type="warning" icon="el-icon-plus" @click="addVisible = true">添加工程</el-button>
+                    </div>
+                    <div class="project-box">
+                        <el-table :data="tableData" border class="table" ref="multipleTable"
+                                  :header-cell-style="{background:'#e84d10',color: '#fff'}" :row-class-name="tableRowClassName">
+                            <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                            <el-table-column prop="projectName" label="项目名称" align="center">
+                            </el-table-column>
+                            <el-table-column prop="floorArea" label="建筑面积（㎡）" align="center">
+                                <template slot-scope="scope">
+                                    {{scope.row.floorArea}}
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="projectType" label="建筑类型" align="center" width="200px">
+                                <!--<template slot-scope="scope">-->
+                                <!--<el-tag type="success" v-show=" scope.row.userType === 1 " >一类</el-tag>-->
+                                <!--<el-tag type="success" v-show=" scope.row.userType === 2 " >二类</el-tag>-->
+                                <!--</template>-->
+                            </el-table-column>
+                            <el-table-column prop="projectLocation" label="项目地点" align="center" width="200px">
+                                <!--<template slot-scope="scope">-->
+                                <!--<el-tag type="success" v-show=" scope.row.status === 1 " >正常</el-tag>-->
+                                <!--<el-tag type="danger" v-show=" scope.row.status === 0 " >停止</el-tag>-->
+                                <!--</template>-->
+                            </el-table-column>
+                            <el-table-column prop="remark" label="备注" width="150" align="center">
+                                <!--<template slot-scope="scope">-->
+                                <!--<el-tag type="warning">修改密码</el-tag>-->
+                                <!--<el-tag type="success" v-show=" scope.row.status === 0 ">启用</el-tag>-->
+                                <!--<el-tag type="danger" v-show=" scope.row.status === 1 " >停止</el-tag>-->
+                                <!--</template>-->
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
 
         <!-- 添加项目弹出框 -->
         <el-dialog title="新增项目" :visible.sync="addVisible" width="30%" center="">
@@ -92,14 +89,14 @@
         <!-- 批量导入工程数据弹框 -->
         <el-dialog title="批量导入项目数据" :visible.sync="addListVisible" width="410px" center>
             <el-upload
-                class="upload-demo"
-                ref="upload"
-                name="file"
-                action="http://192.168.1.98:8088/fire-maintenance-project/importExecl"
-                :on-success="handleSuccess"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :auto-upload="false">
+                    class="upload-demo"
+                    ref="upload"
+                    name="file"
+                    action="http://192.168.1.98:8088/fire-maintenance-project/importExecl"
+                    :on-success="handleSuccess"
+                    :on-remove="handleRemove"
+                    :file-list="fileList"
+                    :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary">选取excel文件</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传excel文件</div>
             </el-upload>
@@ -108,6 +105,7 @@
                 <el-button type="primary" @click="submitUpload">确 定</el-button>
             </span>
         </el-dialog>
+
     </div>
 </template>
 
@@ -284,58 +282,23 @@
 </script>
 
 <style>
-
-    .table-header {
-        background-color: #ff8208;
-    }
     .table {
         background-color: #ffffff;
     }
+
     .el-table .warning-row {
         background: #ccc;
     }
 
-    .crumbs {
-        padding-left: 20px;
-    }
-
-    .breadcrumb {
-        height: 30px;
-        padding-left: 20px;
-        border-left: 4px solid #ff8208;
-    }
-
-    .breadcrumb-item {
-        line-height: 30px;
-        font-size: 18px;
-    }
-
-    .handle-box {
-        margin-bottom: 20px;
-        padding-right: 50px;
-        float: right;
-    }
-
-    .handle-select {
-        width: 120px;
-    }
-
-    .handle-input {
-        width: 300px;
-        display: inline-block;
-    }
-    .del-dialog-cnt{
-        font-size: 16px;
-        text-align: center
+    .top-btn-box {
+        margin-bottom: 10px;
+        /*padding-right: 10px;*/
+        text-align: right;
     }
     .table{
         width: 100%;
         font-size: 14px;
     }
-    .red{
-        color: #ff0000;
-    }
-
     .el-upload--text {
         width: 110px;
         height: 35px;
