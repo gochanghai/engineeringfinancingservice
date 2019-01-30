@@ -9,7 +9,7 @@
                     <div class="product-list">
                         <div class="product-list-item">
                             <div class="product-card">
-                                <img src="../../assets/img/gcd.png"/>
+                                <img src="../../../assets/img/gcd.png"/>
                             </div>
                             <!--<div class="product-name"></div>-->
                             <div class="product-btn-box">
@@ -20,7 +20,7 @@
 
                         <div class="product-list-item">
                             <div class="product-card">
-                                <img src="../../assets/img/fyd.png"/>
+                                <img src="../../../assets/img/fyd.png"/>
                             </div>
                             <div class="product-name">房易贷</div>
                             <!--<div class="product-btn-box">-->
@@ -31,7 +31,7 @@
 
                         <div class="product-list-item">
                             <div class="product-card">
-                                <img src="../../assets/img/tbd.png"/>
+                                <img src="../../../assets/img/tbd.png"/>
                             </div>
                             <div class="product-name">投标贷</div>
                             <!--<div class="product-btn-box">-->
@@ -42,7 +42,7 @@
 
                         <div class="product-list-item">
                             <div class="product-card">
-                                <img src="../../assets/img/qt.png"/>
+                                <img src="../../../assets/img/qt.png"/>
                             </div>
                             <div class="product-name">其他产品</div>
                             <!--<div class="product-btn-box">-->
@@ -59,7 +59,7 @@
 
 <script>
     import Schart from 'vue-schart';
-    import bus from '../common/bus';
+    import bus from '../../common/bus';
     export default {
         name: 'dashboard',
         data() {

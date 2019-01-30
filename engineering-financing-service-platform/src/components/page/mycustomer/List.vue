@@ -4,49 +4,42 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>金融产品列表</span>
+                        <span>我的客户列表</span>
                     </div>
                     <div class="top-btn-box">
-                        <el-input v-model="select_word" placeholder="产品名称" class="search-input mr4"></el-input>
-                        <el-button type="warning" icon="search" @click="search">查询</el-button>
-                        <el-button type="warning" icon="el-icon-plus" style="margin-left: 20px"@click="add">添加</el-button>
+                        <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                        <el-button type="primary" icon="el-icon-plus" @click="add">查询</el-button>
                     </div>
-                    <div class="project-box">
-                        <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
-                            <el-table-column type="index" label="序号" width="100" align="center">
+                    <div class="customer-list-box">
+                        <el-table :data="data" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+                            <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
+                            <el-table-column prop="name" label="姓名">
                             </el-table-column>
-                            <el-table-column prop="product_no" label="产品编号" sortable width="200" align="center">
+                            <el-table-column prop="name" label="性别">
                             </el-table-column>
-                            <el-table-column prop="product_name" label="产品名称" width="200" align="center">
+                            <el-table-column prop="name" label="手机号">
                             </el-table-column>
-                            <el-table-column prop="base_year_rate" label="年利率" width="150" align="center">
-                                <template slot-scope="scope">
-                                    <el-tag>{{scope.row.base_year_rate}}%</el-tag>
-                                </template>
+                            <el-table-column prop="date" label="出生年月">
                             </el-table-column>
-                            <el-table-column prop="cooperation_bank" label="资金渠道" align="left">
-                                <template slot-scope="scope">
-                                    {{scope.row.company_full_name + scope.row.cooperation_bank}}
-                                </template>
+                            <el-table-column prop="name" label="婚姻状况">
                             </el-table-column>
-                            <el-table-column label="状态" align="center" width="150">
-                                <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.status === 1">已上架</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === 0">未提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === -1">已下架</el-tag>
-                                </template>
+                            <el-table-column prop="name" label="工程贷授信总额度">
                             </el-table-column>
-                            <el-table-column label="操作" width="200" align="center">
-                                <template slot-scope="scope">
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">产品信息</el-button>
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">删除</el-button>
-                                </template>
+                            <el-table-column prop="name" label="工程贷已放款总金额">
                             </el-table-column>
+                            <el-table-column prop="name" label="工程贷在贷总金额">
+                            </el-table-column>
+                            <el-table-column prop="name" label="违约次数">
+                            </el-table-column>
+                            <!--<el-table-column label="操作" width="150" align="center">-->
+                            <!--<template slot-scope="scope">-->
+                            <!--<el-tag type="warning" >编辑</el-tag>-->
+                            <!--<el-tag type="warning" >删除</el-tag>-->
+                            <!--&lt;!&ndash;<el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>&ndash;&gt;-->
+                            <!--</template>-->
+                            <!--</el-table-column>-->
                         </el-table>
-                        <div class="pagination">
-                            <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="1000">
-                            </el-pagination>
-                        </div>
                     </div>
                 </el-card>
             </el-col>
@@ -56,7 +49,7 @@
 
 <script>
     export default {
-        name: 'business-manager-list',
+        name: 'MyCustomer',
         data() {
             return {
                 url: './static/vuetable.json',
@@ -78,8 +71,7 @@
             }
         },
         created() {
-            // this.getData();
-            this.getDataList();
+            this.getData();
         },
         computed: {
             data() {
@@ -108,16 +100,18 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取Table数据
-            getDataList(){
-                this.$axios.get('fp/list').then((response) => {
-                    console.log(response.data.extend);
-                    this.tableData = response.data.extend.list;
-                }).catch(function (error) {
-                    console.log(error);
-                });
+            // 获取 easy-mock 的模拟数据
+            getData() {
+                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
+                if (process.env.NODE_ENV === 'development') {
+                    this.url = '/ms/table/list';
+                };
+                this.$axios.post(this.url, {
+                    page: this.cur_page
+                }).then((res) => {
+                    this.tableData = res.data.list;
+                })
             },
-
             search() {
                 this.is_search = true;
             },
@@ -166,10 +160,9 @@
                 this.$message.success('删除成功');
                 this.delVisible = false;
             },
-            // 新增
-            add(){
-                // 设置路由页面跳转
-                this.$router.push('add-financial-product');
+            // 添加分公司
+            add(companyId){
+                this.$router.push({path: '/add-child-com?id=' + companyId});
             }
         }
     }
@@ -177,29 +170,50 @@
 </script>
 
 <style scoped>
+
     .table {
         background-color: #ffffff;
     }
 
-    .el-table .warning-row {
-        background: #ccc;
+    .crumbs {
+        padding-left: 20px;
     }
 
-    .top-btn-box {
-        margin-bottom: 10px;
-        /*padding-right: 10px;*/
-        text-align: right;
+    .breadcrumb {
+        height: 30px;
+        padding-left: 20px;
+        border-left: 4px solid #ff8208;
     }
 
-    .top-btn-box .search-input{
+    .breadcrumb-item {
+        line-height: 30px;
+        font-size: 18px;
+    }
+
+    .handle-box {
+        margin-bottom: 20px;
+        padding-right: 50px;
+        float: right;
+    }
+
+    .handle-select {
+        width: 120px;
+    }
+
+    .handle-input {
         width: 300px;
+        display: inline-block;
+    }
+    .del-dialog-cnt{
+        font-size: 16px;
+        text-align: center
     }
     .table{
         width: 100%;
         font-size: 14px;
     }
-    .el-upload--text {
-        width: 110px;
-        height: 35px;
+    .red{
+        color: #ff0000;
     }
 </style>
+

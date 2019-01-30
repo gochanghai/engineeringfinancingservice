@@ -4,42 +4,43 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>金融产品列表</span>
+                        <span>可授信项目列表</span>
                     </div>
                     <div class="top-btn-box">
-                        <el-input v-model="select_word" placeholder="产品名称" class="search-input mr4"></el-input>
-                        <el-button type="warning" icon="search" @click="search">查询</el-button>
-                        <el-button type="warning" icon="el-icon-plus" style="margin-left: 20px"@click="add">添加</el-button>
+                        <el-button type="primary" icon="search" @click="add" style="margin-left: 300px">新增</el-button>
+                        <el-button type="primary" icon="search" @click="add" style="margin-left: 50px">导入</el-button>
                     </div>
-                    <div class="project-box">
+                    <div class="project-list-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
+                            <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center">
                             </el-table-column>
-                            <el-table-column prop="product_no" label="产品编号" sortable width="200" align="center">
+                            <el-table-column prop="projectName" label="项目合同名称" align="center">
                             </el-table-column>
-                            <el-table-column prop="product_name" label="产品名称" width="200" align="center">
+                            <el-table-column prop="contractNo" label="合同编号" width="200" align="center">
                             </el-table-column>
-                            <el-table-column prop="base_year_rate" label="年利率" width="150" align="center">
+                            <el-table-column prop="contractAmount" label="合同金额(万元)" width="200" align="center">
+                            </el-table-column>
+                            <el-table-column prop="companyName" label="所属分公司" width="200" align="center">
+                            </el-table-column>
+                            <el-table-column prop="name" label="商务经理" width="100" align="center">
+                            </el-table-column>
+                            <el-table-column label="预授信金额(万元)" width="150" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag>{{scope.row.base_year_rate}}%</el-tag>
+                                    {{scope.row.shouldCreditAmount}}万
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="cooperation_bank" label="资金渠道" align="left">
+                            <el-table-column label="项目进度" width="100" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.company_full_name + scope.row.cooperation_bank}}
+                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
+                                    <!--<el-progress type="circle" :percentage="scope.row.projectProgress" :width="40"></el-progress>-->
                                 </template>
                             </el-table-column>
-                            <el-table-column label="状态" align="center" width="150">
+                            <el-table-column label="操作" width="100" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.status === 1">已上架</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === 0">未提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === -1">已下架</el-tag>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="操作" width="200" align="center">
-                                <template slot-scope="scope">
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">产品信息</el-button>
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">删除</el-button>
+                                    <!--<el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">详情</el-button>-->
+                                    <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">查看进度</el-tag></el-button>
+                                    <!--<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -56,9 +57,12 @@
 
 <script>
     export default {
-        name: 'business-manager-list',
+        name: 'ProjectList',
         data() {
             return {
+                companyId: localStorage.getItem('userInfoId'),
+                loading: true,
+
                 url: './static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
@@ -79,6 +83,7 @@
         },
         created() {
             // this.getData();
+            // 获取Table数据
             this.getDataList();
         },
         computed: {
@@ -108,16 +113,19 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取Table数据
             getDataList(){
-                this.$axios.get('fp/list').then((response) => {
-                    console.log(response.data.extend);
-                    this.tableData = response.data.extend.list;
+                let _than = this;
+                    console.log("companyId: " +  localStorage.getItem('userInfoId'));
+                this.$axios.get('api/project/list',{params:{
+                        id: this.companyId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.tableData = response.data.extend.list;
+                    _than.loading= false;
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
-
             search() {
                 this.is_search = true;
             },
@@ -169,7 +177,15 @@
             // 新增
             add(){
                 // 设置路由页面跳转
-                this.$router.push('add-financial-product');
+                this.$router.push('may-credit-project-add');
+            },
+            // 查看项目进度进度
+            findProgress(projectId){
+                //
+                console.log(projectId);
+                this.$router.push({
+                    path:'priject-progress-details?id=' + projectId
+                })
             }
         }
     }
@@ -177,29 +193,6 @@
 </script>
 
 <style scoped>
-    .table {
-        background-color: #ffffff;
-    }
 
-    .el-table .warning-row {
-        background: #ccc;
-    }
 
-    .top-btn-box {
-        margin-bottom: 10px;
-        /*padding-right: 10px;*/
-        text-align: right;
-    }
-
-    .top-btn-box .search-input{
-        width: 300px;
-    }
-    .table{
-        width: 100%;
-        font-size: 14px;
-    }
-    .el-upload--text {
-        width: 110px;
-        height: 35px;
-    }
 </style>

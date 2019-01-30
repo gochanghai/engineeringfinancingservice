@@ -19,13 +19,19 @@ export default new Router({
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
                     meta: { title: '系统首页' }
                 },
-                {
-                    path: '/home1',
-                    component: resolve => require(['../components/page/home1.vue'], resolve),
-                    meta: { title: 'Home1' }
-                },
+
 
                 // online start
+                {
+                    path: '/home1',
+                    component: resolve => require(['../components/page/home/Home1.vue'], resolve),
+                    meta: { title: 'Home1' }
+                },
+                {
+                    path: '/home2',
+                    component: resolve => require(['../components/page/home/Home2.vue'], resolve),
+                    meta: { title: 'Home2' }
+                },
 
                 {
                     path: '/credit-info-details',
@@ -113,6 +119,16 @@ export default new Router({
                     meta: { title: 'mainten-priject-list' }
                 },
                 {
+                    path: '/priject-list',
+                    component: resolve => require(['../components/page/project/ProjectList.vue'], resolve),
+                    meta: { title: 'priject-list' }
+                },
+                {
+                    path: '/priject-progress-details',
+                    component: resolve => require(['../components/page/project/ProgressDetails.vue'], resolve),
+                    meta: { title: 'priject-progress-details' }
+                },
+                {
                     path: '/message-list',
                     component: resolve => require(['../components/page/message/List.vue'], resolve),
                     meta: { title: 'message-list' }
@@ -131,6 +147,21 @@ export default new Router({
                     path: '/product-list',
                     component: resolve => require(['../components/page/product/List.vue'], resolve),
                     meta: { title: 'product-list' }
+                },
+                {
+                    path: '/engineeringloan-credit-list4',
+                    component: resolve => require(['../components/page/engineeringloan/CreditReplyList.vue'], resolve),
+                    meta: { title: 'engineeringloan-credit-list4' }
+                },
+                {
+                    path: '/engineeringloan-loan-list3',
+                    component: resolve => require(['../components/page/engineeringloan/LoanReplyList.vue'], resolve),
+                    meta: { title: 'engineeringloan-loan-list3' }
+                },
+                {
+                    path: '/mycustomer-list',
+                    component: resolve => require(['../components/page/mycustomer/List.vue'], resolve),
+                    meta: { title: 'mycustomer-list' }
                 },
                 // onlian end
 

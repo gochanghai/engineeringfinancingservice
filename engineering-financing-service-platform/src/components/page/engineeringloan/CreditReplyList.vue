@@ -4,62 +4,39 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>授信申请列表</span>
+                        <span>授信批复列表</span>
                     </div>
                     <div class="top-btn-box">
-                        状态
-                        <el-select v-model="select_cate" placeholder="请选择" class="status-input mr4">
-                            <el-option key="1" label="待完善项目资料" value="1001"></el-option>
-                            <el-option key="2" label="待提交" value="1002"></el-option>
-                        </el-select>
-                        <el-input v-model="select_word" placeholder="请输入融资人或项目名称或合同编号" class="search-input mr4"></el-input>
+                        <el-input v-model="select_word" placeholder="项目名称/姓名" class="search-input mr4"></el-input>
                         <el-button type="warning" icon="search" @click="search">查询</el-button>
                     </div>
                     <div class="project-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                             <el-table-column type="index" label="序号" width="50" align="center">
                             </el-table-column>
-                            <el-table-column prop="creditNo" label="申请编号" sortable width="160" align="center">
+                            <el-table-column prop="name" label="借款人" sortable width="100" align="center">
                             </el-table-column>
-                            <el-table-column prop="date" label="申请日期" width="100" align="center">
+                            <el-table-column prop="companyName" label="所属核心企业" align="center">
                             </el-table-column>
-                            <el-table-column prop="name" label="申请人" width="80" align="center">
+                            <el-table-column prop="phone" label="手机号" width="120" align="center">
                             </el-table-column>
-                            <el-table-column prop="projectName" label="项目名称" align="center">
+                            <el-table-column prop="applyAmount" label="申请额度" width="100" align="center">
                             </el-table-column>
-                            <el-table-column label="项目进度" width="100" align="center">
+                            <el-table-column prop="projectName" label="申请项目名称" width="200" align="center">
+                            </el-table-column>
+                            <el-table-column prop="projectName" label="甲方名称" width="200" align="center">
+                            </el-table-column>
+                            <el-table-column label="审批进度" width="150" align="center">
                                 <template slot-scope="scope">
-                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
-                                    <!--<el-progress type="circle" :percentage="scope.row.projectProgress" :width="40"></el-progress>-->
+                                    <el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待我批复</el-tag>
+                                    <el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待我发起协议</el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="applyAmount" label="申请授信额(万)" width="120" align="center">
+                            <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.applyAmount}}.00万
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="companyName" label="工程公司" width="150" align="center">
-                            </el-table-column>
-                            <el-table-column prop="companyName" label="担保企业" width="150" align="center">
-                            </el-table-column>
-                            <el-table-column prop="companyFullName" label="资金渠道" width="150" align="center">
-                            </el-table-column>
-                            <el-table-column label="审批进度" width="80" align="center">
-                                <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待发起协议</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待资金方批复</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 3 && scope.row.status === 0">待平台审批</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 2 && scope.row.status === 0">待担保审批</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 1 ">已提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 0 && scope.row.status === 0">未提交</el-tag>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="操作" width="160" align="left">
-                                <template slot-scope="scope">
-                                    <el-button type="warning" size="mini" @click="gotoInfoDetails(scope.row.id)" >详情</el-button>
-                                    <el-button type="warning" size="mini" v-if="scope.row.step === 3"  v-show="scope.row.status === 0" @click="gotoApprove(scope.row.id)">去审批</el-button>
-                                    <!--<el-button type="text" @click="handleEdit(scope.$index, scope.row)">去审批</el-button>-->
-                                    <!--<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
+                                    <el-button type="primary" size="mini" round @click="gotoInfoDetails(scope.row.id)">详情</el-button>
+                                    <el-button type="warning" size="mini" round v-show="scope.row.step === 4" @click="gotoReply(scope.row.id,scope.row.creditType)">去批复</el-button>
+                                    <el-button type="warning" size="mini" round v-show="scope.row.step === 5" @click="gotoReply(scope.row.id,scope.row.creditType)">去发起协议</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -72,42 +49,61 @@
             </el-col>
         </el-row>
 
-        <!-- 审批弹出框 -->
-        <el-dialog :visible.sync="auditVisible" width="25%" center="">
-            <el-form ref="form" :model="form" label-width="100px">
-                <el-form-item>
-                    <el-form-item>
-                        <el-radio-group v-model="form.pResult">
-                            <el-radio :label="1">是</el-radio>
-                            <el-radio :label="-1">否</el-radio>
-                            <el-radio :label="2">退回</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
+        <!-- 批复弹出框 -->
+        <el-dialog title="批复意见" :visible.sync="replyVisible" center width="30%">
+            <el-form ref="form" :model="form" label-width="120px">
+                <el-form-item label="是否可授信" v-show="form.creditType === 1">
+                    <el-radio-group v-model="form.fResult">
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="-1">否</el-radio>
+                        <el-radio :label="3">特批(有条件同意)</el-radio>
+                    </el-radio-group>
                 </el-form-item>
-                <el-form-item label="说明"  v-show="this.form.pResult === 1">
-                    <el-input type="textarea" v-model="form.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                <el-form-item label="是否可授信" v-show="form.creditType === 2">
+                    <el-radio-group v-model="form.fResult">
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="-1">否</el-radio>
+                    </el-radio-group>
                 </el-form-item>
-                <el-form-item label="拒绝原因"  v-show="this.form.pResult === -1">
-                    <el-input type="textarea" v-model="form.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                <el-form-item label="授信金额"  v-show="this.form.fResult === 1">
+                    <el-input v-model="form.fAmount" style="width: 100px"></el-input> 万
                 </el-form-item>
-                <el-form-item label="退回原因"  v-show="this.form.pResult === 2">
-                    <el-input type="textarea" v-model="form.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                <el-form-item label="授信期限"  v-show="this.form.fResult === 1" style="width: 250px">
+                    <el-date-picker
+                            v-model="sxDate"
+                            value-format="yyyy-MM-dd"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="还款方式"  v-show="this.form.fResult === 1">
+                    <el-input v-model="form.fRepayType" style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="批复文件"  v-show="this.form.fResult === 1">
+                </el-form-item>
+                <el-form-item label="拒绝原因"  v-show="this.form.fResult === -1">
+                    <el-input type="textarea" v-model="form.fDesc" placeholder="请输入拒绝原因"  style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="补充意见"  v-show="this.form.fResult === 2">
+                    <el-input type="textarea" v-model="form.fSpecialDesc" placeholder="请输入补充资料" style="width: 350px"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button type="info" @click="auditVisible = false">取 消</el-button>
-                <el-button type="warning" @click="save">确 定</el-button>
+                <el-button @click="replyVisible = false">取 消</el-button>
+                <el-button type="primary" class="btn-submit" @click="save">确 定</el-button>
             </span>
         </el-dialog>
-
     </div>
 </template>
 
 <script>
     export default {
-        name: 'CreditList',
+        name: 'CreditReplyList',
         data() {
             return {
+                userId: localStorage.getItem('userInfoId'),
                 url: './static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
@@ -119,18 +115,32 @@
                 editVisible: false,
                 delVisible: false,
 
-                auditVisible: false,
+                replyVisible: false,
+                sxDate: null,
                 form: {
-                    pResult: 1,
-                    pDesc: '',
-                    pPerson: '',
-                    creditId: ''
+                    fResult: 1,
+                    fAmount: '',
+                    fRepayType: '',
+                    fCreditStartDate: '',
+                    fCreditEndDate: '',
+                    fReplyFile: '',
+                    fSpecialDesc: '',
+                    fDesc: '',
+                    fPerson: null,
+                    creditType: null,
                 },
                 idx: -1
             }
         },
         created() {
             this.getCreditDataList();
+        },
+        // 监听器
+        watch: {
+            sxDate:function() {
+                this.form.fCreditStartDate = this.sxDate[0];
+                this.form.fCreditEndDate = this.sxDate[1];
+            },
         },
         computed: {
             data() {
@@ -154,11 +164,14 @@
             }
         },
         methods: {
-
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('credit/p/list').then(function (response) {
+                this.$axios.get('credit/fund/list', {
+                    params: {
+                        id: this.userId
+                    }
+                }).then(function (response) {
                     console.log(response);
                     _than.tableData = response.data.extend.list;
                 }).catch(function (error) {
@@ -212,16 +225,23 @@
                 this.editVisible = false;
                 this.$message.success(`修改第 ${this.idx+1} 行成功`);
             },
-            // 去查看详情
-            gotoInfoDetails(){
+            // 确定删除
+            deleteRow(){
+                this.tableData.splice(this.idx, 1);
+                this.$message.success('删除成功');
+                this.delVisible = false;
+            },
+
+            gotoInfoDetails(id){
 
             },
-            // 去审批
-            gotoApprove(id){
-                this.auditVisible = true;
+            gotoReply(id, creditType){
                 this.form.creditId = id;
+                this.replyVisible = true;
+                this.form.creditType = creditType;
             },
-            // 保存审批结果
+
+            // 保存
             save(){
                 // this.$refs['form'].validate((valid) => {
                 //     if (!valid) {
@@ -232,14 +252,21 @@
                     this.qs.stringify(
                         {
                             creditId:this.form.creditId,
-                            pResult: this.form.pResult,
-                            pDesc: this.form.pDesc,
-                            pPerson: this.pPerson,
+                            fResult: this.form.fResult,
+                            fAmount: this.form.fAmount,
+                            fRepayType: this.form.fRepayType,
+                            fCreditStartDate: this.form.fCreditStartDate,
+                            fCreditEndDate: this.form.fCreditEndDate,
+                            fReplyFile: this.form.fReplyFile,
+                            fSpecialDesc: this.form.fSpecialDesc,
+                            fDesc: this.form.fDesc,
+                            creditType: this.form.creditType,
+                            fPerson: this.fPerson,
                         }
                     )).then(function (response) {
                     console.log(response);
                     this.$message.success('提交成功！');
-                    this.$router.push("credit-apply-list")
+                    this.$router.push("fund-credit-apply-list")
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -260,21 +287,15 @@
         background: #ccc;
     }
 
-    .top-btn-box {
+    .top-btn-box-l {
         margin-bottom: 10px;
         /*padding-right: 10px;*/
         text-align: left;
     }
 
-    .top-btn-box .status-input{
-        width: 150px;
-        margin-right: 20px;
-    }
-
     .top-btn-box .search-input{
         width: 300px;
     }
-
     .table{
         width: 100%;
         font-size: 14px;

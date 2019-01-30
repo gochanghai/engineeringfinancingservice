@@ -43,12 +43,18 @@
                         index: 'dashboard',
                         title: '系统首页'
                     },
+
+                    // online start
                     {
                         icon: 'el-icon-lx-home',
                         index: 'home1',
                         title: 'home1'
                     },
-                    // online start
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'home2',
+                        title: 'home2'
+                    },
                     {
                         icon: 'el-icon-lx-home',
                         index: 'product-add',
@@ -136,6 +142,10 @@
                             {
                                 index: 'mainten-priject-list',
                                 title: '维保工程',
+                            },
+                            {
+                                index: 'priject-list',
+                                title: '可授信项目',
                             }
                         ]
                     },
@@ -173,6 +183,21 @@
                                 title: '文件预览',
                             }
                         ]
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'engineeringloan-credit-list4',
+                        title: '授信批复列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'engineeringloan-loan-list3',
+                        title: '放款批复列表'
+                    },
+                    {
+                        icon: 'el-icon-lx-friend',
+                        index: 'mycustomer-list',
+                        title: '我的客户'
                     },
                     // online end
                     {

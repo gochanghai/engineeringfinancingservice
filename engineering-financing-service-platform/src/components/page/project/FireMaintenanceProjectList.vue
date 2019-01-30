@@ -7,11 +7,11 @@
                         <span>维保与检测工程</span>
                     </div>
                     <div class="top-btn-box">
-                        <el-button type="warning" icon="le-icon-text" @click="addListVisible = true">批量导入</el-button>
-                        <el-button type="warning" icon="el-icon-plus" @click="addVisible = true">添加工程</el-button>
+                        <el-button class="btn-color" type="warning" icon="le-icon-text" @click="addListVisible = true">批量导入</el-button>
+                        <el-button class="btn-color" type="warning" icon="el-icon-plus" @click="addVisible = true">添加工程</el-button>
                     </div>
                     <div class="project-box">
-                        <el-table :data="tableData" border class="table" ref="multipleTable"
+                        <el-table :data="tableData" border class="table" v-loading="loading" ref="multipleTable"
                                   :header-cell-style="{background:'#e84d10',color: '#fff'}" :row-class-name="tableRowClassName">
                             <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
                             <el-table-column prop="projectName" label="项目名称" align="center">
@@ -115,6 +115,7 @@
         data() {
             return {
                 companyId: localStorage.getItem('userInfoId'),
+                loading: true,
                 url: './static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
@@ -188,6 +189,7 @@
                     }}).then(function (response) {
                     console.log(response);
                     _than.tableData = response.data.extend.list;
+                    _than.loading = false;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -282,6 +284,10 @@
 </script>
 
 <style>
+    .btn-color{
+        background-color: #f1561d;
+        border-color: #f1561d;
+    }
     .table {
         background-color: #ffffff;
     }
