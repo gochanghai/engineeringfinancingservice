@@ -46,6 +46,11 @@
 
                     // online start
                     {
+                        icon: 'el-icon-lx-sort',
+                        index: 'my-project',
+                        title: '我的项目'
+                    },
+                    {
                         icon: 'el-icon-lx-home',
                         index: 'home1',
                         title: 'home1'
@@ -150,7 +155,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-lx-home',
+                        icon: 'el-icon-lx-commentfill',
                         index: 'message-list',
                         title: '消息'
                     },

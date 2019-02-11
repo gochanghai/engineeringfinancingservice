@@ -7,8 +7,8 @@
                         <span>可授信项目列表</span>
                     </div>
                     <div class="top-btn-box">
-                        <el-button type="primary" icon="search" @click="add" style="margin-left: 300px">新增</el-button>
-                        <el-button type="primary" icon="search" @click="add" style="margin-left: 50px">导入</el-button>
+                        <el-button type="warning" @click="add">新增</el-button>
+                        <el-button type="warning" @click="add" style="margin-left: 50px">导入</el-button>
                     </div>
                     <div class="project-list-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
@@ -33,14 +33,11 @@
                             <el-table-column label="项目进度" width="100" align="center">
                                 <template slot-scope="scope">
                                     <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
-                                    <!--<el-progress type="circle" :percentage="scope.row.projectProgress" :width="40"></el-progress>-->
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="100" align="center">
                                 <template slot-scope="scope">
-                                    <!--<el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">详情</el-button>-->
                                     <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">查看进度</el-tag></el-button>
-                                    <!--<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -193,6 +190,8 @@
 </script>
 
 <style scoped>
-
+ .top-btn-box{
+     padding-bottom: 20px;
+ }
 
 </style>

@@ -145,5 +145,13 @@
         border:1px solid rgba(255,113,28,1);
         text-align: center;
     }
+    .product-btn1:hover{
+        background-color: rgba(255,113,28,1);
+        color: #ffffff;
+    }
+    .product-btn2:hover{
+        background-color: rgba(255,113,28,1);
+        color: #ffffff;
+    }
 
 </style>

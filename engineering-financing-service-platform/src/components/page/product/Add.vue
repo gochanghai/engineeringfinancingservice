@@ -18,26 +18,30 @@
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
                                 <div class="content-info-box">
-                                    <div class="form-box">
+                                    <div class="form-box-l">
                                         <el-form label-width="150px">
                                             <el-form-item label="产品编号：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.productNo" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="产品名称：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.productName" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="产品大类：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="form.productTypeId" placeholder="请选择" style="width: 200px">
+                                                    <el-option v-for="type in this.productTypes" :key="type.id" :label="type.name" :value="type.id"/>
+                                                </el-select>
                                             </el-form-item>
                                         </el-form>
                                     </div>
-                                    <div class="form-box">
+                                    <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="基础年利率：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.baseYearRate" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="资金渠道：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="form.fComId" style="width: 200px" placeholder="请选择">
+                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.cooperationBank" :value="funcom.id"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                             <el-form-item label="产品图标：">
                                                 <div class="file-box">
@@ -62,29 +66,45 @@
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
                                 <div class="content-info-box">
-                                    <div class="form-box">
+                                    <div class="form-box-l">
                                         <el-form label-width="150px">
                                             <el-form-item label="期限类型：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-radio-group v-model="form.deadlineType">
+                                                    <el-radio label="y">年</el-radio>
+                                                    <el-radio label="q">季</el-radio>
+                                                    <el-radio label="m">月</el-radio>
+                                                    <el-radio label="d">日</el-radio>
+                                                </el-radio-group>
                                             </el-form-item>
                                             <el-form-item label="期限范围：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.productNumber" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="收取服务费类型：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="form.serviceFeeType" placeholder="请选择" style="width: 200px">
+                                                    <el-option key="1" label="按比例一次性收取" value="按比例一次性收取"></el-option>
+                                                    <el-option key="2" label="按贷款周期" value="按贷款周期"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                         </el-form>
                                     </div>
-                                    <div class="form-box">
+                                    <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="逾期罚息利率：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.lateChargeRate" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="是否可申请展期：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-radio-group v-model="form.isDelay">
+                                                    <el-radio label="1">是</el-radio>
+                                                    <el-radio label="0">否</el-radio>
+                                                </el-radio-group>
                                             </el-form-item>
                                             <el-form-item label="还款方式：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-radio-group v-model="form.repaymentType">
+                                                    <el-radio label="1">按月付息到期还本</el-radio>
+                                                    <el-radio label="2">等额本金</el-radio>
+                                                    <el-radio label="3">等额本息</el-radio>
+                                                    <el-radio label="4">一次性还清本息</el-radio>
+                                                </el-radio-group>
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -95,23 +115,40 @@
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
                                 <div class="content-info-box">
-                                    <div class="form-box">
+                                    <div class="form-box-l">
                                         <el-form label-width="150px">
                                             <el-form-item label="是否担保：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-radio-group v-model="form.isAssure">
+                                                    <el-radio label="1">是</el-radio>
+                                                    <el-radio label="0">否</el-radio>
+                                                </el-radio-group>
                                             </el-form-item>
                                             <el-form-item label="收取担保费类型：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="form.assureFeeType" style="width: 200px" placeholder="请选择">
+                                                    <el-option key="1" label="按比例一次性收取" value="按比例一次性收取"></el-option>
+                                                    <el-option key="2" label="按贷款周期" value="按贷款周期"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item label="服务费比例：">
+                                                <el-input v-model="form.assureServiceFeeRate" style="width: 200px"></el-input>
                                             </el-form-item>
                                         </el-form>
                                     </div>
-                                    <div class="form-box">
+                                    <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="担保公司：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="form.assureComId" placeholder="请选择">
+                                                    <el-option v-for="engicom in this.engineeringComList" :key="engicom.id"
+                                                               :label="engicom.companyName" :value="engicom.id"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                             <el-form-item label="抵押类型：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-radio-group v-model="form.mortgageType">
+                                                    <el-radio label="无"></el-radio>
+                                                    <el-radio label="房抵"></el-radio>
+                                                    <el-radio label="车抵"></el-radio>
+                                                    <el-radio label="应收账款抵"></el-radio>
+                                                </el-radio-group>
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -154,11 +191,39 @@
 
 <script>
     export default {
-        name: 'project-dateils',
+        name: 'add-product',
         data() {
             return {
                 name: localStorage.getItem('ms_username'),
-
+                financeComList: null,
+                engineeringComList: null,
+                productTypes:[
+                    {id:1, name:'工程贷'},
+                    {id:2, name:'房易贷'},
+                    {id:3, name:'信用贷'},
+                    {id:4, name:'融资租赁'},
+                ],
+                form: {
+                    productNo: null,
+                    productName: null,
+                    productType: null,
+                    baseYearRate: null,
+                    fundCompanyId: null,
+                    deadlineType: 'y',
+                    lateChargeRate: null,
+                    deadlineMin: null,
+                    deadlineMax: null,
+                    isDelay: '1',
+                    serviceFeeType: '按比例一次性收取',
+                    serviceFeeRate: null,
+                    repaymentType: 1,
+                    isAssure: '1',
+                    assureFeeType: '按比例一次性收取',
+                    assureCompanyId: null,
+                    assureServiceFeeRate: '',
+                    mortgageType: '无',
+                    status: 0
+                },
 
             }
         },
@@ -173,7 +238,73 @@
         deactivated(){
         },
         methods: {
+            // 获取Table数据
+            getDataList(){
+                // 获取获取资金公司数据
+                let _this = this;
+                this.$axios.get('fc/options').then((response) => {
+                    console.log(response.data.extend);
+                    _this.financeComList = response.data.extend.list;
+                }).catch(function (error) {
+                    console.log(error);
+                });
 
+                // 获取担保公司数据
+                this.$axios.get('api/engcom/list').then((response) => {
+                    console.log(response.data.extend);
+                    _this.engineeringComList = response.data.extend.list;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            // 返回
+            onReturn() {
+                this.$message.success('返回！');
+                this.$router.push("business-manager-list")
+            },
+            // 仅保存
+            save(){
+                // 产品状态
+                // this.form.status = 0;
+                this.$message.success('保存成功！');
+                this.$axios.post('fp/save',
+                    this.qs.stringify(
+                        {
+                            productNo: this.form.productNo,
+                            productName: this.form.productName,
+                            productTypeId: this.form.productTypeId,
+                            baseYearRate: this.form.baseYearRate,
+                            fComId: this.form.fComId,
+                            deadlineType: this.form.deadlineType,
+                            lateChargeRate: this.form.lateChargeRate,
+                            deadlineMin: this.form.deadlineMin,
+                            deadlineMax: this.form.deadlineMax,
+                            isDelay: this.form.isDelay,
+                            serviceFeeType: this.form.serviceFeeType,
+                            serviceFeeRate: this.form.serviceFeeRate,
+                            repaymentType: this.form.repaymentType,
+                            isAssure: this.form.isAssure,
+                            assureFeeType: this.form.assureFeeType,
+                            assureComId: this.form.assureComId,
+                            assureServiceFeeRate: this.form.assureServiceFeeRate,
+                            mortgageType: this.form.mortgageType,
+                            status: this.form.status
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                    this.$router.push("financial-product-list")
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(this.form);
+
+            },
+            // 保存并提交
+            saveAndSubmit(){
+                this.$message.success('提交成功！');
+                this.$router.push("financial-product-list");
+            }
 
 
         }
@@ -258,11 +389,19 @@
         zoom:1;
         overflow: hidden;
     }
-    .form-box{
+    .form-box-l{
         display: block;
         /*position: relative;*/
         float: left;
-        width: 360px;
+        width: 400px;
+        margin-right: 50px;
+    }
+
+    .form-box-r{
+        display: block;
+        /*position: relative;*/
+        float: left;
+        width: 500px;
         margin-right: 50px;
     }
 

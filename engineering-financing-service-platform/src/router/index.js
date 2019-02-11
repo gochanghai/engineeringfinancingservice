@@ -23,6 +23,11 @@ export default new Router({
 
                 // online start
                 {
+                    path: '/my-project',
+                    component: resolve => require(['../components/page/myproject/List.vue'], resolve),
+                    meta: { title: 'my-project' }
+                },
+                {
                     path: '/home1',
                     component: resolve => require(['../components/page/home/Home1.vue'], resolve),
                     meta: { title: 'Home1' }

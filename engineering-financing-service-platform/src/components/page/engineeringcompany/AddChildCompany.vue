@@ -10,20 +10,19 @@
                     <div class="info-box">
                         <div class="info-btn-box">
                             <div class="info-content">
-                                <!-- 绑定银行卡 -->
                                 <div class="content-info-box">
-                                    <el-form ref="form" label-width="150px" class="child-company-box">
-                                        <el-form-item label="分公司名称：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                    <el-form ref="form" :model="form" :rules="rules" label-width="150px" class="child-company-box">
+                                        <el-form-item label="分公司名称：" prop="companyName">
+                                            <el-input v-model="form.companyName" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="分公司地址：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                        <el-form-item label="分公司地址：" prop="companyAddress">
+                                            <el-input v-model="form.companyAddress" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="分公司负责人：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                        <el-form-item label="分公司负责人：" prop="contactPerson">
+                                            <el-input v-model="form.contactPerson" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="联系电话：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                        <el-form-item label="联系电话：" prop="phone">
+                                            <el-input v-model="form.phone" style="width: 400px"/>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -45,9 +44,46 @@
     export default {
         name: 'business-info-dateils',
         data() {
+            var checkPhone = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('手机号不能为空'));
+                }
+                // 手机号码正则表达式校验
+                var reg_phone=  /^1[34578]\d{9}$/;
+                // 电话号码正则表达式校验
+                var reg_tel=  /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+                    if (!reg_phone.test(value) || !reg_tel.test(value)) {
+                        callback(new Error('请输入正确的电话或手机号码'));
+                    } else {
+                        callback();
+                    }
+            };
             return {
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
+                form: {
+                    companyName: null,
+                    companyAddress: null,
+                    contactPerson: null,
+                    phone: null,
+                    pId: localStorage.getItem('userInfoId'),
+                },
+                // 检验
+                rules: {
+                    companyName: [
+                        { required: true, message: '请输入分公司名称', trigger: 'blur' },
+                    ],
+                    companyAddress: [
+                        { required: true, message: '请输入分公司地址', trigger: 'blur' },
+                    ],
+                    contactPerson: [
+                        { required: true, message: '请输入分公司负责人', trigger: 'blur' },
+                    ],
+                    phone: [
+                        { required: true, message: '请输入联系电话', trigger: 'blur' },
+                        { validator:  checkPhone, trigger: 'blur' }
+                    ],
+                },
 
             }
         },
@@ -62,7 +98,26 @@
         deactivated(){
         },
         methods: {
+            save(){
+                let _than = this;
+                this.$axios.post('cc/save',
+                    this.qs.stringify(
+                        {
+                            companyName: this.form.companyName,
+                            companyAddress: this.form.companyAddress,
+                            contactPerson: this.form.contactPerson,
+                            phone: this.form.phone,
+                            pId: this.form.pId,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                    _than.$router.push("child-com-list")
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(this.form);
 
+            },
 
 
         }

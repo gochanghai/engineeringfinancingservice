@@ -7,27 +7,21 @@
                         <span>文件列表</span>
                     </div>
                     <el-table :data="tableData" border class="table" v-loading="loading" ref="multipleTable">
-                        <el-table-column type="index" label="序号" width="50" align="center">
-                        </el-table-column>
-                        <el-table-column prop="fileName" label="文件名称" width="200" align="left">
-                        </el-table-column>
-                        <el-table-column prop="fileType" label="文件类型" width="100" align="center">
-                        </el-table-column>
+                        <el-table-column type="index" label="序号" width="50" align="center"/>
+                        <el-table-column prop="fileName" label="文件名称" width="200" align="left"/>
+                        <el-table-column prop="fileType" label="文件类型" width="100" align="center"/>
                         <el-table-column label="文件大小" width="120" align="center">
                             <template slot-scope="scope">
-                                {{scope.row.fileSize }} kb
+                                {{scope.row.fileSize}}
                             </template>
                         </el-table-column>
-                        <el-table-column prop="filePath" label="文件路径" align="left">
-                        </el-table-column>
-                        <el-table-column prop="createDate" label="上传时间" width="200" align="center">
-                        </el-table-column>
+                        <el-table-column prop="filePath" label="文件路径" align="left" />
+                        <el-table-column prop="createDate" label="上传时间" width="200" align="center" />
                         <el-table-column label="文件预览" width="200" align="center">
                             <template slot-scope="scope">
                                 <div>
-                                    <img v-show="scope.row.fileType === '.jpg'" :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
-                                    <img v-show="scope.row.fileType === '.png'" :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
-                                    <embed v-show="scope.row.fileType === '.pdf'" src="../../../../static/img/pdf.ico" width="23px" height="23px" @click="filePDFPreview(scope.row.filePath)"/>
+                                    <img v-if="scope.row.fileType === '.pdf'" src="../../../../static/img/pdf.jpg" width="23px" height="23px" @click="filePDFPreview(scope.row.filePath)"/>
+                                    <img v-else="scope.row.fileType === '.jpg'" :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
                                 </div>
                             </template>
                         </el-table-column>
@@ -35,7 +29,6 @@
                             <template slot-scope="scope">
                                 <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">下载</el-button>
                                 <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">删除</el-button>
-                                <!--<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
                             </template>
                         </el-table-column>
                     </el-table>
@@ -64,8 +57,6 @@
 </template>
 
 <script>
-    import Schart from 'vue-schart';
-    import bus from '../../common/bus';
     export default {
         name: "file-list",
         data() {
@@ -96,8 +87,6 @@
                     console.log(response);
                     _than.tableData = response.data.extend.list;
                     _than.loading = false;
-                    const demo = {fileName: '123', fileSize: 100, fileType: ".pdf",filePath: 'group1/M00/00/00/wKgBWVwY1SKAaoVfAAN9O0dIAx8286.pdf',createDate: "2018-12-01"};
-                    _than.tableData.push(demo);
                 }).catch(function (error) {
                     console.log(error);
                 });

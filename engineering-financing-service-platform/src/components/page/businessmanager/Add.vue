@@ -16,25 +16,32 @@
                                             <el-input v-model="form.name" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="身份证号：" prop="idCard">
-                                            <el-input v-model="form.idCard" style="width: 400px"/>
+                                            <el-input v-model="idCard" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="手机号码：" prop="phone">
                                             <el-input v-model="form.phone" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="从业日期：" prop="jobDate">
-                                            <el-input v-model="jobDate" style="width: 400px"/>
+                                            <!--<el-input v-model="jobDate" style="width: 400px"/>-->
+                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="jobDate" style="width: 400px;"></el-date-picker>
                                         </el-form-item>
                                         <el-form-item label="与公司合作日期：" prop="cooperateDate">
-                                            <el-input v-model="cooperateDate" style="width: 400px"/>
+                                            <!--<el-input v-model="cooperateDate" style="width: 400px"/>-->
+                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="cooperateDate" style="width: 400px;"></el-date-picker>
                                         </el-form-item>
                                         <el-form-item label="所属分公司：">
-                                            <el-input v-model="form.childCompanyId" style="width: 400px"/>
+                                            <!--<el-input v-model="form.childCompanyId" style="width: 400px"/>-->
+                                            <el-select v-model="form.childCompanyId" placeholder="请选择" style="width: 400px">
+                                                <el-option v-for="(company,index) in childCompanyList" :key="index" :label="company.companyName" :value="company.companyName"></el-option>
+                                            </el-select>
                                         </el-form-item>
                                         <el-form-item label="评级：">
-                                            <el-input v-model="form.rate" style="width: 400px"/>
+                                            <el-select v-model="form.rate" placeholder="请选择" style="width: 400px">
+                                                <el-option v-for="(rate,index) in rates" :key="index" :label="rate.name" :value="rate.name"></el-option>
+                                            </el-select>
                                         </el-form-item>
                                         <el-form-item label="评级说明：">
-                                            <el-input v-model="form.rateDesc" style="width: 400px"/>
+                                            <el-input type="textarea" rows="5" v-model="form.rateDesc" style="width: 400px"></el-input>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -56,52 +63,6 @@
     export default {
         name: 'business-add',
         data() {
-            return {
-                name: localStorage.getItem('ms_username'),
-                labelPosition: "right",
-                companyId: null,
-                companyList: null,
-                idCard: null,
-                jobDate: null,
-                cooperateDate: null,
-                form: {
-                    name: null,
-                    gender: null ,
-                    idCard: null,
-                    birthdate: null,
-                    phone: null,
-                    jobDate: null,
-                    jobYearNumber: null,
-                    cooperateDate: null,
-                    cooperateYearNumber: null,
-                    marriageStatus: null,
-                    childCompanyId: null,
-                    rate: null,
-                    rateDesc: null,
-                    status: 0,
-                },
-                // 检验
-                rules: {
-                    name: [
-                        { required: true, message: '请输入姓名', trigger: 'blur' },
-                        { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-                    ],
-                    phone: [
-                        { required: true, message: '请输入手机号', trigger: 'blur' },
-                        { validator:  checkPhone, trigger: 'blur' }
-                    ],
-                    idCard: [
-                        { required: true, message: '请输入身份证号', trigger: 'blur' },
-                        { validator: checkIdCard, trigger: 'blur' }
-                    ],
-                    jobDate: [
-                        { required: true, message: '请输入从业日期', trigger: 'blur' },
-                    ],
-                    cooperateDate: [
-                        { required: true, message: '请输入与公司合作日期', trigger: 'blur' },
-                    ]
-                }
-            }
             var checkIdCard = (rule, value, callback) => {
                 console.log("checkOutputValue: check");
                 if (!value) {
@@ -156,6 +117,58 @@
                     }
                 }, 1000);
             };
+            return {
+                rates:[
+                    {id:0,name:'A'},
+                    {id:1,name:'B'},
+                    {id:2,name:'C'},
+                    {id:3,name:'D'},
+                    {id:4,name:'E'}
+                ],
+                companyId: localStorage.getItem('userInfoId'),
+                childCompanyList: null,
+                idCard: null,
+                jobDate: null,
+                cooperateDate: null,
+                form: {
+                    name: null,
+                    gender: null ,
+                    idCard: null,
+                    birthdate: null,
+                    phone: null,
+                    jobDate: null,
+                    jobYearNumber: null,
+                    cooperateDate: null,
+                    cooperateYearNumber: null,
+                    marriageStatus: null,
+                    childCompanyId: null,
+                    rate: null,
+                    rateDesc: null,
+                    status: 0,
+                },
+                // 检验
+                rules: {
+                    name: [
+                        { required: true, message: '请输入姓名', trigger: 'blur' },
+                        { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+                    ],
+                    phone: [
+                        { required: true, message: '请输入手机号', trigger: 'blur' },
+                        { validator:  checkPhone, trigger: 'blur' }
+                    ],
+                    idCard: [
+                        { required: true, message: '请输入身份证号', trigger: 'blur' },
+                        { validator: checkIdCard, trigger: 'blur' }
+                    ],
+                    jobDate: [
+                        { required: true, message: '请输入从业日期', trigger: 'blur' },
+                    ],
+                    cooperateDate: [
+                        { required: true, message: '请输入与公司合作日期', trigger: 'blur' },
+                    ]
+                },
+            }
+
         },
         // 监听器
         watch: {
@@ -200,7 +213,7 @@
                         id: this.companyId
                     }}).then(function (response) {
                     console.log(response);
-                    _than.companyList = response.data.extend.list;
+                    _than.childCompanyList = response.data.extend.list;
                 }).catch(function (error) {
                     console.log(error);
                 });

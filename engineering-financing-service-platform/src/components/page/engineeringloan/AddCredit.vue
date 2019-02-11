@@ -21,34 +21,37 @@
                                     <div class="form-box">
                                         <el-form label-width="100px">
                                             <el-form-item label="申请编号：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="creditNo" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="申请日期：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="date" style="width: 200px"></el-date-picker>
                                             </el-form-item>
                                             <el-form-item label="申请人：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="userName" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="项目名称：" >
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-select v-model="pId" placeholder="请选择">
+                                                    <el-option v-for="item in projectList" :key="item.id" :label="item.projectName" :value="item.id"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                             <el-form-item label="合同编号：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="contractNo" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="申请额度：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.applyAmount" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="申请事由：">
-                                                <el-input type="textarea" rows="5"></el-input>
+                                                <el-input type="textarea" rows="5" v-model="form.originIncident"/>
                                             </el-form-item>
                                             <el-form-item label="银行流水：">
                                                 <div class="file-box">
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
                                                         <el-upload
                                                                 class="avatar-uploader"
-                                                                action="https://jsonplaceholder.typicode.com/posts/"
+                                                                :action="uploadPath"
+                                                                :on-success="bankListFile"
                                                                 :show-file-list="false">
-                                                            <img v-if="name === null" class="avatar">
+                                                            <img v-if="form.bankListFile !== null" class="avatar" :src=" filesystem + form.bankListFile">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
@@ -80,10 +83,77 @@
     export default {
         name: 'project-dateils',
         data: function(){
+            var checkCreditAmount = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('申请授信额度不能为空'));
+                }
+                // 正则表达式校验
+                var reg=/^-?\d*\.?\d*$/;
+                console.log("reg: " + reg.test(value));
+                setTimeout(() => {
+                    if (!reg.test(value)) {
+                        callback(new Error('请输入正确的数字'));
+                    } else {
+                        if (value <= 0) {
+                            callback(new Error('申请授信额度必须大于0'));
+                        }else if(value > this.creditAmount){
+                            callback(new Error('申请授信额度不能大于'+this.creditAmount));
+                        }
+                        callback();
+                    }
+                }, 1000);
+            };
             return {
                 name: localStorage.getItem('ms_username'),
+                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                filesystem: localStorage.getItem("fileBasePath"),
+                userId: localStorage.getItem('userInfoId'),
+                userName: localStorage.getItem('user_name'),
+                creditNo: '',
+                projectList: null,
+                creditNo: null,
+                creditAmount: 0,
+                date: new Date(),
+                pId: null,
+                contractNo: null,
+                applyAmount: null,
+                originIncident: null,
+                form:{
+                    pId: null,
+                    applyAmount: null,
+                    originIncident: null,
+                    bankListFile: ''
+                },
+                rules: {
+                    pId: [
+                        { required: true, message: '请选择项目', trigger: 'blur' },
+                    ],
+                    applyAmount: [
+                        { required: true, message: '请输入申请授信额度', trigger: 'blur' },
+                        { validator:  checkCreditAmount, trigger: 'blur' }
+                    ],
+                    originIncident: [
+                        { required: true, message: '请输入申请事由', trigger: 'blur' },
+                    ]
+                },
+                status: 0,
                 isAgree: false,
             }
+        },
+        // 监听器
+        watch: {
+            pId:function(val) {
+                let _than = this;
+                for (let item in _than.projectList) {
+                    console.log("foreach: " + item);
+                    if (_than.projectList[item].id === _than.pId) {
+                        _than.contractNo = _than.projectList[item].contractNo;
+                        _than.form.applyAmount = _than.projectList[item].shouldCreditAmount;
+                        _than.creditAmount = _than.projectList[item].shouldCreditAmount;
+                        _than.form.pId = val;
+                    }
+                }
+            },
         },
         components: {
         },
@@ -96,7 +166,62 @@
         deactivated(){
         },
         methods: {
+            // 获取项目数据
+            getProjectList(){
+                let _than = this;
+                this.$axios.get('credit/project/list',{params:{
+                        id: this.userId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.projectList = response.data.extend.list;
+                    _than.creditNo = response.data.extend.applyNo;
+                }).catch(function (error) {
 
+                });
+            },
+
+            // 法人身份证反面上传成功回调函数
+            bankListFile(response,file,files){
+                this.form.bankListFile = response.extend.fileSystem.filePath;
+            },
+
+            // 返回
+            onReturn() {
+                this.$router.push("my-credit-project-list")
+            },
+            // 保存
+            save(){
+                this.$refs['form'].validate((valid) => {
+                    if (!valid) {
+                        return;
+                    }
+                });
+                let _than = this;
+                this.$axios.post('credit/save',
+                    this.qs.stringify(
+                        {
+                            date: this.date,
+                            creditNo: this.creditNo,
+                            fId: this.userId,
+                            applyAmount: this.form.applyAmount,
+                            pId: this.form.pId,
+                            contractNo: this.contractNo,
+                            originIncident: this.form.originIncident,
+                            bankListFile: this.bankListFile,
+                            status: this.status,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                this.$router.push("my-credit-project-list")
+            },
+            // 保存并提交
+            saveAndSubmit(){
+                this.status = 1;
+                this.save();
+            }
 
 
         }
