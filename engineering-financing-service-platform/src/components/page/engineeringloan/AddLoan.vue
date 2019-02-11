@@ -107,6 +107,27 @@
                 </el-card>
             </el-col>
         </el-row>
+        <!-- 添加附件弹出框 -->
+        <el-dialog title="添加附件" :visible.sync="uploadFlieVisible" width="15%" center="">
+            <div style="text-align: center">
+                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                    <el-upload
+                            class="avatar-uploader"
+                            name="file"
+                            :action="uploadPath"
+                            :on-success="uploadFileSuccess"
+                            :show-file-list="false">
+                        <!--<img v-if="form.bankListFile !== null" class="avatar" :src=" filesystem + form.bankListFile">-->
+                        <i class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                    <!--<span>法人身份证正面</span>-->
+                </el-card>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addVisible = false">取 消</el-button>
+                <el-button type="primary">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -117,6 +138,20 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
+                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                userName: localStorage.getItem('user_name'),
+                userId: localStorage.getItem('userInfoId'),
+                projectList: [],
+                form:{
+                    fId: localStorage.getItem('userInfoId'),
+                    loanNo: null,
+                    loanDate: new Date(),
+                    loanPerson: null,
+                    pId: null,
+                    loanAmount: null,
+                    loanCycle: null,
+                    status: 0
+                },
                 purchs:[
                     {
                     contractNo: '1',contractFile:'1',orderSumAmount:'',orderFile:'1',
@@ -139,12 +174,26 @@
         computed: {
         },
         created(){
+            this.getProjectList();
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
+            // 获取项目数据
+            getProjectList(){
+                let _than = this;
+                this.$axios.get('credit/project/list',{params:{
+                        id: this.userId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.projectList = response.data.extend.list;
+                    _than.form.loanNo = response.data.extend.applyNo;
+                }).catch(function (error) {
+
+                });
+            },
 
             // 添加采购信息
             addPurchInfo(){
@@ -171,6 +220,86 @@
                 if (this.purchs.length === 0){
                     this.addPurchInfo();
                 }
+            },
+
+            // 上传附件
+            uploadFile(index,fileName){
+                this.file_index = index;
+                this.file_name = fileName;
+                this.uploadFlieVisible = true;
+                console.log("准备上传文件: " + index + fileName)
+            },
+            // 附件上传成功回调函数
+            uploadFileSuccess(res,file, fileList) {
+                let _that = this;
+                if(_that.file_name === 1){
+                    _that.purchs[_that.file_index].contractFile = res.extend.fileSystem.filePath;
+                }else if (_that.file_name === 2) {
+                    _that.purchs[_that.file_index].orderFile = res.extend.fileSystem.filePath;
+                }else if (_that.file_name === 3) {
+                    _that.purchs[_that.file_index].invoiceFile = res.extend.fileSystem.filePath;
+                }else if (_that.file_name === 4) {
+                    _that.purchs[_that.file_index].deliveryBillFile = res.extend.fileSystem.filePath;
+                }
+                _that.uploadFlieVisible = false;
+
+            },
+
+            // 保存采购信息
+            savePurchInfo() {
+                let _that = this;
+                let purchs = _that.purchs;
+                console.log(purchs);
+                if (purchs.length > 0) {
+                    for( let index in purchs) {
+                        console.log(index,purchs[index]);
+                        _that.$axios.post('la/purchase/save',
+                            _that.qs.stringify({
+                                pId: _that.form.pId,
+                                loanNo: _that.form.loanNo,
+                                contractNo: purchs[index].contractNo,
+                                contractFile:purchs[index].contractFile,
+                                orderSumAmount:purchs[index].orderSumAmount,
+                                orderFile: purchs[index].orderFile,
+                                invoiceSumAmount: purchs[index].invoiceSumAmount,
+                                invoiceFile: purchs[index].invoiceFile,
+                                deliveryBillFile: purchs[index].deliveryBillFile,
+                                bankCardNo: purchs[index].bankCardNo,
+                                bankAccountName: purchs[index].bankAccountName,
+                                openAccountBank: purchs[index].openAccountBank
+                            })
+                        ).then(function (response) {
+                            console.log(response);
+                            // this.$router.push("business-manager-list")
+                        }).catch(function (error) {
+                            console.log(error);
+                        })
+                    };
+                }
+            },
+            // 保存
+            saveAndSubmit(){
+                let _than = this;
+                this.$axios.post('la/save',
+                    this.qs.stringify(
+                        {
+                            loanNo: this.form.loanNo,
+                            fId: this.form.fId,
+                            loanAmount: this.form.loanAmount,
+                            pId: this.form.pId,
+                            loanCycle: this.form.loanCycle,
+                            loanDate: this.form.loanDate,
+                            status: this.form.status,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                // 保存采购信息
+                this.savePurchInfo();
+
+                this.$router.push("my-loan-apply-list")
             },
 
         }

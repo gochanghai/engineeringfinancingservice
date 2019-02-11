@@ -48,6 +48,7 @@
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
                                                         <el-upload
                                                                 class="avatar-uploader"
+                                                                name="file"
                                                                 :action="uploadPath"
                                                                 :on-success="bankListFile"
                                                                 :show-file-list="false">

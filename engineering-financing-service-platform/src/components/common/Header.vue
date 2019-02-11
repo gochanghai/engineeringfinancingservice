@@ -128,6 +128,7 @@
         float: left;
         padding: 0 21px;
         cursor: pointer;
+        height: 70px;
         line-height: 70px;
         /* my add*/
         background-color: #0f1632;
