@@ -31,17 +31,23 @@
                             <!--<div class="is-show-btn">展开</div>-->
                             <div class="info-content">
                                 <!-- 绑定银行卡 -->
+                                <div class="content-title">
+                                    <div class="content-lable1">绑定银行卡</div>
+                                    <!--<div class="content-lable2">查看示例</div>-->
+                                </div>
                                 <div class="content-info-box">
-                                    <el-form ref="form" label-width="100px">
+                                    <el-form ref="form" :model="form" :rules="rules1" label-width="100px">
                                         <el-form-item label="姓名：">张三</el-form-item>
                                         <el-form-item label="身份证号：">430426198502134569</el-form-item>
-                                        <el-form-item label="银行卡号：">
+                                        <el-form-item label="银行卡号：" prop="bankCardNo">
                                             <el-input v-model="cardNo" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="开户行：">
-                                            <el-input v-model="form.bank" style="width: 400px"/>
                                             <!-- bank logo -->
-                                            <img v-show="bankCode != null" :src="'https://apimg.alipay.com/combo.png?d=cashier&t=' + bankCode"/>
+                                            <div style="width: 400px; height: 32px">
+                                                <img v-if="bankCode != null" :src="'https://apimg.alipay.com/combo.png?d=cashier&t=' + bankCode"/>
+                                                <el-input v-else v-model="form.bank"/>
+                                            </div>
                                         </el-form-item>
                                         <el-form-item label="手机号：" style="width: 400px">
                                             <el-input v-model="form.bankCardPhone">
@@ -74,7 +80,7 @@
                                                             :action="uploadPath"
                                                             :on-success="idCardSideFace"
                                                             :show-file-list="false">
-                                                        <img v-if="form.idCardSideFace !== null" class="avatar">
+                                                        <img v-if="form.idCardSideFace !== null" class="avatar" :src=" filesystem + form.idCardSideFace">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传身份证正面</span>
@@ -86,7 +92,7 @@
                                                             :action="uploadPath"
                                                             :on-success="idCardSideBack"
                                                             :show-file-list="false">
-                                                        <img v-if="form.idCardSideBack !== null" class="avatar">
+                                                        <img v-if="form.idCardSideBack !== null" class="avatar" :src=" filesystem + form.idCardSideBack">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传身份证反面</span>
@@ -98,7 +104,7 @@
                                                             :action="uploadPath"
                                                             :on-success="idCardHand"
                                                             :show-file-list="false">
-                                                        <img v-if="form.idCardHand !== null" class="avatar">
+                                                        <img v-if="form.idCardHand !== null" class="avatar" :src=" filesystem + form.idCardHand">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传手持身份证</span>
@@ -110,7 +116,7 @@
                                                             :action="uploadPath"
                                                             :on-success="householdRegHome"
                                                             :show-file-list="false">
-                                                        <img v-if="form.householdRegHome !== null" class="avatar">
+                                                        <img v-if="form.householdRegHome !== null" class="avatar" :src=" filesystem + form.householdRegHome">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传户口本主页</span>
@@ -122,7 +128,7 @@
                                                             :action="uploadPath"
                                                             :on-success="householdRegPersonal"
                                                             :show-file-list="false">
-                                                        <img v-if="form.householdRegPersonal !== null" class="avatar">
+                                                        <img v-if="form.householdRegPersonal !== null" class="avatar" :src=" filesystem + form.householdRegPersonal">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传户口本个人页</span>
@@ -135,89 +141,96 @@
                                 <!-- 婚姻信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">婚姻状况</div>
-                                    <div class="content-lable2">已婚</div>
+                                    <!--<div class="content-lable2">已婚</div>-->
                                 </div>
                                 <div class="content-info-box">
                                     <el-form label-width="130px">
-                                        <el-form-item label="配偶姓名：" >
+                                        <el-form-item label="婚姻状况：">
+                                            <el-radio-group v-model="form.marriageStatus">
+                                                <el-radio :label="1">已婚</el-radio>
+                                                <el-radio :label="0">未婚</el-radio>
+                                                <el-radio :label="-1">离异</el-radio>
+                                            </el-radio-group>
+                                        </el-form-item>
+                                        <el-form-item label="配偶姓名：" v-show="form.marriageStatus === 1">
                                             <el-input v-model="form.spouseName" style="width: 400px"></el-input>
                                         </el-form-item>
-                                        <el-form-item label="配偶身份证号：" >
+                                        <el-form-item label="配偶身份证号：" v-show="form.marriageStatus === 1">
                                             <el-input v-model="form.spouseIdCard" style="width: 400px"></el-input>
                                         </el-form-item>
-                                        <el-form-item label="配偶户籍所在地：" >
+                                        <el-form-item label="配偶户籍所在地：" v-show="form.marriageStatus === 1">
                                             <el-input v-model="form.spouseDomicile" style="width: 400px"></el-input>
                                         </el-form-item>
-                                        <el-form-item label="配偶附件：" style="margin-bottom: 0">
+                                        <el-form-item label="上传附件：" style="margin-bottom: 0">
                                             <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === 1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="spouseIdCardSideFace"
                                                             :show-file-list="false">
-                                                        <img v-if="form.spouseIdCardSideFace !== null" class="avatar">
+                                                        <img v-if="form.spouseIdCardSideFace !== null" class="avatar" :src=" filesystem + form.spouseIdCardSideFace">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传身份证正面</span>
                                                 </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === 1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="spouseIdCardSideBack"
                                                             :show-file-list="false">
-                                                        <img v-if="form.spouseIdCardSideBack !== null" class="avatar">
+                                                        <img v-if="form.spouseIdCardSideBack !== null" class="avatar" :src=" filesystem + form.spouseIdCardSideBack">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传身份证反面</span>
                                                 </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === 1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="marriageCertificate"
                                                             :show-file-list="false">
-                                                        <img v-if="form.marriageCertificate !== null" class="avatar">
+                                                        <img v-if="form.marriageCertificate !== null" class="avatar" :src=" filesystem + form.marriageCertificate">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传结婚证</span>
                                                 </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === 1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="sHouseholdRegHome"
                                                             :show-file-list="false">
-                                                        <img v-if="form.sHouseholdRegHome !== null" class="avatar">
+                                                        <img v-if="form.sHouseholdRegHome !== null" class="avatar" :src=" filesystem + form.sHouseholdRegHome">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传户口本主页</span>
                                                 </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === 1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="sHouseholdRegPersonal"
                                                             :show-file-list="false">
-                                                        <img v-if="form.sHouseholdRegPersonal !== null" class="avatar">
+                                                        <img v-if="form.sHouseholdRegPersonal !== null" class="avatar" :src=" filesystem + form.sHouseholdRegPersonal">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传户口本个人页</span>
                                                 </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" hidden class="card-file">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file" v-show="form.marriageStatus === -1">
                                                     <el-upload
                                                             class="avatar-uploader"
                                                             name="file"
                                                             :action="uploadPath"
                                                             :on-success="divorceCertificate"
                                                             :show-file-list="false">
-                                                        <img v-if="form.divorceCertificate !== null" class="avatar">
+                                                        <img v-if="form.divorceCertificate !== null" class="avatar" :src=" filesystem + form.divorceCertificate">
                                                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                     </el-upload>
                                                     <span>上传离婚证</span>
@@ -233,52 +246,60 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form label-width="140px">
-                                        <el-form-item label="公司全称：" >
-                                            <el-input v-model="form.companyName" style="width: 400px" />
+                                        <el-form-item label="名下是否有公司：">
+                                            <el-radio-group v-model="form.isCompany">
+                                                <el-radio :label="1">是</el-radio>
+                                                <el-radio :label="0">否</el-radio>
+                                            </el-radio-group>
                                         </el-form-item>
-                                        <el-form-item label="信用代码证编号：" >
-                                            <el-input v-model="form.creditCode" style="width: 400px"/>
-                                        </el-form-item>
-                                        <el-form-item label="上传附件：" style="margin-bottom: 0">
-                                            <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="companyBusinessLicense"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.companyBusinessLicense !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>公司营业执照</span>
-                                                </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="articlesAssoCompany"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.articlesAssoCompany !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>公司章程</span>
-                                                </el-card>
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="officeSpaceLeaseContract"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.officeSpaceLeaseContract !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>办公场所租赁合同</span>
-                                                </el-card>
-                                            </div>
-                                        </el-form-item>
+                                        <div v-show="form.isCompany === 1">
+                                            <el-form-item label="公司全称：" >
+                                                <el-input v-model="form.companyName" style="width: 400px" />
+                                            </el-form-item>
+                                            <el-form-item label="信用代码证编号：" >
+                                                <el-input v-model="form.creditCode" style="width: 400px"/>
+                                            </el-form-item>
+                                            <el-form-item label="上传附件：" style="margin-bottom: 0">
+                                                <div class="file-box">
+                                                    <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                        <el-upload
+                                                                class="avatar-uploader"
+                                                                name="file"
+                                                                :action="uploadPath"
+                                                                :on-success="companyBusinessLicense"
+                                                                :show-file-list="false">
+                                                            <img v-if="form.companyBusinessLicense !== null" class="avatar" :src=" filesystem + form.companyBusinessLicense">
+                                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                        </el-upload>
+                                                        <span>公司营业执照</span>
+                                                    </el-card>
+                                                    <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                        <el-upload
+                                                                class="avatar-uploader"
+                                                                name="file"
+                                                                :action="uploadPath"
+                                                                :on-success="articlesAssoCompany"
+                                                                :show-file-list="false">
+                                                            <img v-if="form.articlesAssoCompany !== null" class="avatar" :src=" filesystem + form.articlesAssoCompany">
+                                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                        </el-upload>
+                                                        <span>公司章程</span>
+                                                    </el-card>
+                                                    <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                        <el-upload
+                                                                class="avatar-uploader"
+                                                                name="file"
+                                                                :action="uploadPath"
+                                                                :on-success="officeSpaceLeaseContract"
+                                                                :show-file-list="false">
+                                                            <img v-if="form.officeSpaceLeaseContract !== null" class="avatar" :src=" filesystem + form.officeSpaceLeaseContract">
+                                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                        </el-upload>
+                                                        <span>办公场所租赁合同</span>
+                                                    </el-card>
+                                                </div>
+                                            </el-form-item>
+                                        </div>
                                     </el-form>
                                 </div>
                                 <!-- 社保信息 -->
@@ -288,29 +309,36 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form label-width="140px">
-                                        <el-form-item label="社保电脑号：" >
-                                            <el-input v-model="form.socialInsurCardNo" style="width: 400px" />
+                                        <el-form-item label="是否购买社保：">
+                                            <el-radio-group v-model="form.isSocialecurity">
+                                                <el-radio :label="1">是</el-radio>
+                                                <el-radio :label="0">否</el-radio>
+                                            </el-radio-group>
                                         </el-form-item>
-                                        <el-form-item label="当前购买社保公司：" >
-                                            <el-input v-model="form.buySocialInsurCompany" style="width: 400px"/>
-                                        </el-form-item>
-                                        <el-form-item label="最近缴纳社保清单：" style="margin-bottom: 0">
-                                            <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="paySocialInsurDetails"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.paySocialInsurDetails !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>上传社保清单</span>
-                                                </el-card>
-                                            </div>
-
-                                        </el-form-item>
+                                        <div v-show="form.isSocialecurity === 1">
+                                            <el-form-item label="社保电脑号：" >
+                                                <el-input v-model="form.socialInsurCardNo" style="width: 400px" />
+                                            </el-form-item>
+                                            <el-form-item label="当前购买社保公司：" >
+                                                <el-input v-model="form.buySocialInsurCompany" style="width: 400px"/>
+                                            </el-form-item>
+                                            <el-form-item label="最近缴纳社保清单：" style="margin-bottom: 0">
+                                                <div class="file-box">
+                                                    <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                        <el-upload
+                                                                class="avatar-uploader"
+                                                                name="file"
+                                                                :action="uploadPath"
+                                                                :on-success="paySocialInsurDetails"
+                                                                :show-file-list="false">
+                                                            <img v-if="form.paySocialInsurDetails !== null" class="avatar" :src=" filesystem + form.paySocialInsurDetails">
+                                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                        </el-upload>
+                                                        <span>上传社保清单</span>
+                                                    </el-card>
+                                                </div>
+                                            </el-form-item>
+                                        </div>
                                     </el-form>
                                 </div>
                                 <!-- 个人资产 -->
@@ -321,57 +349,87 @@
                                 <!-- 房产信息 -->
                                 <div class="content-info-box">
                                     <el-form label-width="100px">
-                                        <el-form-item label="房产 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="房产所在地：" >
-                                            <el-input v-model="name" style="width: 400px"/>
+                                        <el-form-item label="是否有房产">
+                                            <el-radio-group v-model="form.isHouse">
+                                                <el-radio :label="1">是</el-radio>
+                                                <el-radio :label="0">否</el-radio>
+                                            </el-radio-group>
                                         </el-form-item>
-                                        <el-form-item label="房产证明：">
-                                            <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="premisesPermit"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.houses.premisesPermit !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>上传房产证明</span>
-                                                </el-card>
+                                        <div v-show="form.isHouse === 1">
+                                            <div v-for="(house,index) in form.houses">
+                                                <el-form-item :label="'房产' + (index + 1)" style="margin-bottom: 0">
+                                                    <el-button type="info" size="mini" @click="removeHouse(index)">移除房产{{index+1}}</el-button>
+                                                </el-form-item>
+                                                <el-form-item label="房产所在地：" >
+                                                    <el-input v-model="house.houseAddress" style="width: 400px"/>
+                                                </el-form-item>
+                                                <el-form-item label="房产证明：">
+                                                    <div class="file-box" @mouseenter="houseIndex(index)">
+                                                        <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                            <el-upload
+                                                                    class="avatar-uploader"
+                                                                    name="file"
+                                                                    :action="uploadPath"
+                                                                    :on-success="premisesPermit"
+                                                                    :show-file-list="false">
+                                                                <img v-if="house.premisesPermit !== null" class="avatar" :src=" filesystem + house.premisesPermit">
+                                                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                            </el-upload>
+                                                            <span>上传房产证明</span>
+                                                        </el-card>
+                                                    </div>
+                                                </el-form-item>
+                                                <el-form-item label="房产说明：" style="margin-bottom: 0">
+                                                    <el-input v-model="house.houseDesc" style="width: 400px"/>
+                                                </el-form-item>
                                             </div>
-                                        </el-form-item>
-                                        <el-form-item label="房产说明：" style="margin-bottom: 0">
-                                            <el-input v-model="name" style="width: 400px"/>
-                                        </el-form-item>
+                                            <el-form-item>
+                                                <el-button v-if="form.houses.length<2" type="warning" plain @click="addHouses">+ 添加更多房产信息</el-button>
+                                            </el-form-item>
+                                        </div>
                                     </el-form>
                                 </div>
                                 <!-- 车辆信息 -->
                                 <div class="content-info-box">
                                     <el-form label-width="100px">
-                                        <el-form-item label="车辆 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="车牌号：" >
-                                            <el-input v-model="name" style="width: 400px"/>
+                                        <el-form-item label="是否有车">
+                                            <el-radio-group v-model="form.isCar">
+                                                <el-radio :label="1">是</el-radio>
+                                                <el-radio :label="0">否</el-radio>
+                                            </el-radio-group>
                                         </el-form-item>
-                                        <el-form-item label="车辆行驶证：">
-                                            <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <el-upload
-                                                            class="avatar-uploader"
-                                                            name="file"
-                                                            :action="uploadPath"
-                                                            :on-success="carDriveLicense"
-                                                            :show-file-list="false">
-                                                        <img v-if="form.cars.carDriveLicense !== null" class="avatar">
-                                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                    </el-upload>
-                                                    <span>上传车辆行驶证</span>
-                                                </el-card>
+                                        <div v-show="form.isCar">
+                                            <div v-for="(car, index) in form.cars">
+                                                <el-form-item :label="'车辆'+ (index+1)" style="margin-bottom: 0">
+                                                    <el-button type="info" size="mini" @click="removeCar(index)">移除车辆{{index+1}}</el-button>
+                                                </el-form-item>
+                                                <el-form-item label="车牌号：" >
+                                                    <el-input v-model="car.carNumber" style="width: 200px"/>
+                                                </el-form-item>
+                                                <el-form-item label="车辆行驶证：">
+                                                    <div class="file-box" @mouseenter="carIndex(index)">
+                                                        <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                            <el-upload
+                                                                    class="avatar-uploader"
+                                                                    name="file"
+                                                                    :action="uploadPath"
+                                                                    :on-success="carDriveLicense"
+                                                                    :show-file-list="false">
+                                                                <img v-if="car.carDriveLicense !== null" class="avatar" :src=" filesystem + car.carDriveLicense">
+                                                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                            </el-upload>
+                                                            <span>上传车辆行驶证</span>
+                                                        </el-card>
+                                                    </div>
+                                                </el-form-item>
+                                                <el-form-item label="车辆说明：" style="margin-bottom: 0">
+                                                    <el-input v-model="car.carDesc" style="width: 400px"/>
+                                                </el-form-item>
                                             </div>
-                                        </el-form-item>
-                                        <el-form-item label="车辆说明：" style="margin-bottom: 0">
-                                            <el-input v-model="name" style="width: 400px"/>
-                                        </el-form-item>
+                                            <el-form-item>
+                                                <el-button v-if="form.cars.length<2" type="warning" plain @click="addCars">+ 添加更多车辆信息</el-button>
+                                            </el-form-item>
+                                        </div>
                                     </el-form>
                                 </div>
                             </div>
@@ -392,7 +450,7 @@
 
 <script>
     export default {
-        name: 'business-info-dateils',
+        name: 'business-manager-authen',
         data() {
             var checkBankCardNo = (rule, value, callback) => {
                 console.log("checkOutputValue: check");
@@ -445,7 +503,7 @@
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
                 userInfo: null,
-                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
                 bankCheck: null,
                 bankCode: null, // 银行代码
@@ -487,10 +545,22 @@
                     isCompany: 1,
                     isHouse: 1,
                     isCar: 1,
-                    houses: [{houseAddress: '',premisesPermit: '', houseDesc: ''}],
-                    cars: [{carNumber: '', carDriveLicense: '', carDesc: ''}],
+                    houses: [{houseAddress: '',premisesPermit: null, houseDesc: ''}],
+                    cars: [{carNumber: '', carDriveLicense: null, carDesc: ''}],
                 },
-
+                house_index: 0,
+                car_index: 0,
+                rules1: {
+                    bank:[{ required: true, message: '开户行不能为空', trigger: 'blur' }],
+                    bankCardNo: [
+                        { required: true, message: '银行卡号不能为空', trigger: 'blur' },
+                        { validator:  checkBankCardNo, trigger: 'blur' }
+                    ],
+                    bankCardPhone: [
+                        { required: true, message: '手机号不能为空', trigger: 'blur' },
+                        { validator: checkPhone, trigger: 'blur' }
+                    ]
+                },
             }
         },
         // 监听器
@@ -569,7 +639,7 @@
             },
             // 办公场所租赁合同上传成功回调函数
             officeSpaceLeaseContract(response,file,files){
-                this.form.articlesAssoCompany = response.extend.fileSystem.filePath;
+                this.form.officeSpaceLeaseContract = response.extend.fileSystem.filePath;
             },
             // 最近缴纳社保清单上传成功回调函数
             paySocialInsurDetails(response,file,files){
@@ -577,21 +647,47 @@
             },
             // 房产证明上传成功回调函数
             premisesPermit(response,file,files){
-                this.form.premisesPermit = response.extend.fileSystem.filePath;
+                this.form.houses[this.house_index].premisesPermit = response.extend.fileSystem.filePath;
             },
             // 车辆行驶证上传成功回调函数
             carDriveLicense(response,file,files){
-                this.form.carDriveLicense = response.extend.fileSystem.filePath;
+                this.form.cars[this.car_index].carDriveLicense = response.extend.fileSystem.filePath;
             },
-
 
             // 添加房产信息
             addHouses() {
-                this.form.houses.push({houseAddress: '', premisesPermit: '', houseDesc: ''});
+                this.form.houses.push({houseAddress: '', premisesPermit: null, houseDesc: ''});
             },
             // 添加车辆信息
             addCars() {
-                this.form.cars.push({carNumber: '', carDriveLicense: '', carDesc: ''});
+                this.form.cars.push({carNumber: '', carDriveLicense: null, carDesc: ''});
+            },
+            //移除房产
+            removeHouse(index){
+                if (index !== -1) {
+                    this.form.houses.splice(index, 1)
+                }
+                // 如果全部删除了，就始终添加一条新的
+                if (this.form.houses.length === 0){
+                    this.addHouses();
+                }
+            },
+            //移除车辆
+            removeCar(index){
+                if (index !== -1) {
+                    this.form.cars.splice(index, 1)
+                }
+                // 如果全部删除了，就始终添加一条新的
+                if (this.form.cars.length === 0){
+                    this.addCars();
+                }
+            },
+
+            houseIndex(index){
+                this.house_index = index;
+            },
+            carIndex(index){
+                this.car_index = index;
             },
             // 保存车辆数据
             saveCar() {
@@ -991,7 +1087,7 @@
         color:rgba(34,34,34,1);
         line-height:20px;
         padding: 0 10px;
-        width: 60px;
+        width: 70px;
     }
     .content-lable2{
         display: block;

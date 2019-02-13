@@ -82,6 +82,8 @@
                                 localStorage.setItem('user_name', resultDate.userInfo2.name);
                             }
                         }
+                        // 设置附件上传地址
+                        localStorage.setItem('uploadPath', 'http://192.168.1.98:8088/filesystem/upload/');
                         _than.$router.push("/")
                     }).catch(function (error) {
                         console.log(error);

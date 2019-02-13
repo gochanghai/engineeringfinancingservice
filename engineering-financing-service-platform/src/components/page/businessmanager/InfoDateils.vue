@@ -210,7 +210,8 @@
         data() {
             return {
                 name: localStorage.getItem('ms_username'),
-
+                // id: this.$route.query.id,
+                businessInfo: null,
 
             }
         },
@@ -219,13 +220,25 @@
         computed: {
         },
         created(){
+            this. getDataInfo();
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
-
+            // 获取信息
+            getDataInfo(){
+                let _than = this;
+                this.$axios.get('api/authen/bm_info_details',{params:{
+                        id: this.$route.query.id
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.businessInfo = response.data.extend;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
 
 
         }

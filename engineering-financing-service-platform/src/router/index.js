@@ -168,6 +168,11 @@ export default new Router({
                     component: resolve => require(['../components/page/mycustomer/List.vue'], resolve),
                     meta: { title: 'mycustomer-list' }
                 },
+                {
+                    path: '/my-business-manager',
+                    component: resolve => require(['../components/page/mybusinessmanager/List.vue'], resolve),
+                    meta: { title: 'my-business-manager' }
+                },
                 // onlian end
 
 

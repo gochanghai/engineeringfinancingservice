@@ -19,54 +19,54 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="甲方名称：" style="margin-bottom: 0">张三</el-form-item>
-                                        <el-form-item label="项目地址：" style="margin-bottom: 0">430426198502134569</el-form-item>
-                                        <el-form-item label="合同金额：" style="margin-bottom: 0"> 深圳市</el-form-item>
-                                        <el-form-item label="预计结算金额：" style="margin-bottom: 0">13534074557</el-form-item>
-                                        <el-form-item label="保函要求：" style="margin-bottom: 0">6013822000982256896</el-form-item>
-                                        <el-form-item label="施工期限：" style="margin-bottom: 0">2019-01-01 zhi 2021-01-01</el-form-item>
-                                        <el-form-item label="项目施工进度：" style="margin-bottom: 0">13534074557</el-form-item>
-                                        <el-form-item label="项目结算方式：" style="margin-bottom: 0">6013822000982256896</el-form-item>
+                                        <el-form-item label="甲方名称：" style="margin-bottom: 0">{{projectInfo.contract.partyAName}}</el-form-item>
+                                        <el-form-item label="项目地址：" style="margin-bottom: 0">{{projectInfo.contract.projectAdress}}</el-form-item>
+                                        <el-form-item label="合同金额：" style="margin-bottom: 0">{{projectInfo.contract.contractAmount}}</el-form-item>
+                                        <el-form-item label="预计结算金额：" style="margin-bottom: 0">{{projectInfo.contract.shouldSettlemenMoney}}</el-form-item>
+                                        <el-form-item label="保函要求：" style="margin-bottom: 0">{{projectInfo.contract.guaranteeClaim}}</el-form-item>
+                                        <el-form-item label="施工期限：" style="margin-bottom: 0">{{projectInfo.contract.constructionStartDate + ' 至 ' + projectInfo.contract.constructionEndDate}}</el-form-item>
+                                        <el-form-item label="项目施工进度：" style="margin-bottom: 0">{{projectInfo.project.projectProgress}}%</el-form-item>
+                                        <el-form-item label="项目结算方式：" style="margin-bottom: 0">{{projectInfo.contract.cettlementMethod}}</el-form-item>
                                         <el-form-item label="项目付款方式" style="margin-bottom: 0"></el-form-item>
                                         <el-form-item style="width: 900px; margin: 0 30px">
                                             <!-- 第一列 -->
                                             <el-form style="float: left; width: 250px">
-                                                <el-form-item label="预付款：" style="margin-bottom: 0">张三</el-form-item>
-                                                <el-form-item label="进度款：" style="margin-bottom: 0">张三</el-form-item>
-                                                <el-form-item label="验收款付款比例至：" style="margin-bottom: 0">60%</el-form-item>
-                                                <el-form-item label="结算款付款比例至：" style="margin-bottom: 0">70%</el-form-item>
-                                                <el-form-item label="质保金质保金比例：" style="margin-bottom: 0">90%</el-form-item>
+                                                <el-form-item label="预付款：" style="margin-bottom: 0">{{projectInfo.contract.shouldPayment}}万</el-form-item>
+                                                <el-form-item label="进度款：" style="margin-bottom: 0">{{projectInfo.contract.progressPaymentMethod}}</el-form-item>
+                                                <el-form-item label="验收款付款比例至：" style="margin-bottom: 0">{{projectInfo.contract.checkPaymentRatio}}%</el-form-item>
+                                                <el-form-item label="结算款付款比例至：" style="margin-bottom: 0">{{projectInfo.contract.ettlementPaymentRatio}}%</el-form-item>
+                                                <el-form-item label="质保金质保金比例：" style="margin-bottom: 0">{{projectInfo.contract.warrantyMoneyPaymentRatio}}%</el-form-item>
                                             </el-form>
                                             <!-- 第二列 -->
                                             <el-form style="float: left; width: 300px">
-                                                <el-form-item label="预付款支付日期：" style="margin-bottom: 0">2019-12-31</el-form-item>
-                                                <el-form-item label="月结算日：" style="margin-bottom: 0">26号</el-form-item>
-                                                <el-form-item label="验收款备注：" style="margin-bottom: 0">张三</el-form-item>
-                                                <el-form-item label="结算款备注：" style="margin-bottom: 0">张三</el-form-item>
-                                                <el-form-item label="质保期：" style="margin-bottom: 0">3年 <span>质保期支付方式：2222</span></el-form-item>
+                                                <el-form-item label="预付款支付日期：" style="margin-bottom: 0">{{projectInfo.contract.shouldPaymentDate}}</el-form-item>
+                                                <el-form-item label="月结算日：" style="margin-bottom: 0">{{projectInfo.contract.monthSettlementDay}}</el-form-item>
+                                                <el-form-item label="验收款备注：" style="margin-bottom: 0">{{projectInfo.contract.checkPaymentDesc}}</el-form-item>
+                                                <el-form-item label="结算款备注：" style="margin-bottom: 0">{{projectInfo.contract.ettlementDesc}}</el-form-item>
+                                                <el-form-item label="质保期：" style="margin-bottom: 0">{{projectInfo.contract.warranty}}</el-form-item>
                                             </el-form>
                                             <!-- 第三列 -->
                                             <el-form style="float: left; width: 300px">
-                                                <el-form-item label="质保期支付方式：" style="margin-bottom: 0">分期付款</el-form-item>
-                                                <el-form-item label="进度付款比例至：" style="margin-bottom: 0">90%</el-form-item>
+                                                <el-form-item label="质保期支付方式：" style="margin-bottom: 0">{{projectInfo.contract.warrantyPayMethod}}</el-form-item>
+                                                <el-form-item label="进度付款比例至：" style="margin-bottom: 0">{{projectInfo.contract.progressPaymentRatio}}%</el-form-item>
                                             </el-form>
                                         </el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.contract.contractFile" class="image">
                                                     <span>项目合同</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.contract.contractPaymentFile" class="image">
                                                     <span>合同付款方式页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.contract.inContractLiabilityBook" class="image">
                                                     <span>经营承包责任书</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.contract.constructionSitePhoto" class="image">
                                                     <span>施工现场照片</span>
                                                 </el-card>
                                             </div>
@@ -80,23 +80,23 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="项目利润率：" style="margin-bottom: 0">张三</el-form-item>
+                                        <el-form-item label="项目利润率：" style="margin-bottom: 0">{{projectInfo.cost.profitMargin}}%</el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.cost.progressReturnAccount" class="image">
                                                     <span>工程进度回款台账</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.cost.outputValueTable" class="image">
                                                     <span>项目产值表</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.cost.costAnalysisTable" class="image">
                                                     <span>项目成本分析表</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/gcd.png" class="image">
+                                                    <img :src="filesystem + projectInfo.cost.costAccount" class="image">
                                                     <span>项目成本台账</span>
                                                 </el-card>
                                             </div>
@@ -110,37 +110,80 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="社保电脑号：" style="margin-bottom: 0">张三</el-form-item>
-                                        <el-form-item label="当前购买社保公司：" style="margin-bottom: 0">430426198502134569</el-form-item>
-                                        <el-form-item label="近一年缴纳社保清单：" style="margin-bottom: 0">
+                                        <el-form-item label="前期累计开票额：" style="margin-bottom: 0">{{projectInfo.payment.sumBillAmount}}万</el-form-item>
+                                        <el-form-item>
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/fyd.png" class="image">
-                                                    <!--<span>社保清单</span>-->
+                                                    <img :src="filesystem + projectInfo.payment.invoiceFile" class="image">
+                                                    <span>发票凭证</span>
                                                 </el-card>
                                             </div>
-
+                                        </el-form-item>
+                                        <el-form-item label="前期累计回款额：" style="margin-bottom: 0">{{projectInfo.payment.sumPaybackAmount}}万</el-form-item>
+                                        <el-form-item>
+                                            <div class="file-box">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.transferFile" class="image">
+                                                    <span>转账凭证</span>
+                                                </el-card>
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.transferToInvoiceFile" class="image">
+                                                    <span>对应发票凭证</span>
+                                                </el-card>
+                                            </div>
+                                        </el-form-item>
+                                        <el-form-item label="前期累计付款额：" style="margin-bottom: 0">{{projectInfo.payment.sumPaymentAmount}}万</el-form-item>
+                                        <el-form-item>
+                                            <div class="file-box">
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.buyContractFile" class="image">
+                                                    <span>采购合同</span>
+                                                </el-card>
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.buyInvoiceFile" class="image">
+                                                    <span>采购发票</span>
+                                                </el-card>
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.deliveryNote" class="image">
+                                                    <span>送货单</span>
+                                                </el-card>
+                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                    <img :src="filesystem + projectInfo.payment.banckTransfer" class="image">
+                                                    <span>银行转账凭证</span>
+                                                </el-card>
+                                            </div>
                                         </el-form-item>
                                     </el-form>
                                 </div>
+                                <!-- 其它信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">其它信息</div>
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
-                                <!-- 其它信息 -->
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="是否购买工商意外险" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="保险到期日：" style="margin-bottom: 0">2019-12-31</el-form-item>
-                                        <el-form-item label="保单凭证：" style="margin-bottom: 0">
-                                            <div class="file-box">
-                                                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/fyd.png" class="image">
-                                                    <!--<span>房产证明</span>-->
-                                                </el-card>
-                                            </div>
+                                        <el-form-item label="是否购买意外险：" style="margin-bottom: 0">
+                                            <div v-if="projectInfo.other.isBuyInsur === 1" class="content-lable2">是</div>
+                                            <div v-else class="content-lable2">否</div>
                                         </el-form-item>
-                                        <el-form-item label="特殊事项（选填）：" style="margin-bottom: 0">特殊事项（选填特殊事项（选填</el-form-item>
+                                        <div v-show="projectInfo.other.isBuyInsur === 1">
+                                            <el-form-item label="" style="margin-bottom: 0">
+                                                <el-form inline style="border-bottom: 0">
+                                                    <el-form-item label="保险到期日" style="margin-bottom: 0">{{projectInfo.other.insurEndDate}}</el-form-item>
+                                                    <el-form-item label="保额" style="margin-bottom: 0">{{projectInfo.other.insurAmount}}万</el-form-item>
+                                                    <el-form-item label="参保人数" style="margin-bottom: 0">{{projectInfo.other.insurPersonNumber}}人</el-form-item>
+                                                </el-form>
+                                            </el-form-item>
+                                            <el-form-item label="保单凭证：" style="margin-bottom: 0">
+                                                <div class="file-box">
+                                                    <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
+                                                        <img :src="filesystem + projectInfo.other.insurFile" class="image">
+                                                        <!--<span>房产证明</span>-->
+                                                    </el-card>
+                                                </div>
+                                            </el-form-item>
+                                            <el-form-item label="特殊事项（选填）：" style="margin-bottom: 0">{{projectInfo.other.unusualDesc}}</el-form-item>
+                                        </div>
                                     </el-form>
                                 </div>
                             </div>
@@ -164,8 +207,9 @@
         data() {
             return {
                 name: localStorage.getItem('ms_username'),
-
-
+                filesystem: localStorage.getItem("fileBasePath"),
+                projectId: this.$route.query.id,
+                projectInfo: null,
             }
         },
         components: {
@@ -173,13 +217,25 @@
         computed: {
         },
         created(){
+            this.getDataInfo();
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
-
+            // 获取信息
+            getDataInfo(){
+                let _than = this;
+                this.$axios.get('api/project/details',{params:{
+                        id: this.projectId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.projectInfo = response.data.extend;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
 
 
         }

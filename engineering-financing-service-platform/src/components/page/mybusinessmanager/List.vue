@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>我的项目</span>
+                        <span>商务经理列表</span>
                     </div>
                     <!--<div class="top-btn-box">-->
                         <!--<el-button type="warning" @click="add">新增</el-button>-->
@@ -15,31 +15,36 @@
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center">
                             </el-table-column>
-                            <el-table-column prop="projectName" label="项目合同名称" align="left">
+                            <el-table-column prop="name" label="姓名" width="200">
                             </el-table-column>
-                            <el-table-column prop="contractNo" label="合同编号" width="200" align="center">
-                            </el-table-column>
-                            <el-table-column prop="contractAmount" label="合同金额(万元)" width="200" align="center">
-                            </el-table-column>
-                            <el-table-column prop="companyName" label="所属分公司" width="200" align="center">
-                            </el-table-column>
-                            <el-table-column prop="name" label="商务经理" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column label="预授信金额(万元)" width="150" align="center">
+                            <el-table-column prop="" label="性别" width="100" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.shouldCreditAmount}}万
+                                    <el-tag type="warning" v-if="scope.row.gender === 'M'">男</el-tag>
+                                    <el-tag type="warning" v-else-if="scope.row.gender === 'F'">女</el-tag>
+                                    <el-tag type="warning" v-else>未知</el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="项目进度" width="100" align="center">
+                            <el-table-column prop="phone" label="手机号" width="200" align="center">
+                            </el-table-column>
+                            <el-table-column prop="jobYearNumber" label="从业年限" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <div @click="findProgress(scope.row.id)">
-                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
-                                    </div>
+                                    {{scope.row.jobYearNumber}}年
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="cooperateYearNumber" label="合作年限" width="100" align="center">
+                                <template slot-scope="scope">
+                                    {{scope.row.cooperateYearNumber}}年
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="childCompanyName" label="所属分公司"/>
+                            <el-table-column prop="name" label="状态" width="100" align="center">
+                                <template slot-scope="scope">
+                                    <el-tag type="warning" v-show="scope.row.status === 1 ">已提交</el-tag>
+                                    <el-tag type="warning" v-show="scope.row.status === 0 ">未提交</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
                                 </template>
                             </el-table-column>
@@ -87,7 +92,7 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('api/project/list',{params:{
+                this.$axios.get('financier/list',{params:{
                         id: this.userId
                     }}).then(function (response) {
                     console.log(response);
@@ -97,20 +102,12 @@
                     console.log(error);
                 });
             },
-            // 查看项目进度进度
-            findProgress(projectId){
-                //
-                console.log(projectId);
-                this.$router.push({
-                    path:'priject-progress-details?id=' + projectId
-                })
-            },
-            // 查看项目详情信息
+            // 查看详情信息
             detailsInfo(projectId){
                 //
                 console.log(projectId);
                 this.$router.push({
-                    path:'project-details?id=' + projectId
+                    path:'businessmanager-info-details?id=' + projectId
                 })
             }
         }

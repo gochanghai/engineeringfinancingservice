@@ -14,22 +14,26 @@
                                 <div class="content-info-box">
                                     <el-form ref="form" label-width="100px" class="loan-apply-box">
                                         <el-form-item label="申请编号：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                            <el-input v-model="form.loanNo" style="width: 200px"/>
                                         </el-form-item>
                                         <el-form-item label="申请日期：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                            <!--<el-input v-model="form.loanDate" style="width: 400px"/>-->
+                                            <el-date-picker type="date" placeholder="选择日期" v-model="form.loanDate" value-format="yyyy-MM-dd"  disabled style="width: 200px;"/>
                                         </el-form-item>
                                         <el-form-item label="申请人：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                            <el-input v-model="userName" style="width: 200px"/>
                                         </el-form-item>
                                         <el-form-item label="项目名称：">
-                                            <el-input v-model="name" style="width: 400px"/>
+                                            <el-input v-model="name" style="width: 200px"/>
                                         </el-form-item>
                                         <el-form-item label="申请金额：">
-                                            <el-input v-model="name" style="width: 200px"/> 万元
+                                            <el-input v-model="form.loanAmount" style="width: 200px"/> 万元
                                         </el-form-item>
                                         <el-form-item label="贷款周期：">
-                                            <el-input v-model="name" style="width: 200px"/> 期
+                                            <!--<el-input v-model="form.loanCycle" style="width: 200px"/> 期-->
+                                            <el-select v-model="form.loanCycle" placeholder="请选择贷款周期" style="width: 200px">
+                                                <el-option v-for="index in 24" :key="index" :label="index+' 期'" :value="index"></el-option>
+                                            </el-select>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -44,7 +48,18 @@
                                     </el-table-column>
                                     <el-table-column label="采购合同附件" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <div class="upload-file-btn" @click="uploadFile(scope.$index,1)" >↑ ↑</div>
+                                            <!--<div class="upload-file-btn" @click="uploadFile(scope.$index,1)" >↑ ↑</div>-->
+                                            <div @mouseenter="beforUploadListener(scope.$index,1)">
+                                                <el-upload
+                                                        class="avatar-uploader"
+                                                        name="file"
+                                                        :action="uploadPath"
+                                                        :on-success="uploadFileSuccess"
+                                                        :show-file-list="false">
+                                                    <img v-if="scope.row.contractFile !== null" class="avatar" :src=" filesystem + scope.row.contractFile">
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="采购订单总金额" width="120" align="center">
@@ -54,7 +69,18 @@
                                     </el-table-column>
                                     <el-table-column label="采购订单附件" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <div class="upload-file-btn" @click="uploadFile(scope.$index,2)" >↑ ↑</div>
+                                            <!--<div class="upload-file-btn" @click="uploadFile(scope.$index,2)" >↑ ↑</div>-->
+                                            <div @mouseenter="beforUploadListener(scope.$index,2)">
+                                                <el-upload
+                                                        class="avatar-uploader"
+                                                        name="file"
+                                                        :action="uploadPath"
+                                                        :on-success="uploadFileSuccess"
+                                                        :show-file-list="false">
+                                                    <img v-if="scope.row.orderFile !== null" class="avatar" :src=" filesystem + scope.row.orderFile">
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="采购发票总金额" width="120" align="center">
@@ -64,12 +90,34 @@
                                     </el-table-column>
                                     <el-table-column label="采购发票附件" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <div class="upload-file-btn" @click="uploadFile(scope.$index,3)" >↑ ↑</div>
+                                            <!--<div class="upload-file-btn" @click="uploadFile(scope.$index,3)" >↑ ↑</div>-->
+                                            <div @mouseenter="beforUploadListener(scope.$index,3)">
+                                                <el-upload
+                                                        class="avatar-uploader"
+                                                        name="file"
+                                                        :action="uploadPath"
+                                                        :on-success="uploadFileSuccess"
+                                                        :show-file-list="false">
+                                                    <img v-if="scope.row.invoiceFile !== null" class="avatar" :src=" filesystem + scope.row.invoiceFile">
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="送货单附件" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <div class="upload-file-btn" @click="uploadFile(scope.$index,4)" >↑ ↑</div>
+                                            <!--<i class="prochase-btn-close el-icon-lx-upload" @click="uploadFile(scope.$index,4)"></i>-->
+                                            <div @mouseenter="beforUploadListener(scope.$index,4)">
+                                                <el-upload
+                                                        class="avatar-uploader"
+                                                        name="file"
+                                                        :action="uploadPath"
+                                                        :on-success="uploadFileSuccess"
+                                                        :show-file-list="false">
+                                                    <img v-if="scope.row.deliveryBillFile !== null" class="avatar" :src=" filesystem + scope.row.deliveryBillFile">
+                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                </el-upload>
+                                            </div>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="供应商银行账户名称" width="200" align="center">
@@ -107,38 +155,17 @@
                 </el-card>
             </el-col>
         </el-row>
-        <!-- 添加附件弹出框 -->
-        <el-dialog title="添加附件" :visible.sync="uploadFlieVisible" width="15%" center="">
-            <div style="text-align: center">
-                <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                    <el-upload
-                            class="avatar-uploader"
-                            name="file"
-                            :action="uploadPath"
-                            :on-success="uploadFileSuccess"
-                            :show-file-list="false">
-                        <!--<img v-if="form.bankListFile !== null" class="avatar" :src=" filesystem + form.bankListFile">-->
-                        <i class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                    <!--<span>法人身份证正面</span>-->
-                </el-card>
-            </div>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
-                <el-button type="primary">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'business-info-dateils',
+        name: 'apply-loan',
         data() {
             return {
                 name: localStorage.getItem('ms_username'),
-                labelPosition: "right",
-                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                uploadPath: localStorage.getItem("uploadPath"),
+                filesystem: localStorage.getItem("fileBasePath"),
                 userName: localStorage.getItem('user_name'),
                 userId: localStorage.getItem('userInfoId'),
                 projectList: [],
@@ -154,19 +181,13 @@
                 },
                 purchs:[
                     {
-                    contractNo: '1',contractFile:'1',orderSumAmount:'',orderFile:'1',
+                    contractNo: '',contractFile:null,orderSumAmount:'',orderFile:null,
                     invoiceSumAmount: null, invoiceFile: null, deliveryBillFile:null, bankCardNo: null,
                     bankAccountName: null, openAccountBank: null
-                },{
-                    contractNo: '1',contractFile:'1',orderSumAmount:'',orderFile:'1',
-                    invoiceSumAmount: null, invoiceFile: null, deliveryBillFile:null, bankCardNo: null,
-                    bankAccountName: null, openAccountBank: null
-                },{
-                        contractNo: '1',contractFile:'1',orderSumAmount:'',orderFile:'1',
-                        invoiceSumAmount: null, invoiceFile: null, deliveryBillFile:null, bankCardNo: null,
-                        bankAccountName: null, openAccountBank: null
-                    }
+                }
                 ],
+                file_index: null,
+                file_name: null,
             }
         },
         components: {
@@ -223,10 +244,9 @@
             },
 
             // 上传附件
-            uploadFile(index,fileName){
+            beforUploadListener(index,fileName){
                 this.file_index = index;
                 this.file_name = fileName;
-                this.uploadFlieVisible = true;
                 console.log("准备上传文件: " + index + fileName)
             },
             // 附件上传成功回调函数
@@ -241,7 +261,6 @@
                 }else if (_that.file_name === 4) {
                     _that.purchs[_that.file_index].deliveryBillFile = res.extend.fileSystem.filePath;
                 }
-                _that.uploadFlieVisible = false;
 
             },
 
@@ -367,7 +386,7 @@
         padding-left: 30px;
         margin-bottom: 10px;
         background:rgba(226,226,226,1);
-        color: #000;
+        /*color: #000;*/
     }
     .prochase-title>h4{
         width: 80px;
@@ -383,6 +402,41 @@
     .prochase-btn-add{
         font-size: 30px;
         color: #ff8208
+    }
+
+
+
+    /*上传*/
+    .el-upload--text{
+        /*margin: 10px 10px;*/
+        width: 40px;
+        height: 40px;
+    }
+    .avatar-uploader{
+        height: 40px;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+    }
+    .avatar {
+        width: 40px;
+        height: 40px;
+        display: block;
     }
 
 </style>

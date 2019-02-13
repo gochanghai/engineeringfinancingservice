@@ -51,6 +51,11 @@
                         title: '我的项目'
                     },
                     {
+                        icon: 'el-icon-lx-profile',
+                        index: 'my-business-manager',
+                        title: '我的商务经理'
+                    },
+                    {
                         icon: 'el-icon-lx-home',
                         index: 'home1',
                         title: 'home1'
