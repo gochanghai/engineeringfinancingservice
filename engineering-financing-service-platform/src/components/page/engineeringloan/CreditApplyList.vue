@@ -46,12 +46,15 @@
                             </el-table-column>
                             <el-table-column label="审批进度" width="80" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待发起协议</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待资金方批复</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 3 && scope.row.status === 0">待平台审批</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 2 && scope.row.status === 0">待担保审批</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 1 ">已提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 0 && scope.row.status === 0">未提交</el-tag>
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待发起协议</el-tag>-->
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待资金方批复</el-tag>-->
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 3 && scope.row.status === 0">待平台审批</el-tag>-->
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 2 && scope.row.status === 0">待担保审批</el-tag>-->
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 1 ">已提交</el-tag>-->
+                                    <!--<el-tag type="warning" v-show="scope.row.step === 0 && scope.row.status === 0">未提交</el-tag>-->
+                                    <el-tag type="warning">
+                                        {{scope.row.step +'-'+ scope.row.status | statusToText}}
+                                    </el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="160" align="left">
@@ -246,7 +249,36 @@
                 console.log(this.form);
 
             },
-        }
+        },
+
+        // 过滤器
+        filters: {
+            statusToText(oldValue) {
+                switch (oldValue) {
+                    case '0-0':
+                        return '未提交';
+                        break;
+                    case '1-0':
+                        return '已提交';
+                        break;
+                    case '2-0':
+                        return '待担保审批';
+                        break;
+                    case '3-0':
+                        return '待平台审批';
+                        break;
+                    case '4-0':
+                        return '待资金方批复';
+                        break;
+                    case '5-0':
+                        return '待发起协议';
+                        break;
+                    default:
+                        return '审批中';
+                        break;
+                }
+            },
+        },
     }
 
 </script>
