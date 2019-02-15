@@ -19,9 +19,7 @@
                             </el-table-column>
                             <el-table-column prop="" label="性别" width="100" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-if="scope.row.gender === 'M'">男</el-tag>
-                                    <el-tag type="warning" v-else-if="scope.row.gender === 'F'">女</el-tag>
-                                    <el-tag type="warning" v-else>未知</el-tag>
+                                    <el-tag type="warning">{{scope.row.gender | genderToText}}</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="phone" label="手机号" width="200" align="center">
@@ -39,8 +37,7 @@
                             <el-table-column prop="childCompanyName" label="所属分公司"/>
                             <el-table-column prop="name" label="状态" width="100" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.status === 1 ">已提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === 0 ">未提交</el-tag>
+                                    <el-tag type="warning">{{scope.row.status | statusToText}}</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
@@ -83,6 +80,24 @@
             this.getDataList();
         },
         computed: {
+        },
+        // 过滤器
+        filters: {
+            genderToText(oldValue) {
+                if(oldValue === 'M'){
+                    return '男'
+                }
+                if(oldValue === 'F'){
+                    return '女'
+                }
+                return '未知';
+            },
+            statusToText(intValue) {
+                if(intValue === 1){
+                    return '已提交'
+                }
+                return '未提交';
+            }
         },
         methods: {
             // 分页导航

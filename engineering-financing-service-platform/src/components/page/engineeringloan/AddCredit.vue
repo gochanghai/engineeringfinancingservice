@@ -81,8 +81,9 @@
 </template>
 
 <script>
+    import {formatDate}  from '../../common/util/date.js';
     export default {
-        name: 'project-dateils',
+        name: 'add-credit',
         data: function(){
             var checkCreditAmount = (rule, value, callback) => {
                 if (!value) {
@@ -106,7 +107,7 @@
             };
             return {
                 name: localStorage.getItem('ms_username'),
-                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
                 userId: localStorage.getItem('userInfoId'),
                 userName: localStorage.getItem('user_name'),
@@ -114,7 +115,7 @@
                 projectList: null,
                 creditNo: null,
                 creditAmount: 0,
-                date: new Date(),
+                date: formatDate(new Date(),'yyyy-MM-dd'),
                 pId: null,
                 contractNo: null,
                 applyAmount: null,
@@ -123,7 +124,7 @@
                     pId: null,
                     applyAmount: null,
                     originIncident: null,
-                    bankListFile: ''
+                    bankListFile: null,
                 },
                 rules: {
                     pId: [

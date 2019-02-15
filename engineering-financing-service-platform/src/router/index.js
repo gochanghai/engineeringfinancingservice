@@ -131,7 +131,12 @@ export default new Router({
                 {
                     path: '/priject-progress-details',
                     component: resolve => require(['../components/page/project/ProgressDetails.vue'], resolve),
-                    meta: { title: 'priject-progress-details' }
+                    meta: { title: 'priject-progress-details'}
+                },
+                {
+                    path: '/edit-project-info',
+                    component: resolve => require(['../components/page/project/EditProjectInfo.vue'], resolve),
+                    meta: { title: 'edit-project-info'}
                 },
                 {
                     path: '/message-list',

@@ -231,7 +231,7 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
-                uploadPath: 'http://192.168.1.98:8088/filesystem/upload/',
+                uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
                 form: {
                     companyName: null,

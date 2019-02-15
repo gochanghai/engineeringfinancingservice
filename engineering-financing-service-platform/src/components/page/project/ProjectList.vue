@@ -35,9 +35,10 @@
                                     <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="100" align="center">
+                            <el-table-column label="操作" width="250" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">查看进度</el-tag></el-button>
+                                    <el-button size="mini" round @click="editProjectInfo(scope.row.id)">项目资料</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -182,6 +183,12 @@
                 console.log(projectId);
                 this.$router.push({
                     path:'priject-progress-details?id=' + projectId
+                })
+            },
+            // 查看项目资料
+            editProjectInfo(projectId){
+                this.$router.push({
+                    path:'edit-project-info?id=' + projectId
                 })
             }
         }
