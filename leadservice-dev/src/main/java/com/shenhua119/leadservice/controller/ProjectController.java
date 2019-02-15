@@ -84,4 +84,25 @@ public class ProjectController {
         System.out.println(list1.size());
         return Msg.success().add("list",list1);
     }
+
+    /**
+     * 获取项目详情信息
+     * @param id
+     * @return
+     */
+    @GetMapping("details")
+    public Msg projectInfoDetails(Long id){
+        System.out.println("details: " + id);
+        ProjectEntity project = projectService.getById(id);
+        ProjectContractEntity contract = projectContractService.getById(id);
+        ProjectPaymentEntity payment = projectPaymentService.getById(id);
+        ProjectCostEntity cost = projectCostService.getById(id);
+        ProjectOtherEntity other = projectOtherService.getById(id);
+        return Msg.success()
+                .add("project",project)
+                .add("contract",contract)
+                .add("payment",payment)
+                .add("cost",cost)
+                .add("other",other);
+    }
 }

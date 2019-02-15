@@ -1,5 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.FileSystemEntity;
 import com.shenhua119.leadservice.service.FileSystemService;
 import com.shenhua119.leadservice.util.Msg;
@@ -110,7 +111,9 @@ public class FileServerController {
     @GetMapping("/all")
     @ResponseBody
     public Msg getAllList(){
-        List<FileSystemEntity> list = fileSystemService.list(null);
+        List<FileSystemEntity> list = fileSystemService.list(new QueryWrapper<FileSystemEntity>()
+                .isNotNull("id")
+                .orderByDesc("create_date"));
         return Msg.success().add("list",list);
     }
 }
