@@ -15,7 +15,7 @@ Vue.use(ElementUI, {
     size: 'small'
 });
 Vue.prototype.$axios = axios;
-axios.defaults.baseURL = 'http://192.168.1.98:8088/';
+axios.defaults.baseURL = 'http://192.168.1.100:8088/';
 Vue.prototype.qs = Qs;
 
 //使用钩子函数对路由进行权限跳转

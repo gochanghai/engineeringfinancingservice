@@ -4,37 +4,27 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>我的项目</span>
+                        <span>工程公司列表</span>
                     </div>
-                    <!--<div class="top-btn-box">-->
-                        <!--<el-button type="warning" @click="add">新增</el-button>-->
+                    <div class="top-btn-box">
+                        <el-button type="warning" @click="add">新增</el-button>
                         <!--<el-button type="warning" @click="add" style="margin-left: 50px">导入</el-button>-->
-                    <!--</div>-->
+                    </div>
                     <div class="project-list-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
-                            <el-table-column prop="projectName" label="项目合同名称"/>
-                            <el-table-column prop="contractNo" label="合同编号" width="200" align="center"/>
-                            <el-table-column prop="contractAmount" label="合同金额(万元)" width="200" align="center">
-                            </el-table-column>
-                            <el-table-column prop="companyName" label="所属分公司" align="center"/>
-                            <el-table-column prop="name" label="商务经理" width="100" align="center"/>
-                            <el-table-column label="预授信金额(万元)" width="150" align="center">
+                            <el-table-column prop="companyName" label="公司名称"/>
+                            <el-table-column prop="person" label="企业法人" width="100" align="center"/>
+                            <el-table-column prop="creditCodeNumber" label="信用代码" align="center"/>
+                            <el-table-column prop="companyFullName" label="授信资方" align="center" />
+                            <el-table-column prop="creditAmount" label="担保授信额（万元）" width="150" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.shouldCreditAmount}}万
+                                    {{scope.row.creditAmount}}万
                                 </template>
                             </el-table-column>
-                            <el-table-column label="项目进度" width="100" align="center">
+                            <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <div @click="findProgress(scope.row.id)">
-                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
-                                    </div>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="操作" width="150" align="center">
-                                <template slot-scope="scope">
-                                    <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
                                 </template>
                             </el-table-column>
@@ -74,6 +64,24 @@
         },
         computed: {
         },
+        // 过滤器
+        filters: {
+            genderToText(oldValue) {
+                if(oldValue === 'M'){
+                    return '男'
+                }
+                if(oldValue === 'F'){
+                    return '女'
+                }
+                return '未知';
+            },
+            statusToText(intValue) {
+                if(intValue === 1){
+                    return '已提交'
+                }
+                return '未提交';
+            }
+        },
         methods: {
             // 分页导航
             handleCurrentChange(val) {
@@ -82,7 +90,7 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('api/project/list',{params:{
+                this.$axios.get('api/engcom/list',{params:{
                         id: this.userId
                     }}).then(function (response) {
                     console.log(response);
@@ -92,22 +100,21 @@
                     console.log(error);
                 });
             },
-            // 查看项目进度进度
-            findProgress(projectId){
-                //
-                console.log(projectId);
+            // 添加分公司
+            add(id){
                 this.$router.push({
-                    path:'priject-progress-details?id=' + projectId
+                    path:'engineeringcompany-add'
                 })
             },
-            // 查看项目详情信息
+            // 查看详情信息
             detailsInfo(projectId){
                 //
                 console.log(projectId);
                 this.$router.push({
-                    path:'project-details?id=' + projectId
+                    path:'businessmanager-info-details?id=' + projectId
                 })
             }
+
         }
     }
 

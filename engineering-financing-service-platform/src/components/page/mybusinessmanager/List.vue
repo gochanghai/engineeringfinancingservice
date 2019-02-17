@@ -6,24 +6,21 @@
                     <div slot="header" class="clearfix">
                         <span>商务经理列表</span>
                     </div>
-                    <!--<div class="top-btn-box">-->
-                        <!--<el-button type="warning" @click="add">新增</el-button>-->
+                    <div class="top-btn-box">
+                        <el-button type="warning" @click="add">新增</el-button>
                         <!--<el-button type="warning" @click="add" style="margin-left: 50px">导入</el-button>-->
-                    <!--</div>-->
+                    </div>
                     <div class="project-list-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                            <el-table-column type="index" label="序号" width="100" align="center">
-                            </el-table-column>
-                            <el-table-column prop="name" label="姓名" width="200">
-                            </el-table-column>
+                            <el-table-column type="index" label="序号" width="100" align="center"/>
+                            <el-table-column prop="name" label="姓名"/>
                             <el-table-column prop="" label="性别" width="100" align="center">
                                 <template slot-scope="scope">
                                     <el-tag type="warning">{{scope.row.gender | genderToText}}</el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="phone" label="手机号" width="200" align="center">
-                            </el-table-column>
+                            <el-table-column prop="phone" label="手机号" width="200" align="center"/>
                             <el-table-column prop="jobYearNumber" label="从业年限" width="200" align="center">
                                 <template slot-scope="scope">
                                     {{scope.row.jobYearNumber}}年
@@ -117,6 +114,13 @@
                     console.log(error);
                 });
             },
+            // 添加商务经理
+            add(id){
+                this.$router.push({
+                    path:'businessmanager-add?id=' + id
+                })
+            },
+
             // 查看详情信息
             detailsInfo(projectId){
                 //
@@ -132,7 +136,7 @@
 
 <style scoped>
     .top-btn-box{
-        padding-bottom: 20px;
+        padding-bottom: 10px;
     }
 
 </style>

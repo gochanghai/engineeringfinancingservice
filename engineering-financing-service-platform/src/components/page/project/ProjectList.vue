@@ -19,7 +19,7 @@
                             </el-table-column>
                             <el-table-column prop="contractNo" label="合同编号" width="200" align="center">
                             </el-table-column>
-                            <el-table-column prop="contractAmount" label="合同金额(万元)" width="200" align="center">
+                            <el-table-column prop="contractAmount" label="合同金额(万元)" align="center">
                             </el-table-column>
                             <el-table-column prop="companyName" label="所属分公司" width="200" align="center">
                             </el-table-column>
@@ -35,7 +35,7 @@
                                     <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="250" align="center">
+                            <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">查看进度</el-tag></el-button>
                                     <el-button size="mini" round @click="editProjectInfo(scope.row.id)">项目资料</el-button>
@@ -198,7 +198,7 @@
 
 <style scoped>
  .top-btn-box{
-     padding-bottom: 20px;
+     padding-bottom: 10px;
  }
 
 </style>

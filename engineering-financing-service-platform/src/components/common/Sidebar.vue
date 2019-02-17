@@ -72,13 +72,28 @@
                     },
                     {
                         icon: 'el-icon-lx-home',
+                        index: 'financecompany-list',
+                        title: '资金方管理'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
                         index: 'financecompany-add',
                         title: '添加资金方'
                     },
                     {
                         icon: 'el-icon-lx-home',
+                        index: 'engineeringcompany-list',
+                        title: '工程公司管理'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
                         index: 'engineeringcompany-add',
                         title: '添加工程公司'
+                    },
+                    {
+                        icon: 'el-icon-lx-home',
+                        index: 'childcompany-list',
+                        title: '我的分公司'
                     },
                     {
                         icon: 'el-icon-lx-home',

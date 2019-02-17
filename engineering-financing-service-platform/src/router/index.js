@@ -64,14 +64,29 @@ export default new Router({
                     meta: { title: 'businessmanager-info-dateils' }
                 },
                 {
+                    path: '/engineeringcompany-list',
+                    component: resolve => require(['../components/page/engineeringcompany/List.vue'], resolve),
+                    meta: { title: 'engineeringcompany-list' }
+                },
+                {
                     path: '/engineeringcompany-add',
                     component: resolve => require(['../components/page/engineeringcompany/Add.vue'], resolve),
                     meta: { title: 'engineeringcompany-add' }
                 },
                 {
+                    path: '/childcompany-list',
+                    component: resolve => require(['../components/page/engineeringcompany/ChildList.vue'], resolve),
+                    meta: { title: 'childcompany-list' }
+                },
+                {
                     path: '/childcompany-add',
                     component: resolve => require(['../components/page/engineeringcompany/AddChildCompany.vue'], resolve),
                     meta: { title: 'childcompany-add' }
+                },
+                {
+                    path: '/financecompany-list',
+                    component: resolve => require(['../components/page/financecompany/List.vue'], resolve),
+                    meta: { title: 'engineeringcompany-list' }
                 },
                 {
                     path: '/financecompany-add',
