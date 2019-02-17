@@ -131,17 +131,22 @@ export default new Router({
                 {
                     path: '/fire-project-list',
                     component: resolve => require(['../components/page/project/FireProjectList.vue'], resolve),
-                    meta: { title: 'fire-project-list' }
+                    meta: { title: 'fire-project-list'}
                 },
                 {
                     path: '/mainten-priject-list',
                     component: resolve => require(['../components/page/project/FireMaintenanceProjectList.vue'], resolve),
-                    meta: { title: 'mainten-priject-list' }
+                    meta: { title: 'mainten-priject-list'}
                 },
                 {
-                    path: '/priject-list',
+                    path: '/project-list',
                     component: resolve => require(['../components/page/project/ProjectList.vue'], resolve),
-                    meta: { title: 'priject-list' }
+                    meta: { title: 'project-list'}
+                },
+                {
+                    path: '/project-add',
+                    component: resolve => require(['../components/page/project/AddProject.vue'], resolve),
+                    meta: { title: 'project-add'}
                 },
                 {
                     path: '/priject-progress-details',

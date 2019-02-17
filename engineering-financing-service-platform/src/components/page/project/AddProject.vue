@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>添加公司</span>
+                        <span>添加项目</span>
                     </div>
                     <!-- 身份认证 -->
                     <div class="info-box">
@@ -12,17 +12,23 @@
                             <div class="info-content">
                                 <div class="content-info-box">
                                     <el-form ref="form" :model="form" :rules="rules" label-width="150px" class="child-company-box">
-                                        <el-form-item label="分公司名称：" prop="companyName">
-                                            <el-input v-model="form.companyName" style="width: 400px"/>
+                                        <el-form-item label="项目合同名称：" prop="projectName">
+                                            <el-input v-model="form.projectName" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="分公司地址：" prop="companyAddress">
-                                            <el-input v-model="form.companyAddress" style="width: 400px"/>
+                                        <el-form-item label="合同编号：" prop="contractNo">
+                                            <el-input v-model="form.contractNo" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="分公司负责人：" prop="contactPerson">
-                                            <el-input v-model="form.contactPerson" style="width: 400px"/>
+                                        <el-form-item label="合同金额：" prop="contractAmount">
+                                            <el-input v-model="form.contractAmount" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="联系电话：" prop="phone">
-                                            <el-input v-model="form.phone" style="width: 400px"/>
+                                        <el-form-item label="所属分公司：" prop="phone">
+                                            <el-input v-model="form.comId" style="width: 400px"/>
+                                        </el-form-item>
+                                        <el-form-item label="商务经理：" prop="phone">
+                                            <el-input v-model="form.fId" style="width: 400px"/>
+                                        </el-form-item>
+                                        <el-form-item label="预授信金额：" prop="shouldCreditAmount">
+                                            <el-input v-model="form.shouldCreditAmount" style="width: 400px"/>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -62,24 +68,26 @@
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
                 form: {
-                    companyName: null,
-                    companyAddress: null,
-                    contactPerson: null,
-                    phone: null,
-                    pId: this.$route.query.id,
+                    projectName: '',
+                    contractNo: '',
+                    contractAmount: '0.00',
+                    childComId: '',
+                    shouldCreditAmount: '',
+                    fId:'',
+                    comId: this.$route.query.id,
                 },
                 // 检验
                 rules: {
-                    companyName: [
+                    projectName: [
                         { required: true, message: '请输入分公司名称', trigger: 'blur' },
                     ],
-                    companyAddress: [
+                    contractNo: [
                         { required: true, message: '请输入分公司地址', trigger: 'blur' },
                     ],
-                    contactPerson: [
+                    contractAmount: [
                         { required: true, message: '请输入分公司负责人', trigger: 'blur' },
                     ],
-                    phone: [
+                    shouldCreditAmount: [
                         { required: true, message: '请输入联系电话', trigger: 'blur' },
                         { validator:  checkPhone, trigger: 'blur' }
                     ],

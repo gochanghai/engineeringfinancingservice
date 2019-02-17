@@ -169,7 +169,7 @@
                                 title: '维保工程',
                             },
                             {
-                                index: 'priject-list',
+                                index: 'project-list',
                                 title: '可授信项目',
                             }
                         ]

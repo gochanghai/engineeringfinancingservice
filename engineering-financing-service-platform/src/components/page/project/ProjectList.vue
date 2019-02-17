@@ -175,7 +175,7 @@
             // 新增
             add(){
                 // 设置路由页面跳转
-                this.$router.push('may-credit-project-add');
+                this.$router.push('project-add');
             },
             // 查看项目进度进度
             findProgress(projectId){

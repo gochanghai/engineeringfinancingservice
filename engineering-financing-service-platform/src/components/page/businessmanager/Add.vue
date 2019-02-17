@@ -131,6 +131,7 @@
                 jobDate: null,
                 cooperateDate: null,
                 form: {
+                    comId: this.$route.query.id,
                     name: null,
                     gender: null ,
                     idCard: null,
