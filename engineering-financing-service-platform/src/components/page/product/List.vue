@@ -106,7 +106,7 @@
             // 分页导航
             handleCurrentChange(val) {
                 this.cur_page = val;
-                this.getData();
+                this.getDataList();
             },
             // 获取Table数据
             getDataList(){
@@ -169,7 +169,7 @@
             // 新增
             add(){
                 // 设置路由页面跳转
-                this.$router.push('add-financial-product');
+                this.$router.push('product-add');
             }
         }
     }

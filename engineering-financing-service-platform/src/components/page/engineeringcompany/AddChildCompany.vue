@@ -32,7 +32,7 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -42,7 +42,7 @@
 
 <script>
     export default {
-        name: 'business-info-dateils',
+        name: 'add-branch-company',
         data() {
             var checkPhone = (rule, value, callback) => {
                 if (!value) {
@@ -109,9 +109,9 @@
                             phone: this.form.phone,
                             pId: this.form.pId,
                         }
-                    )).then(function (response) {
+                    )).then( (response)=> {
                     console.log(response);
-                    _than.$router.push("child-com-list")
+                    _than.$router.push("childcompany-list")
                 }).catch(function (error) {
                     console.log(error);
                 });

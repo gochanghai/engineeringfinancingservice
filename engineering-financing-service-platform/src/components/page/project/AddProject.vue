@@ -22,10 +22,16 @@
                                             <el-input v-model="form.contractAmount" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="所属分公司：" prop="phone">
-                                            <el-input v-model="form.comId" style="width: 400px"/>
+                                            <!--<el-input v-model="form.comId" style="width: 400px"/>-->
+                                            <el-select v-model="form.comId" placeholder="请选择所属分公司" style="width: 400px">
+                                                <el-option v-for="type in this.companyList" :key="type.id" :label="type.companyName" :value="type.id"/>
+                                            </el-select>
                                         </el-form-item>
                                         <el-form-item label="商务经理：" prop="phone">
-                                            <el-input v-model="form.fId" style="width: 400px"/>
+                                            <!--<el-input v-model="form.fId" style="width: 400px"/>-->
+                                            <el-select v-model="form.fId" placeholder="请选择所属商务经理" style="width: 400px">
+                                                <el-option v-for="type in this.bmList" :key="type.id" :label="type.name" :value="type.id"/>
+                                            </el-select>
                                         </el-form-item>
                                         <el-form-item label="预授信金额：" prop="shouldCreditAmount">
                                             <el-input v-model="form.shouldCreditAmount" style="width: 400px"/>
@@ -67,6 +73,9 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
+                comId: localStorage.getItem('userInfoId'),
+                companyList: [],
+                bmList: [],
                 form: {
                     projectName: '',
                     contractNo: '',
@@ -74,7 +83,6 @@
                     childComId: '',
                     shouldCreditAmount: '',
                     fId:'',
-                    comId: this.$route.query.id,
                 },
                 // 检验
                 rules: {
@@ -100,26 +108,54 @@
         computed: {
         },
         created(){
+            this.getCompanyList();
+            this.getBusinessManagerList()
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
+            getCompanyList(){
+                let _than = this;
+                this.$axios.get('cc/list',{params:{
+                        id: this.comId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.companyList = response.data.extend.list;
+                    _than.loading= false;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            getBusinessManagerList(){
+                let _than = this;
+                this.$axios.get('financier/list',{params:{
+                        id: this.comId
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.bmList = response.data.extend.list;
+                    _than.loading= false;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
             save(){
                 let _than = this;
                 this.$axios.post('cc/save',
                     this.qs.stringify(
                         {
-                            companyName: this.form.companyName,
-                            companyAddress: this.form.companyAddress,
-                            contactPerson: this.form.contactPerson,
-                            phone: this.form.phone,
-                            pId: this.form.pId,
+                            projectName: this.form.projectName,
+                            contractNo: this.form.contractNo,
+                            contractAmount: this.form.contractAmount,
+                            childComId: this.form.childComId,
+                            shouldCreditAmount: this.form.shouldCreditAmount,
+                            fId: this.form.fId,
+                            comId: this.comId,
                         }
-                    )).then(function (response) {
+                    )).then((response)=> {
                     console.log(response);
-                    _than.$router.push("child-com-list")
+                    _than.$router.push("project-list")
                 }).catch(function (error) {
                     console.log(error);
                 });

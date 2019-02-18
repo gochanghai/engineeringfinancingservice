@@ -82,7 +82,7 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('api/project/list',{params:{
+                this.$axios.get('api/project/flist',{params:{
                         id: this.userId
                     }}).then(function (response) {
                     console.log(response);

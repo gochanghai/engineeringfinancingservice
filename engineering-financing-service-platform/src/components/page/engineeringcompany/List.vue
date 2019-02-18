@@ -100,8 +100,8 @@
                     console.log(error);
                 });
             },
-            // 添加分公司
-            add(id){
+            // 添加公司
+            add(){
                 this.$router.push({
                     path:'engineeringcompany-add'
                 })

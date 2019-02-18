@@ -40,7 +40,7 @@
                                             </el-form-item>
                                             <el-form-item label="资金渠道：" >
                                                 <el-select v-model="form.fComId" style="width: 200px" placeholder="请选择">
-                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.cooperationBank" :value="funcom.id"></el-option>
+                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.companyFullName + funcom.cooperationBank" :value="funcom.id"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="产品图标：">
@@ -232,6 +232,7 @@
         computed: {
         },
         created(){
+            this.getFinanceCompanyList();
         },
         activated(){
         },
@@ -239,7 +240,7 @@
         },
         methods: {
             // 获取Table数据
-            getDataList(){
+            getFinanceCompanyList(){
                 // 获取获取资金公司数据
                 let _this = this;
                 this.$axios.get('fc/options').then((response) => {

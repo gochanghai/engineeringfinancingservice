@@ -96,7 +96,8 @@
                 });
             },
             // 添加分公司
-            add(id){
+            add(){
+                let id = this.userId;
                 this.$router.push({
                     path:'childcompany-add?id=' + id
                 })
