@@ -24,4 +24,9 @@ public class ProjectContractInfoServiceImpl extends ServiceImpl<ProjectDao, Proj
     public List<ProjectList> selectByCompanyId(Long companyId) {
         return projectDao.selectByCompanyId(companyId);
     }
+
+    @Override
+    public List<ProjectEntity> selectByFId(Long fId) {
+        return projectDao.selectByFId(fId);
+    }
 }

@@ -13,4 +13,6 @@ import java.util.List;
 public interface ProjectService extends IService<ProjectEntity> {
 
     List<ProjectList> selectByCompanyId(Long companyId);
+
+    List<ProjectEntity> selectByFId(Long fId);
 }

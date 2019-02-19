@@ -12,7 +12,7 @@
                             <div class="info-content">
                                 <!-- 绑定银行卡 -->
                                 <div class="content-info-box">
-                                    <el-form ref="form" label-width="100px" class="loan-apply-box">
+                                    <el-form ref="form" label-width="100px" class="loan-apply-box" :model="form" :rules="rules">
                                         <el-form-item label="申请编号：">
                                             <el-input v-model="form.loanNo" style="width: 200px"/>
                                         </el-form-item>
@@ -23,13 +23,16 @@
                                         <el-form-item label="申请人：">
                                             <el-input v-model="userName" style="width: 200px"/>
                                         </el-form-item>
-                                        <el-form-item label="项目名称：">
-                                            <el-input v-model="name" style="width: 200px"/>
+                                        <el-form-item label="项目名称：" prop="pId">
+                                            <!--<el-input v-model="name" style="width: 200px"/>-->
+                                            <el-select v-model="form.pId" placeholder="请选择项目" style="width: 200px">
+                                                <el-option v-for="item in projectList" :key="item.id" :label="item.projectName" :value="item.id"></el-option>
+                                            </el-select>
                                         </el-form-item>
-                                        <el-form-item label="申请金额：">
+                                        <el-form-item label="申请金额：" prop="loanAmount">
                                             <el-input v-model="form.loanAmount" style="width: 200px"/> 万元
                                         </el-form-item>
-                                        <el-form-item label="贷款周期：">
+                                        <el-form-item label="贷款周期：" prop="loanCycle">
                                             <!--<el-input v-model="form.loanCycle" style="width: 200px"/> 期-->
                                             <el-select v-model="form.loanCycle" placeholder="请选择贷款周期" style="width: 200px">
                                                 <el-option v-for="index in 24" :key="index" :label="index+' 期'" :value="index"></el-option>
@@ -396,7 +399,7 @@
     }
     .prochase-btn-close{
         font-size: 30px;
-        color: rgba(255,178,103,1);
+        color: #c0c4cc;
         margin-right: 10px;
     }
     .prochase-btn-add{

@@ -1,6 +1,5 @@
 package com.shenhua119.leadservice.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.*;
 import com.shenhua119.leadservice.service.*;
 import com.shenhua119.leadservice.util.Msg;
@@ -90,9 +89,9 @@ public class ProjectController {
     @GetMapping("flist")
     public Msg listByFId(Long id){
         System.out.println("获取数据");
-        List<ProjectEntity>  list = projectService.list(new QueryWrapper<ProjectEntity>()
-                .eq("f_id",id));
-//        List<ProjectList> list1 = projectService.selectByCompanyId(id);
+//        List<ProjectEntity>  list = projectService.list(new QueryWrapper<ProjectEntity>()
+//                .eq("f_id",id));
+        List<ProjectEntity> list = projectService.selectByFId(id);
         System.out.println(list.size());
         return Msg.success().add("list",list);
     }

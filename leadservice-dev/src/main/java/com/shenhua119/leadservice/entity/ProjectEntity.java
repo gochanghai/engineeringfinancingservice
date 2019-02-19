@@ -1,5 +1,6 @@
 package com.shenhua119.leadservice.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -66,7 +67,10 @@ public class ProjectEntity implements Serializable {
      */
     private Integer isCredit;
 
-
-
+    /**
+     * 分公司
+     */
+    @TableField(exist=false)
+    private ChildCompanyEntity childCompany;
 
 }

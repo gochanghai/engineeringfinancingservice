@@ -93,7 +93,7 @@ public class CreditApplyController {
 
     // 获取融资人的项目
     @GetMapping("project/list")
-    public Msg getPrijectInfoByFinancierId(Long id){
+    public Msg getProjectListByFId(Long id){
         List<ProjectEntity> list = projectService.list(new QueryWrapper<ProjectEntity>().eq("f_id" ,id));
         // 生成一个申请编号
         String applyNo = SerialNumber.Getnum();

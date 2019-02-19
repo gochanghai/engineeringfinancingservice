@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="content-info-box">
                                     <div class="form-box">
-                                        <el-form label-width="100px">
+                                        <el-form label-width="100px" :model="form" :rules="rules">
                                             <el-form-item label="申请编号：" >
                                                 <el-input v-model="creditNo" style="width: 200px"/>
                                             </el-form-item>
@@ -27,9 +27,9 @@
                                                 <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="date" style="width: 200px"></el-date-picker>
                                             </el-form-item>
                                             <el-form-item label="申请人：">
-                                                <el-input v-model="userName" style="width: 200px"/>
+                                                <el-input v-model="name" style="width: 200px"/>
                                             </el-form-item>
-                                            <el-form-item label="项目名称：" >
+                                            <el-form-item label="项目名称：" prop="pId">
                                                 <el-select v-model="pId" placeholder="请选择">
                                                     <el-option v-for="item in projectList" :key="item.id" :label="item.projectName" :value="item.id"></el-option>
                                                 </el-select>
@@ -37,7 +37,7 @@
                                             <el-form-item label="合同编号：">
                                                 <el-input v-model="contractNo" style="width: 200px"/>
                                             </el-form-item>
-                                            <el-form-item label="申请额度：">
+                                            <el-form-item label="申请额度：" prop="applyAmount">
                                                 <el-input v-model="form.applyAmount" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="申请事由：">
@@ -112,7 +112,7 @@
                 userId: localStorage.getItem('userInfoId'),
                 userName: localStorage.getItem('user_name'),
                 creditNo: '',
-                projectList: null,
+                projectList: [],
                 creditNo: null,
                 creditAmount: 0,
                 date: formatDate(new Date(),'yyyy-MM-dd'),
@@ -162,6 +162,7 @@
         computed: {
         },
         created(){
+            this.getProjectList();
         },
         activated(){
         },
@@ -172,8 +173,8 @@
             getProjectList(){
                 let _than = this;
                 this.$axios.get('credit/project/list',{params:{
-                        id: this.userId
-                    }}).then(function (response) {
+                        id: _than.userId
+                    }}).then((response)=> {
                     console.log(response);
                     _than.projectList = response.data.extend.list;
                     _than.creditNo = response.data.extend.applyNo;
@@ -182,7 +183,7 @@
                 });
             },
 
-            // 法人身份证反面上传成功回调函数
+            // 银行流水上传成功回调函数
             bankListFile(response,file,files){
                 this.form.bankListFile = response.extend.fileSystem.filePath;
             },

@@ -18,8 +18,7 @@
                             <el-table-column prop="contractNo" label="合同编号" width="200" align="center"/>
                             <el-table-column prop="contractAmount" label="合同金额(万元)" width="200" align="center">
                             </el-table-column>
-                            <el-table-column prop="companyName" label="所属分公司" align="center"/>
-                            <el-table-column prop="name" label="商务经理" width="100" align="center"/>
+                            <el-table-column prop="childCompany.companyName" label="所属分公司" align="center"/>
                             <el-table-column label="预授信金额(万元)" width="150" align="center">
                                 <template slot-scope="scope">
                                     {{scope.row.shouldCreditAmount}}万
@@ -32,7 +31,7 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="150" align="center">
+                            <el-table-column label="操作" width="200">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
@@ -52,7 +51,7 @@
 
 <script>
     export default {
-        name: 'my-project-list',
+        name: 'my-project',
         data() {
             return {
                 userId: localStorage.getItem('userInfoId'),

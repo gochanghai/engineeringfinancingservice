@@ -20,4 +20,6 @@ public interface ProjectDao extends BaseMapper<ProjectEntity> {
             "LEFT JOIN tb_financier tb2 ON tb1.f_id = tb2.id LEFT JOIN tb_child_company tb3 " +
             "ON tb1.child_com_id = tb3.id WHERE tb1.com_id = #{companyId}")
     List<ProjectList> selectByCompanyId(Long companyId);
+
+    List<ProjectEntity> selectByFId(Long fId);
 }
