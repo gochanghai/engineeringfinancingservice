@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>项目授信申请新增</span>
+                        <span>授信申请详情</span>
                     </div>
                     <!-- 项目信息 -->
                     <div class="info-box">
@@ -21,25 +21,25 @@
                                     <div class="form-box">
                                         <el-form label-width="100px">
                                             <el-form-item label="申请编号：" style="margin-bottom: 0">
-                                                20190127001
+                                                {{applyInfo.creditApply.creditNo}}
                                             </el-form-item>
                                             <el-form-item label="申请日期："style="margin-bottom: 0">
-                                                2019-01-27
+                                                {{applyInfo.creditApply.date}}
                                             </el-form-item>
                                             <el-form-item label="申请人："style="margin-bottom: 0">
-                                                lisi1122
+                                                {{applyInfo.financier.name}}
                                             </el-form-item>
                                             <el-form-item label="项目名称：" style="margin-bottom: 0">
-                                                项目名称
+                                                {{applyInfo.project.projectName}}
                                             </el-form-item>
                                             <el-form-item label="合同编号："style="margin-bottom: 0">
-                                                HT0011222
+                                                {{applyInfo.creditApply.contractNo}}
                                             </el-form-item>
                                             <el-form-item label="申请额度："style="margin-bottom: 0">
-                                                1000万
+                                                {{applyInfo.creditApply.applyAmount}}万
                                             </el-form-item>
                                             <el-form-item label="申请事由："style="margin-bottom: 0">
-                                                嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡嗡
+                                                {{applyInfo.creditApply.originIncident}}
                                             </el-form-item>
                                             <el-form-item label="银行流水：" style="margin-bottom: 0">
                                                 <div class="file-box">
@@ -48,7 +48,7 @@
                                                                 class="avatar-uploader"
                                                                 action="https://jsonplaceholder.typicode.com/posts/"
                                                                 :show-file-list="false">
-                                                            <img v-if="name === null" class="avatar">
+                                                            <img v-if="applyInfo.creditApply.bankListFile === null" class="avatar">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
@@ -67,8 +67,8 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
-                        <div class="info-bottom-btn2">保存并提交</div>
+                        <!--<div class="info-bottom-btn2">保存</div>-->
+                        <!--<div class="info-bottom-btn2">保存并提交</div>-->
                     </div>
                 </el-card>
             </el-col>
@@ -82,7 +82,9 @@
         data: function(){
             return {
                 name: localStorage.getItem('ms_username'),
+                id: this.$route.query.id,
                 isAgree: false,
+                applyInfo: '',
             }
         },
         components: {
@@ -90,13 +92,25 @@
         computed: {
         },
         created(){
+            this.getApplyInfo(this.id);
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
+            // 获取项目数据
+            getApplyInfo(id){
+                let _than = this;
+                this.$axios.get('credit/f/info',{params:{
+                        id: id
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.applyInfo = response.data.extend;
+                }).catch(function (error) {
 
+                });
+            },
 
 
         }

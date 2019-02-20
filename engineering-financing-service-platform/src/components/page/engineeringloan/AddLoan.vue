@@ -209,11 +209,10 @@
             getProjectList(){
                 let _than = this;
                 this.$axios.get('credit/project/list',{params:{
-                        id: this.userId
+                        id: this.id
                     }}).then(function (response) {
                     console.log(response);
-                    _than.projectList = response.data.extend.list;
-                    _than.form.loanNo = response.data.extend.applyNo;
+                    _than.applyInfo = response.data.extend.applyInfo;
                 }).catch(function (error) {
 
                 });

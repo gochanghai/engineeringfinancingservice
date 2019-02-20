@@ -16,21 +16,40 @@ import java.util.Map;
 
 @CrossOrigin // 决解跨域问题
 @RestController
-@RequestMapping("fp")
+@RequestMapping("api/product")
 public class FinanceProductController {
 
     @Autowired
     private FinanceProductService financeProductService;
 
-    // 保存数据
+
+    /**
+     * 获取一个产品的信息
+     * @param id
+     * @return
+     */
+    @GetMapping("id")
+    public Msg getProductById(Long id) {
+        System.out.println("获取一个产品的信息：" + id);
+        FinanceProductEntity product = financeProductService.getById(id);
+        return Msg.success().add("product", product);
+    }
+    /**
+     * 保存产品
+     * @param product
+     * @return
+     */
     @PostMapping("save")
-    public Msg save(FinanceProductEntity fp) {
-        boolean result = financeProductService.save(fp);
+    public Msg save(FinanceProductEntity product) {
+        boolean result = financeProductService.save(product);
         System.out.println("新增金融产品成功");
         return Msg.success();
     }
 
-    // 获取数据
+    /**
+     * 获取产品列表
+     * @return
+     */
     @GetMapping("list")
     public Msg list() {
         System.out.println("获取数据");

@@ -51,6 +51,36 @@
                         title: '我的项目'
                     },
                     {
+                        icon: 'el-icon-lx-vipcard',
+                        index: 'my-credit',
+                        title: '我的授信',
+                        subs: [
+                            {
+                                index: 'my-credit-el',
+                                title: '工程贷',
+                            },
+                            {
+                                index: 'my-credit-hl',
+                                title: '房易贷',
+                            }
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-lx-rechargefill',
+                        index: 'my-loan',
+                        title: '我的放款',
+                        subs: [
+                            {
+                                index: 'my-loan-el',
+                                title: '工程贷',
+                            },
+                            {
+                                index: 'my-loan-hl',
+                                title: '房易贷',
+                            }
+                        ]
+                    },
+                    {
                         icon: 'el-icon-lx-profile',
                         index: 'my-business-manager',
                         title: '我的商务经理'

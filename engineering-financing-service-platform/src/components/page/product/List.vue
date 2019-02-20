@@ -38,8 +38,8 @@
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">产品信息</el-button>
-                                    <el-button size="mini" round @click="handleEdit(scope.$index, scope.row.id)">删除</el-button>
+                                    <el-button size="mini" round @click="info(scope.row.id)">产品信息</el-button>
+                                    <el-button size="mini" round @click="handleEdit(scope.row.id)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -110,7 +110,7 @@
             },
             // 获取Table数据
             getDataList(){
-                this.$axios.get('fp/list').then((response) => {
+                this.$axios.get('api/product/list').then((response) => {
                     console.log(response.data.extend);
                     this.tableData = response.data.extend.list;
                 }).catch(function (error) {
@@ -170,6 +170,11 @@
             add(){
                 // 设置路由页面跳转
                 this.$router.push('product-add');
+            },
+            // 查看产品信息
+            info(id){
+                // 设置路由页面跳转
+                this.$router.push('product-info?id=' + id);
             }
         }
     }

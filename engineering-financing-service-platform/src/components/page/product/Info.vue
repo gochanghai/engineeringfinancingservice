@@ -20,14 +20,14 @@
                                 <div class="content-info-box">
                                     <div class="form-box-l">
                                         <el-form label-width="150px">
-                                            <el-form-item label="产品编号：" >
-                                                <el-input v-model="form.productNo" style="width: 200px"/>
+                                            <el-form-item label="产品编号：" >{{form.productNo}}
+                                                <!--<el-input v-model="form.productNo" style="width: 200px"/>-->
                                             </el-form-item>
                                             <el-form-item label="产品名称：">
-                                                <el-input v-model="form.productName" style="width: 200px"/>
+                                                <el-input v-model="form.productName" style="width: 200px" />
                                             </el-form-item>
                                             <el-form-item label="产品大类：">
-                                                <el-select v-model="form.productTypeId" placeholder="请选择" style="width: 200px">
+                                                <el-select v-model="form.productTypeId" placeholder="请选择" style="width: 200px" >
                                                     <el-option v-for="type in this.productTypes" :key="type.id" :label="type.name" :value="type.id"/>
                                                 </el-select>
                                             </el-form-item>
@@ -40,7 +40,7 @@
                                             </el-form-item>
                                             <el-form-item label="资金渠道：" >
                                                 <el-select v-model="form.fComId" style="width: 200px" placeholder="请选择">
-                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.companyFullName + funcom.cooperationBank" :value="funcom.id"></el-option>
+                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.companyFullName + funcom.cooperationBank" :value="funcom.id"/>
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="产品图标：">
@@ -80,7 +80,7 @@
                                                 <el-input v-model="form.productNumber" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="收取服务费类型：">
-                                                <el-select v-model="form.serviceFeeType" placeholder="请选择" style="width: 200px">
+                                                <el-select v-model="form.serviceFeeType" placeholder="请选择" style="width: 200px" >
                                                     <el-option key="1" label="按比例一次性收取" value="按比例一次性收取"></el-option>
                                                     <el-option key="2" label="按贷款周期" value="按贷款周期"></el-option>
                                                 </el-select>
@@ -93,13 +93,13 @@
                                                 <el-input v-model="form.lateChargeRate" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="是否可申请展期：" >
-                                                <el-radio-group v-model="form.isDelay">
+                                                <el-radio-group v-model="form.isDelay" >
                                                     <el-radio label="1">是</el-radio>
                                                     <el-radio label="0">否</el-radio>
                                                 </el-radio-group>
                                             </el-form-item>
                                             <el-form-item label="还款方式：" >
-                                                <el-radio-group v-model="form.repaymentType">
+                                                <el-radio-group v-model="form.repaymentType" >
                                                     <el-radio label="1">按月付息到期还本</el-radio>
                                                     <el-radio label="2">等额本金</el-radio>
                                                     <el-radio label="3">等额本息</el-radio>
@@ -118,7 +118,7 @@
                                     <div class="form-box-l">
                                         <el-form label-width="150px">
                                             <el-form-item label="是否担保：" >
-                                                <el-radio-group v-model="form.isAssure">
+                                                <el-radio-group v-model="form.isAssure" >
                                                     <el-radio label="1">是</el-radio>
                                                     <el-radio label="0">否</el-radio>
                                                 </el-radio-group>
@@ -130,7 +130,7 @@
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="服务费比例：">
-                                                <el-input v-model="form.assureServiceFeeRate" style="width: 200px"></el-input>
+                                                <el-input v-model="form.assureServiceFeeRate" style="width: 200px" />
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -179,9 +179,9 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="gotoReturn">返回</div>
                         <div class="info-bottom-btn2">保存</div>
-                        <div class="info-bottom-btn2">保存并提交</div>
+                        <!--<div class="info-bottom-btn2">保存并提交</div>-->
                     </div>
                 </el-card>
             </el-col>
@@ -191,12 +191,13 @@
 
 <script>
     export default {
-        name: 'add-product',
+        name: 'product-info',
         data() {
             return {
                 name: localStorage.getItem('ms_username'),
                 financeComList: null,
                 engineeringComList: null,
+                productId: this.$route.query.id,
                 productTypes:[
                     {id:1, name:'工程贷'},
                     {id:2, name:'房易贷'},
@@ -233,6 +234,7 @@
         },
         created(){
             this.getFinanceCompanyList();
+            this.getProductInfo(this.productId);
         },
         activated(){
         },
@@ -259,17 +261,32 @@
                 });
             },
 
+            getProductInfo(id){
+                let _than = this;
+                // 获取担保公司数据
+                this.$axios.get('api/product/id',
+                    {
+                        params:{ id: this.$route.query.id}
+                    }
+                ).then((response) => {
+                    console.log(response.data.extend);
+                    _than.form = response.data.extend.product;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
             // 返回
-            onReturn() {
+            gotoReturn() {
                 this.$message.success('返回！');
-                this.$router.push("business-manager-list")
+                this.$router.push("product-list")
             },
             // 仅保存
             save(){
                 // 产品状态
                 // this.form.status = 0;
                 this.$message.success('保存成功！');
-                this.$axios.post('api/product/save',
+                this.$axios.post('fp/save',
                     this.qs.stringify(
                         {
                             productNo: this.form.productNo,
@@ -294,7 +311,7 @@
                         }
                     )).then(function (response) {
                     console.log(response);
-                    this.$router.push("product-list")
+                    this.$router.push("financial-product-list")
                 }).catch(function (error) {
                     console.log(error);
                 });

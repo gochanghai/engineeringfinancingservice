@@ -83,7 +83,11 @@ public class CreditApplyController {
     }
 
 
-    // 获取融资人的授信项目数据
+    /**
+     * 获取融资人的授信项目数据
+     * @param id
+     * @return
+     */
     @GetMapping("f/list")
     public Msg getCreditApplyInfoByFinancierId(Long id){
 //        List<CreditApplyEntity> list = creditApplyService.list(new QueryWrapper<CreditApplyEntity>().eq("f_id" ,id));
@@ -91,7 +95,11 @@ public class CreditApplyController {
         return Msg.success().add("list",list1);
     }
 
-    // 获取融资人的项目
+    /**
+     * 获取融资人的项目
+     * @param id
+     * @return
+     */
     @GetMapping("project/list")
     public Msg getProjectListByFId(Long id){
         List<ProjectEntity> list = projectService.list(new QueryWrapper<ProjectEntity>().eq("f_id" ,id));
@@ -100,7 +108,11 @@ public class CreditApplyController {
         return Msg.success().add("list",list).add("applyNo",applyNo);
     }
 
-    // 获取工程公司授信数据
+    /**
+     * 获取工程公司授信数据
+     * @param id
+     * @return
+     */
     @GetMapping("com/list")
     public Msg getCreditApplyInfoByCompanyId(Long id){
         System.out.println("工程公司：" + id +" 获取授信数据");
@@ -108,7 +120,10 @@ public class CreditApplyController {
         return Msg.success().add("list",list);
     }
 
-    // 获取工程公司授信数据
+    /**
+     * 获取工程公司授信数据
+     * @return
+     */
     @GetMapping("p/list")
     public Msg getCreditApplyInfoP(){
         System.out.println("平台获取授信数据");
@@ -116,7 +131,11 @@ public class CreditApplyController {
         return Msg.success().add("list",list);
     }
 
-    // 获取资金方授信数据
+    /**
+     * 获取资金方授信数据
+     * @param id
+     * @return
+     */
     @GetMapping("fund/list")
     public Msg getCreditApplyInfoByFundCompanyId(Long id){
         System.out.println("资金方获取授信数据");

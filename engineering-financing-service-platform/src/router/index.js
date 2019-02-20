@@ -113,10 +113,10 @@ export default new Router({
                     component: resolve => require(['../components/page/engineeringloan/AddLoan.vue'], resolve),
                     meta: { title: 'engineeringloan-loan-add' }
                 },
-                {
-                    path: '/engineeringloan-credit-apply-info',
+                {   // 工程贷授信申请信息
+                    path: '/credit-engloan-info',
                     component: resolve => require(['../components/page/engineeringloan/ApplyInfo.vue'], resolve),
-                    meta: { title: 'engineeringloan-credit-apply-info' }
+                    meta: { title: 'credit-engloan-info' }
                 },
                 {
                     path: '/engineeringloan-credit-apply-list',
@@ -179,6 +179,11 @@ export default new Router({
                     meta: { title: 'product-list' }
                 },
                 {
+                    path: '/product-info',
+                    component: resolve => require(['../components/page/product/Info.vue'], resolve),
+                    meta: { title: 'product-info' }
+                },
+                {
                     path: '/engineeringloan-credit-list4',
                     component: resolve => require(['../components/page/engineeringloan/CreditReplyList.vue'], resolve),
                     meta: { title: 'engineeringloan-credit-list4' }
@@ -197,6 +202,16 @@ export default new Router({
                     path: '/my-business-manager',
                     component: resolve => require(['../components/page/mybusinessmanager/List.vue'], resolve),
                     meta: { title: 'my-business-manager' }
+                },
+                {
+                    path: '/my-credit-el',
+                    component: resolve => require(['../components/page/mycredit/EngLoanList.vue'], resolve),
+                    meta: { title: 'my-credit-el' }
+                },
+                {
+                    path: '/my-loan-el',
+                    component: resolve => require(['../components/page/myloan/EngLoanList.vue'], resolve),
+                    meta: { title: 'my-loan-el' }
                 },
                 // onlian end
 
