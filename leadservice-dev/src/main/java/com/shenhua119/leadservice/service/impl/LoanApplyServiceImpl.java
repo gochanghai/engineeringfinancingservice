@@ -39,4 +39,9 @@ public class LoanApplyServiceImpl extends ServiceImpl<LoanApplyDao, LoanApplyEnt
     public List<LoanApplyEntity> listByFundCompanyId(Long id) {
         return loanApplyDao.selectByFundCompanyId(id);
     }
+
+    @Override
+    public LoanApplyEntity loanApplyById(Long id) {
+        return loanApplyDao.selectLoanApplyInfoDetailsById(id);
+    }
 }

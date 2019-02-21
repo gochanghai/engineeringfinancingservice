@@ -157,7 +157,6 @@
             }
         },
         methods: {
-
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
@@ -250,7 +249,6 @@
 
             },
         },
-
         // 过滤器
         filters: {
             statusToText(oldValue) {

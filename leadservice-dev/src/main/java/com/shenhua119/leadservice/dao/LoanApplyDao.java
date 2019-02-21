@@ -36,4 +36,6 @@ public interface LoanApplyDao extends BaseMapper<LoanApplyEntity> {
 //            "tb_engineering_company tb4 ON tb3.com_id = tb4.id WHERE tb4.f_com_id = #{id}")
     List<LoanApplyEntity> selectByFundCompanyId(Long id);
 
+    /** 获取一条放款信息明细 */
+    LoanApplyEntity selectLoanApplyInfoDetailsById(Long id);
 }

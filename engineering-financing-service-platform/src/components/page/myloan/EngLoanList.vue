@@ -15,19 +15,19 @@
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
                             <el-table-column prop="loanNo" label="申请编号"/>
-                            <el-table-column prop="loanDate" label="申请日期" width="200" align="center"/>
+                            <el-table-column prop="loanDate" label="申请日期" align="center"/>
                             <el-table-column prop="name" label="申请人" width="200" align="center">
                             </el-table-column>
                             <el-table-column prop="projectName" label="项目名称" align="center"/>
-                            <el-table-column label="本次申请放款金额(万元)" width="150" align="center">
+                            <el-table-column label="本次申请放款金额(万元)" width="200" align="center">
                                 <template slot-scope="scope">
                                     {{scope.row.loanAmount}}万
                                 </template>
                             </el-table-column>
-                            <el-table-column label="状态" width="100" align="center">
+                            <el-table-column label="状态" width="150" align="center">
                                 <template slot-scope="scope">
                                     <div @click="findProgress(scope.row.id)">
-                                    {{scope.row.status}}
+                                    {{scope.row.status | statusToText}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -94,10 +94,26 @@
             // 查看详情信息
             detailsInfo(id){
                 this.$router.push({
-                    path:'loan-engloan-info?id=' + id
+                    path:'loan-apply-info?id=' + id
                 })
             }
-        }
+        },
+        // 过滤器
+        filters: {
+            statusToText(oldValue) {
+                switch (oldValue) {
+                    case '-1':
+                        return '未提交';
+                        break;
+                    case '5':
+                        return '待放款';
+                        break;
+                    default:
+                        return '审批中';
+                        break;
+                }
+            },
+        },
     }
 
 </script>

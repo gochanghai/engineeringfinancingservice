@@ -22,4 +22,6 @@ public interface LoanApplyService extends IService<LoanApplyEntity> {
 
     /** 获取资金方的放款批复信息list */
     List<LoanApplyEntity> listByFundCompanyId(Long id);
+    /** 获取一条放款申请信息 */
+    LoanApplyEntity loanApplyById(Long id);
 }

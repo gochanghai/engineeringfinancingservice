@@ -15,8 +15,8 @@
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
                             <el-table-column prop="creditNo" label="申请编号"/>
-                            <el-table-column prop="date" label="申请日期" width="200" align="center"/>
-                            <el-table-column prop="name" label="申请人" width="200" align="center">
+                            <el-table-column prop="date" label="申请日期" width="150" align="center"/>
+                            <el-table-column prop="name" label="申请人" align="center">
                             </el-table-column>
                             <el-table-column prop="projectName" label="项目名称" align="center"/>
                             <el-table-column label="项目进度" width="100" align="center">
@@ -31,12 +31,12 @@
                                     {{scope.row.applyAmount}}万
                                 </template>
                             </el-table-column>
-                            <el-table-column label="审批进度" width="150" align="center">
+                            <el-table-column label="审批进度" width="100" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.step + scope.row.status}}
+                                    {{scope.row.step + "-" + scope.row.status | statusToText}}
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="200">
+                            <el-table-column label="操作" width="100">
                                 <template slot-scope="scope">
                                     <!--<el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>-->
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
@@ -110,7 +110,23 @@
                     path:'credit-engloan-info?id=' + id
                 })
             }
-        }
+        },
+        // 过滤器
+        filters: {
+            statusToText(oldValue) {
+                switch (oldValue) {
+                    case '0-0':
+                        return '未提交';
+                        break;
+                    case '1-0':
+                        return '未处理';
+                        break;
+                    default:
+                        return '审批中';
+                        break;
+                }
+            },
+        },
     }
 
 </script>

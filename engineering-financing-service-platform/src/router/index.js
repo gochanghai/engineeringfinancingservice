@@ -205,13 +205,18 @@ export default new Router({
                 },
                 {
                     path: '/my-credit-el',
-                    component: resolve => require(['../components/page/mycredit/EngLoanList.vue'], resolve),
+                    component: resolve => require(['../components/page/mycredit/EngCreditList.vue'], resolve),
                     meta: { title: 'my-credit-el' }
                 },
                 {
                     path: '/my-loan-el',
                     component: resolve => require(['../components/page/myloan/EngLoanList.vue'], resolve),
                     meta: { title: 'my-loan-el' }
+                },
+                {
+                    path: '/loan-apply-info',
+                    component: resolve => require(['../components/page/myloan/LoanApplyInfo.vue'], resolve),
+                    meta: { title: 'loan-apply-info' }
                 },
                 // onlian end
 

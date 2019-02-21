@@ -55,6 +55,15 @@
         left join tb_project tb3 on tb1.p_id = tb3.id
 	</select>
 
+    <select id="selectLoanApplyInfoDetailsById" parameterType="long" resultMap="loanApplyMapsLazyLoading">
+		select
+			tb1.*, tb2.name,tb3.project_name
+		from tb_loan_apply tb1
+        left join tb_financier tb2 on tb1.f_id = tb2.id
+        left join tb_project tb3 on tb1.p_id = tb3.id
+		where tb1.id = #{id}
+	</select>
+
     <select id="selectProjectPurchaseOrderById" parameterType="long" resultType="com.shenhua119.leadservice.entity.ProjectPurchaseOrderEntity">
 		select
 			ppo.*

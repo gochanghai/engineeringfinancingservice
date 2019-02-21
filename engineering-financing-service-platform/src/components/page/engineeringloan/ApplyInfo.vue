@@ -66,7 +66,7 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="gotoReturn">返回</div>
                         <!--<div class="info-bottom-btn2">保存</div>-->
                         <!--<div class="info-bottom-btn2">保存并提交</div>-->
                     </div>
@@ -111,7 +111,12 @@
 
                 });
             },
-
+            // 返回按钮
+            gotoReturn(){
+                this.$router.push({
+                    path:'my-credit-el'
+                })
+            }
 
         }
     }
