@@ -6,10 +6,10 @@
                     <div slot="header" class="clearfix">
                         <span>授信列表</span>
                     </div>
-                    <!--<div class="top-btn-box">-->
-                        <!--<el-button type="warning" @click="add">新增</el-button>-->
+                    <div class="top-btn-box">
+                        <el-button type="warning" @click="add">新增</el-button>
                         <!--<el-button type="warning" @click="add" style="margin-left: 50px">导入</el-button>-->
-                    <!--</div>-->
+                    </div>
                     <div class="project-list-box">
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
@@ -109,8 +109,16 @@
                 this.$router.push({
                     path:'credit-engloan-info?id=' + id
                 })
+            },
+            // 添加授信
+            add(){
+                this.$router.push({
+                    path:'engineeringloan-credit-add'
+                })
             }
+
         },
+
         // 过滤器
         filters: {
             statusToText(oldValue) {
@@ -133,7 +141,7 @@
 
 <style scoped>
     .top-btn-box{
-        padding-bottom: 20px;
+        padding-bottom: 10px;
     }
 
 </style>

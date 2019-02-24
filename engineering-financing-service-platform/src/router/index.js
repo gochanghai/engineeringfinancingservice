@@ -218,6 +218,11 @@ export default new Router({
                     component: resolve => require(['../components/page/myloan/LoanApplyInfo.vue'], resolve),
                     meta: { title: 'loan-apply-info' }
                 },
+                {
+                    path: '/setting-changepassword',
+                    component: resolve => require(['../components/page/setting/ChangePassword.vue'], resolve),
+                    meta: { title: 'setting-changepassword' }
+                },
                 // onlian end
 
 

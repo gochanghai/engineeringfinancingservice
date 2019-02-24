@@ -70,9 +70,9 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
-                        <div class="info-bottom-btn2">保存并提交</div>
+                        <div class="info-bottom-btn1" @click="onReturn">返回</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
+                        <div class="info-bottom-btn2" @click="saveAndSubmit">保存并提交</div>
                     </div>
                 </el-card>
             </el-col>
@@ -190,7 +190,7 @@
 
             // 返回
             onReturn() {
-                this.$router.push("my-credit-project-list")
+                this.$router.push("my-credit-el")
             },
             // 保存
             save(){
@@ -218,7 +218,7 @@
                 }).catch(function (error) {
                     console.log(error);
                 });
-                this.$router.push("my-credit-project-list")
+                this.$router.push("my-credit-el")
             },
             // 保存并提交
             saveAndSubmit(){

@@ -13,8 +13,8 @@
                             </div>
                             <!--<div class="product-name"></div>-->
                             <div class="product-btn-box">
-                                <div class="product-btn1">申请授信</div>
-                                <div class="product-btn2">申请放款</div>
+                                <div class="product-btn1" @click="applyCredit">申请授信</div>
+                                <div class="product-btn2" @click="applyLoan">申请放款</div>
                             </div>
                         </div>
 
@@ -75,7 +75,22 @@
         created(){
         },
         methods: {
-
+            /**
+             * 工程贷 申请授信
+             */
+            applyCredit(){
+                this.$router.push({
+                    path:'engineeringloan-credit-add'
+                })
+            },
+            /**
+             * 工程贷 申请放款
+             */
+            applyLoan(){
+                this.$router.push({
+                    path:'engineeringloan-loan-add'
+                })
+            }
         }
     }
 

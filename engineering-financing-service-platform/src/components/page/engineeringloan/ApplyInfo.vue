@@ -7,7 +7,7 @@
                         <span>授信申请详情</span>
                     </div>
                     <!-- 项目信息 -->
-                    <div class="info-box" v-show="!isShowFile">
+                    <div class="info-box">
                         <div class="info-title">审批中...</div>
                         <div class="info-btn-box">
                             <!--<div class="is-show-btn">展开</div>-->
@@ -44,16 +44,13 @@
                                             <el-form-item label="银行流水：" style="margin-bottom: 0">
                                                 <div class="file-box">
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                        <!--<el-upload-->
-                                                                <!--class="avatar-uploader"-->
-                                                                <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-                                                                <!--:show-file-list="false">-->
-                                                            <!--<img v-if="applyInfo.creditApply.bankListFile === null" class="avatar">-->
-                                                            <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-                                                        <!--</el-upload>-->
-                                                        <img v-if="applyInfo.creditApply.bankListFile !== null" class="avatar"
-                                                             :src="filesystem + applyInfo.creditApply.bankListFile"
-                                                             @click="isShowFile = !isShowFile">
+                                                        <el-upload
+                                                                class="avatar-uploader"
+                                                                action="https://jsonplaceholder.typicode.com/posts/"
+                                                                :show-file-list="false">
+                                                            <img v-if="applyInfo.creditApply.bankListFile === null" class="avatar">
+                                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                                        </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
                                                     </el-card>
                                                 </div>
@@ -67,13 +64,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="info-box" v-show="isShowFile">
-                        <img :src="filesystem + applyInfo.creditApply.bankListFile" width="100%" height="100%"/>
-                    </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1" v-if="!isShowFile" @click="gotoReturn">返回</div>
-                        <div class="info-bottom-btn2" v-else @click="isShowFile = !isShowFile">保存</div>
+                        <div class="info-bottom-btn1" @click="gotoReturn">返回</div>
+                        <!--<div class="info-bottom-btn2">保存</div>-->
                         <!--<div class="info-bottom-btn2">保存并提交</div>-->
                     </div>
                 </el-card>
@@ -89,10 +83,8 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 id: this.$route.query.id,
-                filesystem: localStorage.getItem("fileBasePath"),
                 isAgree: false,
                 applyInfo: '',
-                isShowFile: false,
             }
         },
         components: {
@@ -124,7 +116,8 @@
                 this.$router.push({
                     path:'my-credit-el'
                 })
-            },
+            }
+
         }
     }
 

@@ -43,8 +43,8 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn1" @click="gotoReturn">返回</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -87,17 +87,17 @@
                 // 检验
                 rules: {
                     projectName: [
-                        { required: true, message: '请输入分公司名称', trigger: 'blur' },
+                        { required: true, message: '请输入项目名称', trigger: 'blur' },
                     ],
                     contractNo: [
-                        { required: true, message: '请输入分公司地址', trigger: 'blur' },
+                        { required: true, message: '请输入合同编号', trigger: 'blur' },
                     ],
                     contractAmount: [
-                        { required: true, message: '请输入分公司负责人', trigger: 'blur' },
+                        { required: true, message: '请输入合同金额', trigger: 'blur' },
                     ],
                     shouldCreditAmount: [
-                        { required: true, message: '请输入联系电话', trigger: 'blur' },
-                        { validator:  checkPhone, trigger: 'blur' }
+                        { required: true, message: '请输入授信金额', trigger: 'blur' },
+                        // { validator:  checkPhone, trigger: 'blur' }
                     ],
                 },
 
@@ -155,14 +155,16 @@
                         }
                     )).then((response)=> {
                     console.log(response);
-                    _than.$router.push("project-list")
+                    _than.$router.push("project-list");
                 }).catch(function (error) {
                     console.log(error);
                 });
                 console.log(this.form);
 
             },
-
+            gotoReturn(){
+                this.$router.push("project-list");
+            },
 
         }
     }

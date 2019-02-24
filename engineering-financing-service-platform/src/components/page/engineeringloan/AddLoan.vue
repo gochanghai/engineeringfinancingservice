@@ -152,8 +152,8 @@
 
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn1" @click="onReturn">返回</div>
+                        <div class="info-bottom-btn2" @click="saveAndSubmit">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -189,6 +189,9 @@
                     bankAccountName: null, openAccountBank: null
                 }
                 ],
+                rules:{
+
+                },
                 file_index: null,
                 file_name: null,
             }
@@ -320,9 +323,11 @@
                 // 保存采购信息
                 this.savePurchInfo();
 
-                this.$router.push("my-loan-apply-list")
+                this.$router.push("my-loan-el")
             },
-
+            onReturn(){
+                this.$router.push("my-loan-el")
+            }
         }
     }
 

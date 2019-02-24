@@ -6,7 +6,7 @@
                     <div slot="header" class="clearfix">
                         <span>身份认证</span>
                     </div>
-                    <!-- 身份认证 -->
+                    <!-- 认证步骤 -->
                     <div class="info-box">
                         <div class="info-title">
                             <div class="steps-box" style="width: 600px">
@@ -16,11 +16,11 @@
                                         绑定银行卡
                                         <div class="triangle"></div>
                                     </li>
-                                    <li class="active2">
+                                    <li :class="{active: step>= 2 }">
                                         上传认证资料
                                         <div class="triangle"></div>
                                     </li>
-                                    <li>
+                                    <li :class="{active: step ===3 }">
                                         完成
                                         <div class="triangle"></div>
                                     </li>
@@ -31,11 +31,11 @@
                             <!--<div class="is-show-btn">展开</div>-->
                             <div class="info-content">
                                 <!-- 绑定银行卡 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 1">
                                     <div class="content-lable1">绑定银行卡</div>
                                     <!--<div class="content-lable2">查看示例</div>-->
                                 </div>
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 1">
                                     <el-form ref="form" :model="form" :rules="rules1" label-width="100px">
                                         <el-form-item label="姓名：">张三</el-form-item>
                                         <el-form-item label="身份证号：">430426198502134569</el-form-item>
@@ -437,9 +437,9 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">上一步</div>
-                        <div class="info-bottom-btn2">下一步</div>
+                        <div class="info-bottom-btn1" v-show="step === 1">返回</div>
+                        <div class="info-bottom-btn2" v-show="step > 1" @click="step -= 1">上一步</div>
+                        <div class="info-bottom-btn2" v-show="step < 3" @click="step += 1">下一步</div>
                         <div class="info-bottom-btn2">进入首页</div>
                     </div>
                 </el-card>
@@ -505,6 +505,7 @@
                 userInfo: null,
                 uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
+                step: 1,
                 bankCheck: null,
                 bankCode: null, // 银行代码
                 cardNo: '', // 银行卡号

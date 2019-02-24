@@ -76,19 +76,24 @@
                          */
                         if (code === 100) {
                             console.log('ssss');
-                            localStorage.setItem("fileBasePath",resultDate.fileBasePath);
-                            localStorage.setItem('ms_username',_than.ruleForm.username);
+                            localStorage.setItem("fileBasePath", resultDate.fileBasePath);
+                            localStorage.setItem('ms_username', _than.ruleForm.username);
                             localStorage.setItem('userInfo', resultDate.userInfo);
                             console.log("roleId: " + resultDate.userInfo.roleId);
                             localStorage.setItem('role', resultDate.userInfo.roleId);
                             localStorage.setItem('userInfoId', resultDate.userInfo.userInfoId);
-                            if(resultDate.userInfo.roleId === 3){
+                            if (resultDate.userInfo.roleId === '3') {
                                 localStorage.setItem('user_name', resultDate.nickname);
                                 localStorage.setItem('real_name', resultDate.realname);
                             }
                             // 设置附件上传地址
                             localStorage.setItem('uploadPath', 'http://192.168.1.98:8088/filesystem/upload/');
-                            _than.$router.push("/");
+                            if (resultDate.userInfo.roleId === '3') {
+                                console.log("home2: ");
+                                _than.$router.push("home2");
+                            } else {
+                                _than.$router.push("/");
+                            }
 
                         }
                         /**
@@ -96,7 +101,6 @@
                          */
                         if(code === 200){
                             _than.$message.success(res.data.extend);
-                            console.log('wwwwwwwwwww');
                         }
                     }).catch(function (error) {
                         console.log(error);

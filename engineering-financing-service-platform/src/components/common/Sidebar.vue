@@ -250,6 +250,11 @@
                 if(roleId === '3'){
                     this.items = [
                         {
+                            icon: 'el-icon-lx-home',
+                            index: 'home2',
+                            title: '首页'
+                        },
+                        {
                             icon: 'el-icon-lx-sort',
                             index: 'my-project',
                             title: '我的项目'
@@ -288,6 +293,21 @@
                             icon: 'el-icon-lx-commentfill',
                             index: 'message-list',
                             title: '消息'
+                        },
+                        {
+                            icon: 'el-icon-lx-settings',
+                            index: 'setting',
+                            title: '设置',
+                            subs: [
+                                {
+                                    index: 'setting-changepassword',
+                                    title: '修改密码',
+                                },
+                                {
+                                    index: 'businessmanager-authen',
+                                    title: '认证信息',
+                                }
+                            ]
                         },
                     ];
                     return;
