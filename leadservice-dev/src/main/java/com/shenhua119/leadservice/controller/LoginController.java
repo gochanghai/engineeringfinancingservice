@@ -43,32 +43,41 @@ public class LoginController {
     public Msg login(String userName, String password){
 
         System.out.println(userName + "用户登录");
-
+        /**
+         * 使用用户名登陆
+         */
         User user1= userService.getOne(new QueryWrapper<User>().eq("user_name",userName));
-        User user2 = userService.getOne(new QueryWrapper<User>().eq("phone",userName));
-        // 判断是否是用户名登录
+        // 判断用户名是否存在
         if ( user1 != null){
             if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)){
                 System.out.println("用户名登录：" + userName);
                 System.out.println("roleId: " + user1.getRoleId());
+                // 用户角色判断
                 if ( user1.getRoleId() == 1 ){
-
                     return Msg.success().add("userInfo",user1).add("fileBasePath",fileBasePath);
                 }
                 if ( user1.getRoleId() == 2 ){
-
                     return Msg.success().add("userInfo",user1).add("fileBasePath",fileBasePath);
                 }
                 if ( user1.getRoleId() == 3 ){
-                    FinancierEntity financierEntity = financierService.getById(user1.getUserInfoId());
-                    return Msg.success().add("userInfo",user1).add("userInfo2", financierEntity)
-                            .add("fileBasePath",fileBasePath);
+
+                    FinancierEntity financier = financierService.getById(user1.getUserInfoId());
+
+                    return Msg.success().add("userInfo",user1)
+                                        .add("nickname", financier.getName())
+                                        .add("realname", financier.getName())
+                                        .add("fileBasePath",fileBasePath);
                 }
                 return Msg.success().add("userInfo",user1).add("fileBasePath",fileBasePath);
             }
+            return Msg.fail().add("message","密码错误");
         }
 
-        // 判断是否是用手机登录
+        /**
+         * 使用手机号登陆
+         */
+        User user2 = userService.getOne(new QueryWrapper<User>().eq("phone",userName));
+        // 判断用户是否存在
         if ( user2 != null){
             if (user2.getPhone().equals(userName) && user2.getPassword().equals(password)){
                 System.out.println("手机登录： " + userName);
@@ -80,9 +89,10 @@ public class LoginController {
                 }
                 return Msg.success().add("userInfo",user2).add("fileBasePath",fileBasePath);
             }
+            return Msg.fail().add("message","密码错误");
         }
 
-        return Msg.fail().add("result", "用户名或密码不正确");
+        return Msg.fail().add("message", "用户名不存在");
     }
 
 }

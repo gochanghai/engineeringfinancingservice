@@ -67,24 +67,37 @@
                                 userName: this.ruleForm.username,
                                 password: this.ruleForm.password,
                             }
-                        )).then(function (response) {
-                        console.log(response);
-                        if (response.data.code = 100) {
-                            let resultDate = response.data.extend;
+                        )).then(function (res) {
+                        console.log(res);
+                        let resultDate = res.data.extend;
+                        let code = res.data.code;
+                        /**
+                         * 判断用户是否登陆成功
+                         */
+                        if (code === 100) {
+                            console.log('ssss');
                             localStorage.setItem("fileBasePath",resultDate.fileBasePath);
-                            localStorage.setItem('ms_username', _than.ruleForm.username);
+                            localStorage.setItem('ms_username',_than.ruleForm.username);
                             localStorage.setItem('userInfo', resultDate.userInfo);
                             console.log("roleId: " + resultDate.userInfo.roleId);
                             localStorage.setItem('role', resultDate.userInfo.roleId);
                             localStorage.setItem('userInfoId', resultDate.userInfo.userInfoId);
                             if(resultDate.userInfo.roleId === 3){
-                                console.log("name: " + resultDate.userInfo2.name);
-                                localStorage.setItem('user_name', resultDate.userInfo2.name);
+                                localStorage.setItem('user_name', resultDate.nickname);
+                                localStorage.setItem('real_name', resultDate.realname);
                             }
+                            // 设置附件上传地址
+                            localStorage.setItem('uploadPath', 'http://192.168.1.98:8088/filesystem/upload/');
+                            _than.$router.push("/");
+
                         }
-                        // 设置附件上传地址
-                        localStorage.setItem('uploadPath', 'http://192.168.1.98:8088/filesystem/upload/');
-                        _than.$router.push("/")
+                        /**
+                         * 用户登录失败
+                         */
+                        if(code === 200){
+                            _than.$message.success(res.data.extend);
+                            console.log('wwwwwwwwwww');
+                        }
                     }).catch(function (error) {
                         console.log(error);
                     });

@@ -45,46 +45,7 @@
                     },
 
                     // online start
-                    {
-                        icon: 'el-icon-lx-sort',
-                        index: 'my-project',
-                        title: '我的项目'
-                    },
-                    {
-                        icon: 'el-icon-lx-vipcard',
-                        index: 'my-credit',
-                        title: '我的授信',
-                        subs: [
-                            {
-                                index: 'my-credit-el',
-                                title: '工程贷',
-                            },
-                            {
-                                index: 'my-credit-hl',
-                                title: '房易贷',
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-lx-rechargefill',
-                        index: 'my-loan',
-                        title: '我的放款',
-                        subs: [
-                            {
-                                index: 'my-loan-el',
-                                title: '工程贷',
-                            },
-                            {
-                                index: 'my-loan-hl',
-                                title: '房易贷',
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-lx-profile',
-                        index: 'my-business-manager',
-                        title: '我的商务经理'
-                    },
+
                     {
                         icon: 'el-icon-lx-home',
                         index: 'home1',
@@ -100,31 +61,19 @@
                         index: 'product-add',
                         title: '添加产品'
                     },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'financecompany-list',
-                        title: '资金方管理'
-                    },
+
                     {
                         icon: 'el-icon-lx-home',
                         index: 'financecompany-add',
                         title: '添加资金方'
                     },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'engineeringcompany-list',
-                        title: '工程公司管理'
-                    },
+
                     {
                         icon: 'el-icon-lx-home',
                         index: 'engineeringcompany-add',
                         title: '添加工程公司'
                     },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'childcompany-list',
-                        title: '我的分公司'
-                    },
+
                     {
                         icon: 'el-icon-lx-home',
                         index: 'childcompany-add',
@@ -175,85 +124,7 @@
                         index: 'engineeringloan-credit-apply-info',
                         title: '授信申请信息'
                     },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'engineeringloan-credit-apply-list',
-                        title: '授信申请列表'
-                    },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'engineeringloan-loan-apply-list',
-                        title: '放款申请列表'
-                    },
-                    {
-                        icon: 'el-icon-rank',
-                        index: 'project',
-                        title: '工程管理',
-                        subs: [
-                            {
-                                index: 'fire-project-list',
-                                title: '消防工程',
-                            },
-                            {
-                                index: 'mainten-priject-list',
-                                title: '维保工程',
-                            },
-                            {
-                                index: 'project-list',
-                                title: '可授信项目',
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-lx-commentfill',
-                        index: 'message-list',
-                        title: '消息'
-                    },
-                    {
-                        icon: 'el-icon-lx-file',
-                        index: 'file',
-                        title: '文件管理',
-                        subs: [
-                            {
-                                index: 'file-list',
-                                title: '文件列表',
-                            },
-                            {
-                                index: 'file-preview',
-                                title: '文件预览',
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-lx-newsfill',
-                        index: 'product',
-                        title: '金融产品管理',
-                        subs: [
-                            {
-                                index: 'product-list',
-                                title: '产品列表',
-                            },
-                            {
-                                index: 'product-preview',
-                                title: '文件预览',
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'engineeringloan-credit-list4',
-                        title: '授信批复列表'
-                    },
-                    {
-                        icon: 'el-icon-lx-home',
-                        index: 'engineeringloan-loan-list3',
-                        title: '放款批复列表'
-                    },
-                    {
-                        icon: 'el-icon-lx-friend',
-                        index: 'mycustomer-list',
-                        title: '我的客户'
-                    },
+
                     // online end
                     {
                         icon: 'el-icon-lx-home',
@@ -348,11 +219,220 @@
             }
         },
         created(){
-            // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+            /**
+             * 获取用户角色ID
+             */
+            let roleId = localStorage.getItem("role");
+
+            /**
+             * 获取用户导航菜单
+             */
+            this.setUserNavMenuByRoleId(roleId);
+
+            /**
+             * 通过 Event Bus 进行组件间通信，来折叠侧边栏
+             */
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })
+        },
+
+        /**
+         * 方法函数区
+         */
+        methods: {
+            /**
+             * 根据用户的角色ID设置用户的导航菜单功能
+             * @param roleId
+             */
+            setUserNavMenuByRoleId(roleId){
+                // 判断是否商务经理
+                if(roleId === '3'){
+                    this.items = [
+                        {
+                            icon: 'el-icon-lx-sort',
+                            index: 'my-project',
+                            title: '我的项目'
+                        },
+                        {
+                            icon: 'el-icon-lx-vipcard',
+                            index: 'my-credit',
+                            title: '我的授信',
+                            subs: [
+                                {
+                                    index: 'my-credit-el',
+                                    title: '工程贷',
+                                },
+                                {
+                                    index: 'my-credit-hl',
+                                    title: '房易贷',
+                                }
+                            ]
+                        },
+                        {
+                            icon: 'el-icon-lx-rechargefill',
+                            index: 'my-loan',
+                            title: '我的放款',
+                            subs: [
+                                {
+                                    index: 'my-loan-el',
+                                    title: '工程贷',
+                                },
+                                {
+                                    index: 'my-loan-hl',
+                                    title: '房易贷',
+                                }
+                            ]
+                        },
+                        {
+                            icon: 'el-icon-lx-commentfill',
+                            index: 'message-list',
+                            title: '消息'
+                        },
+                    ];
+                    return;
+                }
+
+                // 判断是否工程公司
+                if(roleId === '1'){
+                    this.items = [
+                        {
+                            icon: 'el-icon-lx-profile',
+                            index: 'my-business-manager',
+                            title: '我的商务经理'
+                        },
+                        {
+                            icon: 'el-icon-rank',
+                            index: 'project',
+                            title: '工程贷',
+                            subs: [
+                                {
+                                    icon: 'el-icon-lx-home',
+                                    index: 'engineeringloan-credit-apply-list',
+                                    title: '授信申请管理'
+                                },
+                                {
+                                    icon: 'el-icon-lx-home',
+                                    index: 'engineeringloan-credit-apply-list',
+                                    title: '授信审批管理'
+                                },
+                                {
+                                    icon: 'el-icon-lx-home',
+                                    index: 'engineeringloan-loan-apply-list',
+                                    title: '放款申请管理'
+                                },
+                            ]
+                        },
+                        {
+                            icon: 'el-icon-rank',
+                            index: 'project',
+                            title: '工程管理',
+                            subs: [
+                                {
+                                    index: 'project-list',
+                                    title: '可授信项目',
+                                },
+                                {
+                                    index: 'fire-project-list',
+                                    title: '消防工程',
+                                },
+                                {
+                                    index: 'mainten-priject-list',
+                                    title: '维保工程',
+                                },
+                            ]
+                        },
+                        {
+                            icon: 'el-icon-lx-commentfill',
+                            index: 'message-list',
+                            title: '消息'
+                        },
+                        {
+                            icon: 'el-icon-lx-home',
+                            index: 'childcompany-list',
+                            title: '我的分公司'
+                        },
+                    ];
+                    return;
+                }
+
+                // 判断是否资金方
+                if(roleId === '2'){
+                    this.items = [
+                        {
+                            icon: 'el-icon-lx-friend',
+                            index: 'mycustomer-list',
+                            title: '我的客户'
+                        },
+                        {
+                            icon: 'el-icon-lx-home',
+                            index: 'engineeringloan-credit-list4',
+                            title: '授信批复列表'
+                        },
+                        {
+                            icon: 'el-icon-lx-home',
+                            index: 'engineeringloan-loan-list3',
+                            title: '放款批复列表'
+                        },
+                        {
+                            icon: 'el-icon-lx-commentfill',
+                            index: 'message-list',
+                            title: '消息'
+                        },
+                    ];
+                    return;
+                }
+
+                // 判断是否平台用户
+                if(roleId === '0'){
+                    this.items = [
+                        {
+                            icon: 'el-icon-lx-home',
+                            index: 'engineeringcompany-list',
+                            title: '工程公司管理'
+                        },
+                        {
+                            icon: 'el-icon-lx-home',
+                            index: 'financecompany-list',
+                            title: '资金方管理'
+                        },
+                        {
+                            icon: 'el-icon-lx-newsfill',
+                            index: 'product',
+                            title: '金融产品管理',
+                            subs: [
+                                {
+                                    index: 'product-list',
+                                    title: '产品列表',
+                                },
+                                {
+                                    index: 'product-preview',
+                                    title: '文件预览',
+                                }
+                            ]
+                        },
+                        {
+                            icon: 'el-icon-lx-file',
+                            index: 'file',
+                            title: '文件管理',
+                            subs: [
+                                {
+                                    index: 'file-list',
+                                    title: '文件列表',
+                                },
+                                {
+                                    index: 'file-preview',
+                                    title: '文件预览',
+                                }
+                            ]
+                        },
+                    ];
+                    return;
+                }
+
+            }
         }
+
     }
 </script>
 

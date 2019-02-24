@@ -17,30 +17,62 @@ import java.io.Serializable;
 @TableName("tb_user")
 public class User implements Serializable {
 
-    // 用户主键ID
+    /**
+     * 用户主键ID
+     */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long userId;
 
-    // 用户名
+    /**
+     * 用户名
+     */
     private String userName;
 
-    // 手机号码
+    /**
+     * 手机号
+     */
     private String phone;
 
-    // 密码
+    /**
+     * 密码
+     */
     private String password;
 
-    // 角色ID
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 头像
+     */
+    private String headimgurl;
+
+    /**
+     * 微信ID
+     */
+    private String wxopenid;
+
+    /**
+     * 角色ID
+     */
     @JsonSerialize(using=ToStringSerializer.class)
     private Long roleId;
 
-    // 用户信息ID
+    /**
+     * 用户信息ID
+     */
     @JsonSerialize(using=ToStringSerializer.class)
     private Long userInfoId;
 
-    // 用户类别
+    /**
+     * 用户类别（融资人、工程公司、资金方、平台）
+     */
     private Integer userType;
 
-    // 用户状态
+    /**
+     * 用户状态
+     */
     private Integer status;
+
 }
