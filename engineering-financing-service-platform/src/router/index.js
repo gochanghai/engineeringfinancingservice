@@ -223,6 +223,11 @@ export default new Router({
                     component: resolve => require(['../components/page/setting/ChangePassword.vue'], resolve),
                     meta: { title: 'setting-changepassword' }
                 },
+                {
+                    path: '/setting-changeheadimg',
+                    component: resolve => require(['../components/page/setting/ChangeHeadImg.vue'], resolve),
+                    meta: { title: 'setting-changeheadimg' }
+                },
                 // onlian end
 
 

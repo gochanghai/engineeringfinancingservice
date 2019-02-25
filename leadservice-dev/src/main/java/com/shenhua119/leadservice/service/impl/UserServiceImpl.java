@@ -53,7 +53,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         // 判断对象是否为空
         if (user != null){
             // 比较原始密码是否一致
+            System.out.println("修改密码2");
             if (user.getPassword().equals(oldPassword)){
+                System.out.println("修改密码3");
                 user.setPassword(newPassword);
                 updateById(user);
                 return true;

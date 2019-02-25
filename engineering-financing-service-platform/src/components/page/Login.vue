@@ -79,7 +79,7 @@
                             localStorage.setItem("fileBasePath", resultDate.fileBasePath);
                             localStorage.setItem('ms_username', _than.ruleForm.username);
                             localStorage.setItem('userInfo', resultDate.userInfo);
-                            console.log("roleId: " + resultDate.userInfo.roleId);
+                            localStorage.setItem('userId', resultDate.userInfo.id);
                             localStorage.setItem('role', resultDate.userInfo.roleId);
                             localStorage.setItem('userInfoId', resultDate.userInfo.userInfoId);
                             if (resultDate.userInfo.roleId === '3') {

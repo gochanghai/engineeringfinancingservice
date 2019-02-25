@@ -39,7 +39,7 @@
 
 <script>
     export default {
-        name: 'add-branch-company',
+        name: 'change-password',
         data() {
             var newPassword = (rule, value, callback) => {
                 if (!value) {
@@ -55,14 +55,21 @@
                         callback();
                     }
             };
+            var newPassword2 = (rule, value, callback) => {
+
+                if (value != this.form.newPassword) {
+                    callback(new Error('新密码和确认密码不一样'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 name: localStorage.getItem('ms_username'),
-                labelPosition: "right",
-                form: {
-                    oldPassword: null,
-                    newPassword: null,
-                    newPassword2: null,
-                    userId: '',
+                userId: localStorage.getItem('userId'),
+                form:{
+                    oldPassword: '',
+                    newPassword: '',
+                    newPassword2: '',
                 },
                 // 检验
                 rules: {
@@ -74,10 +81,18 @@
                     ],
                     newPassword2: [
                         { required: true, message: '请输入确认密码', trigger: 'blur' },
+                        { validator:  newPassword2, trigger: 'blur' }
                     ],
                 },
 
             }
+        },
+        // 监听器
+        watch: {
+            // 'form.newPassword2': function () {
+            //     this.form.bankCardNo = this.cardNo.replace(/\s+/g,"");
+            //     this.cardNo = this.cardNo.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1 ");
+            // }
         },
         components: {
         },
@@ -92,18 +107,21 @@
         methods: {
             save(){
                 let _than = this;
-                this.$axios.post('cc/save',
+                this.$axios.put('user/change_password',
                     this.qs.stringify(
                         {
-                            companyName: this.form.companyName,
-                            companyAddress: this.form.companyAddress,
-                            contactPerson: this.form.contactPerson,
-                            phone: this.form.phone,
-                            pId: this.form.pId,
+                            id: this.userId,
+                            newPassword: this.form.newPassword,
+                            oldPassword: this.form.oldPassword,
                         }
-                    )).then( (response)=> {
-                    console.log(response);
-                    _than.$router.push("childcompany-list")
+                    )).then( (res)=> {
+                    console.log(res);
+                    if(res.data.code === 100){
+                        _than.$message.success("密码修改成功");
+                        _than.$router.push("home2")
+                        return;
+                    }
+                    _than.$message.success("密码修改失败");
                 }).catch(function (error) {
                     console.log(error);
                 });

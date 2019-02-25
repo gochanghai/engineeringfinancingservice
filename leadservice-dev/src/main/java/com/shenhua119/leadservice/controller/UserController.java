@@ -47,7 +47,7 @@ public class UserController {
      * @param headimgur
      * @return
      */
-    @PutMapping("changeheadimgurl")
+    @PutMapping("change_headimgurl")
     public Msg changeHeadimgurl(Long id, String headimgur){
         boolean result = userService.updateHeadimgurl(id,headimgur);
         // 判断是否修改成功
@@ -65,8 +65,9 @@ public class UserController {
      * @param newPassword
      * @return
      */
-    @PutMapping("update_password")
+    @PutMapping("change_password")
     public Msg changePassword(Long id, String oldPassword, String newPassword){
+        System.out.println("用户修改密码1");
         boolean result = userService.updatePassword(id,oldPassword,newPassword);
         // 判断密码是否修改成功
         if (result){

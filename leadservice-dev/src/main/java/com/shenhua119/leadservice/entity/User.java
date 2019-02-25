@@ -21,7 +21,7 @@ public class User implements Serializable {
      * 用户主键ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long userId;
+    private Long id;
 
     /**
      * 用户名

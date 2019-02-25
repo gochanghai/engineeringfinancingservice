@@ -304,6 +304,10 @@
                                     title: '修改密码',
                                 },
                                 {
+                                    index: 'setting-changeheadimg',
+                                    title: '修改头像',
+                                },
+                                {
                                     index: 'businessmanager-authen',
                                     title: '认证信息',
                                 }
