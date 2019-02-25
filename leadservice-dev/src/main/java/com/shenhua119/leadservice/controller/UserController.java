@@ -1,7 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.FinancierHouseEntity;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.UserService;
 import com.shenhua119.leadservice.util.Msg;
@@ -18,7 +17,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 获取工程公司的用户
+    /**
+     * 获取工程公司的用户
+     * @param id
+     * @return
+     */
     @GetMapping("list")
     public Msg getCompanyUserById(Long id){
         System.out.println("用户" + id + " 获取账号");
@@ -26,7 +29,11 @@ public class UserController {
         return Msg.success().add("list", list);
     }
 
-    // 获取平台的用户
+    /**
+     * 获取平台的用户
+     * @param id
+     * @return
+     */
     @GetMapping("users")
     public Msg getUserListByRoleId(Long id){
         System.out.println("用户" + id + " 获取账号");
@@ -34,48 +41,40 @@ public class UserController {
         return Msg.success().add("list", list);
     }
 
+    /**
+     * 修改头像
+     * @param id
+     * @param headimgur
+     * @return
+     */
+    @PutMapping("changeheadimgurl")
+    public Msg changeHeadimgurl(Long id, String headimgur){
+        boolean result = userService.updateHeadimgurl(id,headimgur);
+        // 判断是否修改成功
+        if (result){
+            return Msg.success();
+        }
+        return Msg.fail();
 
-    // 使用post请求访问
-    @PostMapping("/login")
-    public Msg login(User user) {
-        System.out.println("login");
-        System.out.println("vue post test" + user.getUserName() + user.getPassword() + user.getUserId());
-        return Msg.success().add("userInfo", "融资人，ID=100");
-    }
-
-    // 使用post请求访问
-    @PostMapping("list2")
-    public String login(@RequestBody List<FinancierHouseEntity> houses) {
-        System.out.println(" vue post list");
-        System.out.println("vue post size(): " + houses.size());
-        return "vuepost";
-    }
-
-    @GetMapping("/vueget")
-    public String getVueTest(User user){
-        System.out.println("vue get test" + user.getUserName() + user.getPassword() + user.getUserId());
-        System.out.println("vue get test");
-        return "vueget";
-    }
-    @PutMapping("/vueput")
-    public String putVueTest(User user){
-        System.out.println("vue put test" + user.getUserName() + user.getPassword() + user.getUserId());
-        return "vueput";
-    }
-    @DeleteMapping("/vuedelete")
-    public String deleteVueTest(User user){
-        System.out.println("vue delete test" + user.getUserName() + user.getPassword() + user.getUserId());
-        System.out.println("vue delete test");
-        return "vuedelete";
     }
 
-    // 使用get请求访问
-    @GetMapping("list2")
-    public List<User> getUser() {
-        System.out.println("12" +
-                "45666");
-        List<User> list = userService.getUserList();
-        System.out.println("lis size； " + list.size() );
-        return list;
+    /**
+     * 修改密码
+     * @param id
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @PutMapping("update_password")
+    public Msg changePassword(Long id, String oldPassword, String newPassword){
+        boolean result = userService.updatePassword(id,oldPassword,newPassword);
+        // 判断密码是否修改成功
+        if (result){
+            return Msg.success();
+        }
+        return Msg.fail();
+
     }
+
+
 }

@@ -9,4 +9,28 @@ public interface UserService extends IService<User> {
 
     public List<User> getUserList();
 
+    /**
+     * 修改密码
+     * @param id
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    boolean updatePassword(Long id, String oldPassword, String newPassword);
+
+    /**
+     * 修改头像
+     * @param id
+     * @param headimgurl
+     * @return
+     */
+    boolean updateHeadimgurl(Long id, String headimgurl);
+
+    /**
+     * 修改昵称
+     * @param id
+     * @param nickname
+     * @return
+     */
+    boolean updateNickname(Long id, String nickname);
 }

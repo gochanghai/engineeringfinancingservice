@@ -21,4 +21,46 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         return userDao.selectList(null);
     }
 
+    @Override
+    public boolean updateHeadimgurl(Long id, String headimgurl) {
+        User user = userDao.selectById(id);
+        // 判断对象是否为空
+        if (user != null){
+            user.setHeadimgurl(headimgurl);
+            userDao.updateById(user);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean updateNickname(Long id, String nickname) {
+        User user = userDao.selectById(id);
+        // 判断对象是否为空
+        if (user != null){
+            user.setNickname(nickname);
+            userDao.updateById(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(Long id, String oldPassword, String newPassword) {
+
+        User user = userDao.selectById(id);
+        // 判断对象是否为空
+        if (user != null){
+            // 比较原始密码是否一致
+            if (user.getPassword().equals(oldPassword)){
+                user.setPassword(newPassword);
+                updateById(user);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
 }
