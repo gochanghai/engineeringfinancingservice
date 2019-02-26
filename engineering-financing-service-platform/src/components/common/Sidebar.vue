@@ -321,23 +321,28 @@
                 if(roleId === '1'){
                     this.items = [
                         {
+                            icon: 'el-icon-lx-home',
+                            index: '/',
+                            title: '首页'
+                        },
+                        {
                             icon: 'el-icon-lx-profile',
                             index: 'my-business-manager',
                             title: '我的商务经理'
                         },
                         {
-                            icon: 'el-icon-rank',
-                            index: 'project',
+                            icon: 'el-icon-lx-newsfill',
+                            index: 'eng-loan',
                             title: '工程贷',
                             subs: [
                                 {
                                     icon: 'el-icon-lx-home',
-                                    index: 'engineeringloan-credit-apply-list',
+                                    index: 'engineeringloan-credit-ec-list1',
                                     title: '授信申请管理'
                                 },
                                 {
                                     icon: 'el-icon-lx-home',
-                                    index: 'engineeringloan-credit-apply-list',
+                                    index: 'engineeringloan-credit-ec-list2',
                                     title: '授信审批管理'
                                 },
                                 {
@@ -375,6 +380,29 @@
                             icon: 'el-icon-lx-home',
                             index: 'childcompany-list',
                             title: '我的分公司'
+                        },
+                        {
+                            icon: 'el-icon-lx-settings',
+                            index: 'setting',
+                            title: '设置',
+                            subs: [
+                                {
+                                    index: 'setting-changepassword',
+                                    title: '修改密码',
+                                },
+                                {
+                                    index: 'setting-changeheadimg',
+                                    title: '修改头像',
+                                },
+                                {
+                                    index: 'setting-usermanager',
+                                    title: '用户管理',
+                                },
+                                {
+                                    index: 'my-info-ec',
+                                    title: '我的信息',
+                                }
+                            ]
                         },
                     ];
                     return;
@@ -422,16 +450,16 @@
                         },
                         {
                             icon: 'el-icon-lx-newsfill',
-                            index: 'product',
-                            title: '金融产品管理',
+                            index: 'eng-loan',
+                            title: '工程贷',
                             subs: [
                                 {
-                                    index: 'product-list',
-                                    title: '产品列表',
+                                    index: 'engineeringloan-credit-list',
+                                    title: '授信申请管理',
                                 },
                                 {
-                                    index: 'product-preview',
-                                    title: '文件预览',
+                                    index: 'engineeringloan-loan-apply-list',
+                                    title: '放款申请管理',
                                 }
                             ]
                         },

@@ -46,23 +46,16 @@
                             </el-table-column>
                             <el-table-column label="审批进度" width="80" align="center">
                                 <template slot-scope="scope">
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待发起协议</el-tag>-->
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待资金方批复</el-tag>-->
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 3 && scope.row.status === 0">待平台审批</el-tag>-->
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 2 && scope.row.status === 0">待担保审批</el-tag>-->
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 1 ">已提交</el-tag>-->
-                                    <!--<el-tag type="warning" v-show="scope.row.step === 0 && scope.row.status === 0">未提交</el-tag>-->
                                     <el-tag type="warning">
                                         {{scope.row.step +'-'+ scope.row.status | statusToText}}
                                     </el-tag>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="操作" width="160" align="left">
+                            <el-table-column label="操作" width="180" align="left">
                                 <template slot-scope="scope">
                                     <el-button type="warning" size="mini" @click="gotoInfoDetails(scope.row.id)" >详情</el-button>
-                                    <el-button type="warning" size="mini" v-if="scope.row.step === 3"  v-show="scope.row.status === 0" @click="gotoApprove(scope.row.id)">去审批</el-button>
+                                    <el-button type="warning" size="mini" v-show="scope.row.step === 2 && scope.row.status === 0" @click="gotoApprove(scope.row.id)">去审批</el-button>
                                     <!--<el-button type="text" @click="handleEdit(scope.$index, scope.row)">去审批</el-button>-->
-                                    <!--<el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -257,7 +250,7 @@
                         return '未提交';
                         break;
                     case '1-0':
-                        return '已提交';
+                        return '待完善资料';
                         break;
                     case '2-0':
                         return '待担保审批';

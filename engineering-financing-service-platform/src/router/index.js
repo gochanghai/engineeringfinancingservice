@@ -41,7 +41,7 @@ export default new Router({
                 {
                     path: '/credit-info-details',
                     component: resolve => require(['../components/page/engineeringloan/CreditInfoDetails.vue'], resolve),
-                    meta: { title: 'ciedit-info-dateils' }
+                    meta: { title: 'credit-info-dateils' }
                 },
                 {
                     path: '/project-details',
@@ -51,7 +51,7 @@ export default new Router({
                 {
                     path: '/businessmanager-add',
                     component: resolve => require(['../components/page/businessmanager/Add.vue'], resolve),
-                    meta: { title: 'businessmanager-authen' }
+                    meta: { title: 'businessmanager-add' }
                 },
                 {
                     path: '/businessmanager-authen',
@@ -119,9 +119,19 @@ export default new Router({
                     meta: { title: 'credit-engloan-info' }
                 },
                 {
-                    path: '/engineeringloan-credit-apply-list',
-                    component: resolve => require(['../components/page/engineeringloan/CreditApplyList.vue'], resolve),
-                    meta: { title: 'engineeringloan-credit-apply-list' }
+                    path: '/engineeringloan-credit-ec-list1',
+                    component: resolve => require(['../components/page/engineeringloan/ECCreditList1.vue'], resolve),
+                    meta: { title: 'engineeringloan-credit-ec-list1' }
+                },
+                {
+                    path: '/engineeringloan-credit-ec-list2',
+                    component: resolve => require(['../components/page/engineeringloan/ECCreditList2.vue'], resolve),
+                    meta: { title: 'engineeringloan-credit-ec-list2' }
+                },
+                {
+                    path: '/engineeringloan-credit-list',
+                    component: resolve => require(['../components/page/engineeringloan/CreditList.vue'], resolve),
+                    meta: { title: 'engineeringloan-credit-list' }
                 },
                 {
                     path: '/engineeringloan-loan-apply-list',
@@ -149,9 +159,9 @@ export default new Router({
                     meta: { title: 'project-add'}
                 },
                 {
-                    path: '/priject-progress-details',
+                    path: '/project-progress-details',
                     component: resolve => require(['../components/page/project/ProgressDetails.vue'], resolve),
-                    meta: { title: 'priject-progress-details'}
+                    meta: { title: 'project-progress-details'}
                 },
                 {
                     path: '/edit-project-info',
@@ -227,6 +237,11 @@ export default new Router({
                     path: '/setting-changeheadimg',
                     component: resolve => require(['../components/page/setting/ChangeHeadImg.vue'], resolve),
                     meta: { title: 'setting-changeheadimg' }
+                },
+                {
+                    path: '/setting-usermanager',
+                    component: resolve => require(['../components/page/setting/UserList.vue'], resolve),
+                    meta: { title: 'setting-usermanager' }
                 },
                 // onlian end
 

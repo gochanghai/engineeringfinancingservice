@@ -107,6 +107,10 @@
                 this.$router.push({
                     path:'businessmanager-info-details?id=' + projectId
                 })
+            },
+            // 添加
+            add(){
+
             }
         }
     }

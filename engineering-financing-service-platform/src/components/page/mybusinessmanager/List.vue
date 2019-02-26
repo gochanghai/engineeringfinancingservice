@@ -11,7 +11,7 @@
                         <!--<el-button type="warning" @click="add" style="margin-left: 50px">导入</el-button>-->
                     </div>
                     <div class="project-list-box">
-                        <el-table :data="tableData" border class="table" ref="multipleTable" >
+                        <el-table :data="tableData" border class="table" ref="multipleTable">
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
                             <el-table-column prop="name" label="姓名"/>
