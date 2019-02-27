@@ -153,9 +153,11 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('credit/p/list').then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                this.$axios.get('api/credit/ec_list',{params:{
+                        id: localStorage.getItem('userInfoId')
+                    }}).then(function (res){
+                    console.log(res);
+                    _than.tableData = res.data.extend.list;
                 }).catch(function (error) {
                     console.log(error);
                 });

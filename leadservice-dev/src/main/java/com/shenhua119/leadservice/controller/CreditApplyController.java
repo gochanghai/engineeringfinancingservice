@@ -16,7 +16,7 @@ import java.util.List;
  */
 @CrossOrigin // 决解跨域问题
 @RestController
-@RequestMapping("credit")
+@RequestMapping("api/credit")
 public class CreditApplyController {
 
     /**项目信息业务接口*/
@@ -55,7 +55,7 @@ public class CreditApplyController {
      * @param id
      * @return
      */
-    @GetMapping("f/info")
+    @GetMapping("apply/info")
     public Msg getCreditApplyInfoById(Long id){
         System.out.println("获取授信详细信息: " + id);
         // 获取申请信息
@@ -76,10 +76,10 @@ public class CreditApplyController {
         FinancierAuthenEntity authen = financierAuthenService.getOne(new QueryWrapper<FinancierAuthenEntity>()
                 .eq("f_id", creditApply.getFId()));
         // 返回数据
-        return Msg.success().add("creditApply",creditApply).add("financier",financier)
-                            .add("contract",contract).add("project",project)
-                            .add("payment",payment).add("cost",cost)
-                            .add("authen",authen).add("other",other);
+        return Msg.success().add("applyInfo",creditApply).add("financierInfo",financier)
+                            .add("projectContractInfo",contract).add("projectInfo",project)
+                            .add("projectPaymentInfo",payment).add("projectCostInfo",cost)
+                            .add("authenInfo",authen).add("projectOtherInfo",other);
     }
 
 
@@ -88,7 +88,7 @@ public class CreditApplyController {
      * @param id
      * @return
      */
-    @GetMapping("f/list")
+    @GetMapping("b_list")
     public Msg getCreditApplyInfoByFinancierId(Long id){
 //        List<CreditApplyEntity> list = creditApplyService.list(new QueryWrapper<CreditApplyEntity>().eq("f_id" ,id));
         List<CreditListView> list1 = creditApplyService.selectByFinancierId(id);
@@ -113,7 +113,7 @@ public class CreditApplyController {
      * @param id
      * @return
      */
-    @GetMapping("com/list")
+    @GetMapping("ec_list")
     public Msg getCreditApplyInfoByCompanyId(Long id){
         System.out.println("工程公司：" + id +" 获取授信数据");
         List<CreditListView> list = creditApplyService.listByCompanyId(id);
@@ -124,7 +124,7 @@ public class CreditApplyController {
      * 获取工程公司授信数据
      * @return
      */
-    @GetMapping("p/list")
+    @GetMapping("p_list")
     public Msg getCreditApplyInfoP(){
         System.out.println("平台获取授信数据");
         List<CreditListView> list = creditApplyService.listAll();
@@ -136,7 +136,7 @@ public class CreditApplyController {
      * @param id
      * @return
      */
-    @GetMapping("fund/list")
+    @GetMapping("f_list")
     public Msg getCreditApplyInfoByFundCompanyId(Long id){
         System.out.println("资金方获取授信数据");
         List<CreditListView> list = creditApplyService.listByFundCompanyId(id);
