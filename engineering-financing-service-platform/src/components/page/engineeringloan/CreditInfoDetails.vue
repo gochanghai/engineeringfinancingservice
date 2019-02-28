@@ -86,8 +86,8 @@
                     <div class="info-box">
                         <div class="info-title">项目信息</div>
                         <div class="info-btn-box">
-                            <div class="is-show-btn">展开</div>
-                            <div class="info-content">
+                            <div class="is-show-btn" @click="isPackUpProjectInfo = !isPackUpProjectInfo">{{ isPackUpProjectInfo ==  true ? '展开' :'收起'}}</div>
+                            <div class="info-content" v-show="!isPackUpProjectInfo">
                                 <!-- 项目基本信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">项目基本信息</div>
@@ -264,8 +264,8 @@
                     <div class="info-box">
                         <div class="info-title">商务经理个人资信情况</div>
                         <div class="info-btn-box">
-                            <div class="is-show-btn">展开</div>
-                            <div class="info-content">
+                            <div class="is-show-btn" @click="isPackUpBusinessInfo = !isPackUpBusinessInfo">{{ isPackUpBusinessInfo ==  true ? '展开' :'收起'}}</div>
+                            <div class="info-content" v-show="!isPackUpBusinessInfo">
                                 <!-- 个人身份信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">身份信息</div>
@@ -438,124 +438,126 @@
                     <div class="info-box">
                         <div class="info-title">审批记录</div>
                         <div class="info-btn-box">
-                            <div class="is-show-btn">展开</div>
-                            <!-- 担保审批 -->
-                            <div class="info-content">
-                                <div class="approve-title-box">
-                                    <div class="approve-title-left">担保评估结果</div>
-                                    <div class="approve-title-right">评估人：习总   评估时间：2019-01-01 19:30:26</div>
-                                </div>
-                                <!-- 审批意见 -->
-                                <div class="approve-content-box">
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">是否可授信</div>
-                                        <div class="approve-item-right">是</div>
+                            <div class="is-show-btn" @click="isPackUpReplyInfo = !isPackUpReplyInfo">{{ isPackUpReplyInfo ==  true ? '展开' :'收起'}}</div>
+                            <div v-show="!isPackUpReplyInfo">
+                                <!-- 担保审批 -->
+                                <div class="info-content">
+                                    <div class="approve-title-box">
+                                        <div class="approve-title-left">担保评估结果</div>
+                                        <div class="approve-title-right">评估人：习总   评估时间：2019-01-01 19:30:26</div>
                                     </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">授信金额</div>
-                                        <div class="approve-item-right">300万元</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">授信期限</div>
-                                        <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">还款方式（建议）</div>
-                                        <div class="approve-item-right">0000000是</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">内控要点</div>
-                                        <div class="approve-item-right">是0000000000000</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">贷后管理</div>
-                                        <div class="approve-item-right">是0000000000000</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 平台审批 -->
-                            <div class="info-content">
-                                <div class="approve-title-box">
-                                    <div class="approve-title-left">平台审批结果</div>
-                                    <div class="approve-title-right">审批人：习总   审批时间：2019-01-01 19:30:26</div>
-                                </div>
-                                <!-- 审批意见 -->
-                                <div class="approve-content-box" style="height: 160px">
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">是否可授信</div>
-                                        <div class="approve-item-right">是</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">补充意见</div>
-                                        <div class="approve-item-right">经核对，资料均符合要求，同意授信。</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">拒接原因</div>
-                                        <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">退回原因</div>
-                                        <div class="approve-item-right">0000000是</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 资金方审批 -->
-                            <div class="info-content">
-                                <div class="approve-title-box">
-                                    <div class="approve-title-left">资金方批复结果</div>
-                                    <div class="approve-title-right">批复人：习总   批复时间：2019-01-01 19:30:26</div>
-                                </div>
-                                <!-- 审批意见 -->
-                                <div class="approve-content-box">
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">是否可授信</div>
-                                        <div class="approve-item-right">是</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">授信金额</div>
-                                        <div class="approve-item-right">300万元</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">授信期限</div>
-                                        <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">还款方式（建议）</div>
-                                        <div class="approve-item-right">0000000是</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">内控要点</div>
-                                        <div class="approve-item-right">是0000000000000</div>
-                                    </div>
-                                    <div class="approve-item">
-                                        <div class="approve-item-left">贷后管理</div>
-                                        <div class="approve-item-right">是0000000000000</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 平台补充资料 -->
-                            <div class="info-content">
-                                <div class="approve-title-box">
-                                    <div class="approve-title-left">平台补充资料</div>
-                                    <div class="approve-title-right">补充人：习总   补充时间：2019-01-01 19:30:26</div>
-                                </div>
-                                <!-- 特批平台补充资料 -->
-                                <div class="approve-content-box">
-                                    <div class="approve-item" style="height: 100px">
-                                        <div class="approve-item-left" style="height: 100px">补充说明</div>
-                                        <div class="approve-item-right" style="height: 100px">是</div>
-                                    </div>
-                                    <div class="approve-item" style="height: 100px">
-                                        <div class="approve-item-left" style="height: 100px">附件</div>
-                                        <div class="approve-item-right">
-                                            <img src="../../../../static/img/gcd.png" class="approve-add-file">
-                                            <img src="../../../../static/img/gcd.png" class="approve-add-file">
+                                    <!-- 审批意见 -->
+                                    <div class="approve-content-box">
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">是否可授信</div>
+                                            <div class="approve-item-right">是</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">授信金额</div>
+                                            <div class="approve-item-right">300万元</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">授信期限</div>
+                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">还款方式（建议）</div>
+                                            <div class="approve-item-right">0000000是</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">内控要点</div>
+                                            <div class="approve-item-right">是0000000000000</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">贷后管理</div>
+                                            <div class="approve-item-right">是0000000000000</div>
                                         </div>
                                     </div>
-                                    <div class="approve-item" style="height: 80px" hidden>
-                                        <div class="info-bottom-box">
-                                            <div class="info-bottom-btn1">取消</div>
-                                            <div class="info-bottom-btn2">保存</div>
+                                </div>
+                                <!-- 平台审批 -->
+                                <div class="info-content">
+                                    <div class="approve-title-box">
+                                        <div class="approve-title-left">平台审批结果</div>
+                                        <div class="approve-title-right">审批人：习总   审批时间：2019-01-01 19:30:26</div>
+                                    </div>
+                                    <!-- 审批意见 -->
+                                    <div class="approve-content-box" style="height: 160px">
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">是否可授信</div>
+                                            <div class="approve-item-right">是</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">补充意见</div>
+                                            <div class="approve-item-right">经核对，资料均符合要求，同意授信。</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">拒接原因</div>
+                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">退回原因</div>
+                                            <div class="approve-item-right">0000000是</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 资金方审批 -->
+                                <div class="info-content">
+                                    <div class="approve-title-box">
+                                        <div class="approve-title-left">资金方批复结果</div>
+                                        <div class="approve-title-right">批复人：习总   批复时间：2019-01-01 19:30:26</div>
+                                    </div>
+                                    <!-- 审批意见 -->
+                                    <div class="approve-content-box">
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">是否可授信</div>
+                                            <div class="approve-item-right">是</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">授信金额</div>
+                                            <div class="approve-item-right">300万元</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">授信期限</div>
+                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">还款方式（建议）</div>
+                                            <div class="approve-item-right">0000000是</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">内控要点</div>
+                                            <div class="approve-item-right">是0000000000000</div>
+                                        </div>
+                                        <div class="approve-item">
+                                            <div class="approve-item-left">贷后管理</div>
+                                            <div class="approve-item-right">是0000000000000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 平台补充资料 -->
+                                <div class="info-content">
+                                    <div class="approve-title-box">
+                                        <div class="approve-title-left">平台补充资料</div>
+                                        <div class="approve-title-right">补充人：习总   补充时间：2019-01-01 19:30:26</div>
+                                    </div>
+                                    <!-- 特批平台补充资料 -->
+                                    <div class="approve-content-box">
+                                        <div class="approve-item" style="height: 100px">
+                                            <div class="approve-item-left" style="height: 100px">补充说明</div>
+                                            <div class="approve-item-right" style="height: 100px">是</div>
+                                        </div>
+                                        <div class="approve-item" style="height: 100px">
+                                            <div class="approve-item-left" style="height: 100px">附件</div>
+                                            <div class="approve-item-right">
+                                                <img src="../../../../static/img/gcd.png" class="approve-add-file">
+                                                <img src="../../../../static/img/gcd.png" class="approve-add-file">
+                                            </div>
+                                        </div>
+                                        <div class="approve-item" style="height: 80px" hidden>
+                                            <div class="info-bottom-box">
+                                                <div class="info-bottom-btn1">取消</div>
+                                                <div class="info-bottom-btn2">保存</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -564,12 +566,117 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">批复</div>
+                        <div class="info-bottom-btn1" @click="goBack">返回</div>
+                        <div class="info-bottom-btn2" v-show="progress === 1" @click="vouchApprovalVisible = !vouchApprovalVisible">审批</div>
+                        <div class="info-bottom-btn2" v-show="progress === 3" @click="platformApprovalVisible = !platformApprovalVisible">审批</div>
+                        <div class="info-bottom-btn2" v-show="progress === 4" @click="replyVisible = !replyVisible">批复</div>
                     </div>
                 </el-card>
             </el-col>
         </el-row>
+
+        <!-- 担保审批弹出框 -->
+        <el-dialog :visible.sync="vouchApprovalVisible" width="500px" center="">
+            <el-form ref="form" :model="vform" label-width="100px">
+                <el-form-item>
+                    <el-form-item>
+                        <el-radio-group v-model="vform.pResult">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="-1">否</el-radio>
+                            <el-radio :label="2">退回</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-form-item>
+                <el-form-item label="说明"  v-show="vform.pResult === 1">
+                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="拒绝原因"  v-show="vform.pResult === -1">
+                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="退回原因"  v-show="vform.pResult === 2">
+                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="info" @click="vouchApprovalVisible = false">取 消</el-button>
+                <el-button type="warning" @click="vouchApprovalCommit">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <!-- 平台审批弹出框 -->
+        <el-dialog :visible.sync="platformApprovalVisible" width="500=px%" center="">
+            <el-form ref="form" :model="pform" label-width="100px">
+                <el-form-item>
+                    <el-form-item>
+                        <el-radio-group v-model="pform.pResult">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="-1">否</el-radio>
+                            <el-radio :label="2">退回</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-form-item>
+                <el-form-item label="说明"  v-show="pform.pResult === 1">
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="拒绝原因"  v-show="pform.pResult === -1">
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item label="退回原因"  v-show="pform.pResult === 2">
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="info" @click="platformApprovalVisible = false">取 消</el-button>
+                <el-button type="warning" @click="platformCommit">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <!-- 资金方批复弹出框 -->
+        <el-dialog title="批复意见" :visible.sync="replyVisible" center width="550px">
+            <el-form ref="form" :model="fform" label-width="120px">
+                <el-form-item label="是否可授信" v-show="fform.creditType === 1">
+                    <el-radio-group v-model="fform.fResult">
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="-1">否</el-radio>
+                        <el-radio :label="3">特批(有条件同意)</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="是否可授信" v-show="fform.creditType === 2">
+                    <el-radio-group v-model="fform.fResult">
+                        <el-radio :label="1">是</el-radio>
+                        <el-radio :label="-1">否</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="授信金额"  v-show="fform.fResult === 1">
+                    <el-input v-model="fform.fAmount" style="width: 100px"></el-input> 万
+                </el-form-item>
+                <el-form-item label="授信期限"  v-show="fform.fResult === 1" style="width: 250px">
+                    <el-date-picker
+                            v-model="creditDate"
+                            value-format="yyyy-MM-dd"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="还款方式"  v-show="fform.fResult === 1">
+                    <el-input v-model="fform.fRepayType" style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="批复文件"  v-show="fform.fResult === 1">
+                </el-form-item>
+                <el-form-item label="拒绝原因"  v-show="fform.fResult === -1">
+                    <el-input type="textarea" v-model="fform.fDesc" placeholder="请输入拒绝原因"  style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="补充意见"  v-show="fform.fResult === 2">
+                    <el-input type="textarea" v-model="fform.fSpecialDesc" placeholder="请输入补充资料" style="width: 350px"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="replyVisible = false">取 消</el-button>
+                <el-button type="primary" class="btn-submit" @click="replyCommit">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -580,6 +687,9 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 fileUrl: localStorage.getItem("fileBasePath"),
+                isPackUpProjectInfo: false,
+                isPackUpBusinessInfo: false,
+                isPackUpReplyInfo: false,
                 id: this.$route.query.id,
                 applyInfo: '',
                 projectInfo:'',
@@ -589,11 +699,54 @@
                 projectOtherInfo: '',
                 financierInfo: '',
                 authenInfo: '',
+                // 审批进度及状态
+                progress: '',
+                status: 0,
+                // 担保审批弹窗
+                vouchApprovalVisible: false,
+                platformApprovalVisible: false,
+                replyVisible: false,
+                // 担保审批表单
+                vform: {
+                    pResult: 1,
+                    pDesc: '',
+                    pPerson: '',
+                    creditId: ''
+                },
+
+                // 平台审批表单
+                pform: {
+                    pResult: 1,
+                    pDesc: '',
+                    pPerson: '',
+                    creditId: ''
+                },
+                // 资金方审批表单
+                creditDate: '',
+                fform: {
+                    fResult: 1,
+                    fAmount: '',
+                    fRepayType: '',
+                    fCreditStartDate: '',
+                    fCreditEndDate: '',
+                    fReplyFile: '',
+                    fSpecialDesc: '',
+                    fDesc: '',
+                    fPerson: '',
+                    creditType: '',
+                },
+
             }
         },
         components: {
         },
         computed: {
+        },
+        watch:{
+            creditDate:function() {
+                this.fform.fCreditStartDate = this.creditDate[0];
+                this.fform.fCreditEndDate = this.creditDate[1];
+            },
         },
         created(){
             this.getData(this.id);
@@ -617,11 +770,105 @@
                     _than.projectOtherInfo = res.data.extend.projectOtherInfo;
                     _than.financierInfo = res.data.extend.financierInfo;
                     _than.authenInfo = res.data.extend.authenInfo;
+                    _than.progress = res.data.extend.applyInfo.step+3;
+                    _than.status = res.data.extend.applyInfo.status;
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
 
+            /**
+             * 返回按钮
+             */
+            goBack(){
+                // 返回上一步
+                this.$router.go(-1);
+            },
+            /**
+             * 担保审批提交数据
+             */
+            vouchApprovalCommit( ){
+                // this.$refs['form'].validate((valid) => {
+                //     if (!valid) {
+                //         return;
+                //     }
+                // });
+                this.$axios.post('credit-appr/ec/save',
+                    this.qs.stringify(
+                        {
+                            creditId:this.vform.creditId,
+                            pResult: this.vform.pResult,
+                            pDesc: this.vform.pDesc,
+                            pPerson: this.vform.pPerson,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                    this.$message.success('提交成功！');
+                    this.$router.push("credit-apply-list")
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(this.form);
+            },
+            /**
+             * 平台审批提交按钮
+             */
+            platformCommit( ){
+                // this.$refs['form'].validate((valid) => {
+                //     if (!valid) {
+                //         return;
+                //     }
+                // });
+                this.$axios.post('credit-appr/ec/save',
+                    this.qs.stringify(
+                        {
+                            creditId:this.pform.creditId,
+                            pResult: this.pform.pResult,
+                            pDesc: this.pform.pDesc,
+                            pPerson: this.pform.pPerson,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                    this.$message.success('提交成功！');
+                    this.$router.push("credit-apply-list")
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(this.form);
+            },
+            /**
+             * 资金方批复提交按钮
+             */
+            replyCommit(form){
+                // this.$refs['form'].validate((valid) => {
+                //     if (!valid) {
+                //         return;
+                //     }
+                // });
+                this.$axios.post('credit-appr/ec/save',
+                    this.qs.stringify(
+                        {
+                            creditId:this.fform.creditId,
+                            fResult: this.fform.fResult,
+                            fAmount: this.fform.fAmount,
+                            fRepayType: this.fform.fRepayType,
+                            fCreditStartDate: this.fform.fCreditStartDate,
+                            fCreditEndDate: this.fform.fCreditEndDate,
+                            fReplyFile: this.fform.fReplyFile,
+                            fSpecialDesc: this.fform.fSpecialDesc,
+                            fDesc: this.fform.fDesc,
+                            creditType: this.fform.creditType,
+                            fPerson: this.fform.fPerson,
+                        }
+                    )).then(function (response) {
+                    console.log(response);
+                    this.$message.success('提交成功！');
+                    this.$router.push("fund-credit-apply-list")
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                console.log(this.form);
+            },
 
         }
     }

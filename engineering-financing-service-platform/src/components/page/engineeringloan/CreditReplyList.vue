@@ -167,7 +167,7 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('credit/fund/list', {
+                this.$axios.get('api/credit/f_list', {
                     params: {
                         id: this.userId
                     }
@@ -233,12 +233,13 @@
             },
 
             gotoInfoDetails(id){
-
+                this.$router.push("credit-info-details?id=" + id);
             },
             gotoReply(id, creditType){
-                this.form.creditId = id;
-                this.replyVisible = true;
-                this.form.creditType = creditType;
+                // this.form.creditId = id;
+                // this.replyVisible = true;
+                // this.form.creditType = creditType;
+                this.$router.push("credit-info-details?id=" + id);
             },
 
             // 保存

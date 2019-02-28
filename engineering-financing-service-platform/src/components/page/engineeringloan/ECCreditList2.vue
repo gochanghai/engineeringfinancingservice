@@ -210,13 +210,13 @@
                 this.$message.success(`修改第 ${this.idx+1} 行成功`);
             },
             // 去查看详情
-            gotoInfoDetails(){
-
+            gotoInfoDetails(id){
+                this.$router.push("/credit-info-details?id=" + id)
             },
             // 去审批
             gotoApprove(id){
                 this.auditVisible = true;
-                this.form.creditId = id;
+                this.$router.push("/credit-info-details?id=" + id)
             },
             // 保存审批结果
             save(){
