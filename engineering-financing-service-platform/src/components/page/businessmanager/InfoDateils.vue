@@ -55,7 +55,7 @@
                                 <!-- 婚姻信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">婚姻状况</div>
-                                    <div class="content-lable2">已婚</div>
+                                    <div class="content-lable2">{{businessInfo.authenInfo.marriageStatus | marriageText}}</div>
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
@@ -249,6 +249,25 @@
         },
         computed: {
         },
+        // 过滤器
+        filters: {
+            marriageText(status){
+                switch (status) {
+                    case 1:
+                        return '已婚';
+                        break;
+                    case 2:
+                        return '离异';
+                        break;
+                    case -1:
+                        return '丧偶';
+                        break;
+                    default:
+                        return '未婚';
+                        break;
+                }
+            },
+        },
         created(){
             this. getDataInfo();
         },
@@ -269,7 +288,6 @@
                     console.log(error);
                 });
             },
-
 
         }
     }
