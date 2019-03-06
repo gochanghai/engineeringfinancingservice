@@ -309,7 +309,7 @@
                                 <!-- 婚姻信息 -->
                                 <div class="content-title">
                                     <div class="content-lable1">婚姻状况</div>
-                                    <div class="content-lable2">{{authenInfo.marriageStatus}}</div>
+                                    <div class="content-lable2">{{authenInfo.marriageStatus | marriageText}}</div>
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
@@ -567,7 +567,7 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="goBack">返回</div>
-                        <div class="info-bottom-btn2" v-show="progress === 1" @click="vouchApprovalVisible = !vouchApprovalVisible">审批</div>
+                        <div class="info-bottom-btn2" v-show="progress === 2" @click="vouchApprovalVisible = !vouchApprovalVisible">审批</div>
                         <div class="info-bottom-btn2" v-show="progress === 3" @click="platformApprovalVisible = !platformApprovalVisible">审批</div>
                         <div class="info-bottom-btn2" v-show="progress === 4" @click="replyVisible = !replyVisible">批复</div>
                     </div>
@@ -576,25 +576,44 @@
         </el-row>
 
         <!-- 担保审批弹出框 -->
-        <el-dialog :visible.sync="vouchApprovalVisible" width="500px" center="">
+        <el-dialog title="评估意见" :visible.sync="vouchApprovalVisible" width="510px" center="">
             <el-form ref="form" :model="vform" label-width="100px">
                 <el-form-item>
                     <el-form-item>
-                        <el-radio-group v-model="vform.pResult">
+                        <el-radio-group v-model="vform.ecResult">
                             <el-radio :label="1">是</el-radio>
                             <el-radio :label="-1">否</el-radio>
                             <el-radio :label="2">退回</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-form-item>
-                <el-form-item label="说明"  v-show="vform.pResult === 1">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                <el-form-item label="授信金额"  v-show="vform.ecResult === 1">
+                    <el-input v-model="vform.ecAmount" style="width: 100px"></el-input> 万
                 </el-form-item>
-                <el-form-item label="拒绝原因"  v-show="vform.pResult === -1">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                <el-form-item label="授信期限"  v-show="vform.ecResult === 1" style="width: 250px">
+                    <el-date-picker
+                            v-model="sxDate"
+                            value-format="yyyy-MM-dd"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker>
                 </el-form-item>
-                <el-form-item label="退回原因"  v-show="vform.pResult === 2">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                <el-form-item label="还款方式"  v-show="vform.ecResult === 1">
+                    <el-input v-model="vform.ecRepayType" style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="内控要点"  v-show="vform.ecResult === 1">
+                    <el-input type="textarea" v-model="vform.ecInControlDesc" placeholder="请输入内控要点" style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="贷后管理"  v-show="vform.ecResult === 1">
+                    <el-input type="textarea" v-model="vform.ecLoanAfterManageDesc" placeholder="请输入贷后管理" style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="拒绝原因"  v-show="vform.ecResult === -1">
+                    <el-input type="textarea" v-model="vform.ecDesc" placeholder="请输入拒绝原因"  style="width: 350px"></el-input>
+                </el-form-item>
+                <el-form-item label="退回原因"  v-show="vform.ecResult === 2">
+                    <el-input type="textarea" v-model="vform.ecDesc" placeholder="请输入退回原因" style="width: 350px"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -604,7 +623,7 @@
         </el-dialog>
 
         <!-- 平台审批弹出框 -->
-        <el-dialog :visible.sync="platformApprovalVisible" width="500=px%" center="">
+        <el-dialog title="审批意见" :visible.sync="platformApprovalVisible" width="500=px%" center="">
             <el-form ref="form" :model="pform" label-width="100px">
                 <el-form-item>
                     <el-form-item>
@@ -709,9 +728,15 @@
                 // 担保审批表单
                 vform: {
                     pResult: 1,
-                    pDesc: '',
-                    pPerson: '',
-                    creditId: ''
+                    creditId: '',
+                    ecResult: 1,
+                    ecAmount: '',
+                    ecCreditDate:'',
+                    ecRepayType: '',
+                    ecInControlDesc: '',
+                    ecLoanAfterManageDesc: '',
+                    ecDesc: '',
+                    ecPerson: localStorage.getItem('ms_username'),
                 },
 
                 // 平台审批表单
@@ -748,6 +773,25 @@
                 this.fform.fCreditEndDate = this.creditDate[1];
             },
         },
+        // 过滤器
+        filters: {
+            marriageText(status){
+                switch (status) {
+                    case 1:
+                        return '已婚';
+                        break;
+                    case 2:
+                        return '离异';
+                        break;
+                    case -1:
+                        return '丧偶';
+                        break;
+                    default:
+                        return '未婚';
+                        break;
+                }
+            },
+        },
         created(){
             this.getData(this.id);
         },
@@ -770,7 +814,7 @@
                     _than.projectOtherInfo = res.data.extend.projectOtherInfo;
                     _than.financierInfo = res.data.extend.financierInfo;
                     _than.authenInfo = res.data.extend.authenInfo;
-                    _than.progress = res.data.extend.applyInfo.step+3;
+                    _than.progress = res.data.extend.applyInfo.step;
                     _than.status = res.data.extend.applyInfo.status;
                 }).catch(function (error) {
                     console.log(error);
