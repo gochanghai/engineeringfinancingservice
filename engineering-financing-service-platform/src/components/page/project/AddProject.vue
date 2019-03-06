@@ -23,8 +23,8 @@
                                         </el-form-item>
                                         <el-form-item label="所属分公司：" prop="phone">
                                             <!--<el-input v-model="form.comId" style="width: 400px"/>-->
-                                            <el-select v-model="form.comId" placeholder="请选择所属分公司" style="width: 400px">
-                                                <el-option v-for="type in this.companyList" :key="type.id" :label="type.companyName" :value="type.id"/>
+                                            <el-select v-model="form.childComId" placeholder="请选择所属分公司" style="width: 400px">
+                                                <el-option v-for="item in companyList" :key="item.id" :label="item.companyName" :value="item.id"/>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="商务经理：" prop="phone">
@@ -54,7 +54,7 @@
 
 <script>
     export default {
-        name: 'business-info-dateils',
+        name: 'add-project',
         data() {
             var checkPhone = (rule, value, callback) => {
                 if (!value) {
@@ -142,7 +142,7 @@
             },
             save(){
                 let _than = this;
-                this.$axios.post('cc/save',
+                this.$axios.post('api/project/save',
                     this.qs.stringify(
                         {
                             projectName: this.form.projectName,

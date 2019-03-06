@@ -86,7 +86,7 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('credit/f/list',{params:{
+                this.$axios.get('api/credit/b_list',{params:{
                         id: this.userId
                     }}).then(function (response) {
                     console.log(response);

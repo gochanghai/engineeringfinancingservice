@@ -10,7 +10,7 @@
                     <div class="info-box">
                         <div class="info-title">项目资料</div>
                         <div class="info-btn-box">
-                            <div class="is-show-btn">展开</div>
+                            <!--<div class="is-show-btn">展开</div>-->
                             <div class="info-content">
                                 <!-- 个人身份信息 -->
                                 <div class="content-title">
@@ -443,9 +443,9 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">编辑</div>
-
+                        <div class="info-bottom-btn1" @click="goBack">返回</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
+                        <div class="info-bottom-btn2" @click="sumbit">提交</div>
                     </div>
                 </el-card>
             </el-col>
@@ -615,6 +615,14 @@
                         this.thisUploadType = 0;
                         break;
                 }
+            },
+
+            /**
+             * 返回按钮
+             */
+            goBack(){
+                // 返回上一步
+                this.$router.go(-1);
             },
 
             // 保存
@@ -795,7 +803,7 @@
 
     .info-bottom-box{
         position: relative;
-        width: 260px;
+        /*width: 260px;*/
         margin: 0 auto;
         text-align: center;
         padding: 30px 0 40px 0;

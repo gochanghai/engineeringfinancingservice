@@ -172,7 +172,7 @@
             // 获取项目数据
             getProjectList(){
                 let _than = this;
-                this.$axios.get('credit/project/list',{params:{
+                this.$axios.get('api/credit/project/list',{params:{
                         id: _than.userId
                     }}).then((response)=> {
                     console.log(response);
@@ -194,13 +194,13 @@
             },
             // 保存
             save(){
-                this.$refs['form'].validate((valid) => {
-                    if (!valid) {
-                        return;
-                    }
-                });
+                // this.$refs['form'].validate((valid) => {
+                //     if (!valid) {
+                //         return;
+                //     }
+                // });
                 let _than = this;
-                this.$axios.post('credit/save',
+                this.$axios.post('api/credit/save',
                     this.qs.stringify(
                         {
                             date: this.date,
@@ -214,11 +214,12 @@
                             status: this.status,
                         }
                     )).then(function (response) {
+                    _than.$router.push("my-credit-el");
                     console.log(response);
                 }).catch(function (error) {
                     console.log(error);
                 });
-                this.$router.push("my-credit-el")
+
             },
             // 保存并提交
             saveAndSubmit(){
