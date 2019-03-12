@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("tb_project_cost")
-public class ProjectCostEntity {
+public class ProjectCost {
     /**
      * 项目ID
      */

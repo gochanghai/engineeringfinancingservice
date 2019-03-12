@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 /**
  * @author liuchanghai
- * @create 2018-12-01 1:35
- * 融资人房产信息
+ * @create 2018-12-01 1:40
+ * 融资人车辆信息
  */
 
 @Data
@@ -18,29 +18,29 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("tb_financier_house")
-public class FinancierHouseEntity implements Serializable {
+@TableName("businessmanager_car")
+public class Car implements Serializable {
     /**
-     * 房子Id
+     * 主键ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long id;
+    private  Long id;
     /**
      * 融资人Id
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long fId;
+    private  Long userId;
     /**
-     * 房产所在地
+     * 车牌号
      */
-    private String houseAddress;
+    private String number;
     /**
-     * 房产证
+     * 车辆行驶证
      */
-    private String premisesPermit;
+    private String driveLicense;
     /**
-     * 房产说明
+     * 车辆说明
      */
-    private String houseDesc;
+    private String desc;
 
 }

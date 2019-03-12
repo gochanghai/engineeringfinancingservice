@@ -16,7 +16,7 @@
         <result column="f_com_id" property="fComId"/>
         <result column="com_id" property="comId"/>
         <result column="status" property="status"/>
-        <collection property="purchaseOrders" ofType="com.shenhua119.leadservice.entity.ProjectPurchaseOrderEntity" column="loan_no" select="selectProjectPurchaseOrderById">
+        <collection property="purchaseOrders" ofType="com.shenhua119.leadservice.entity.ProjectPurchaseOrder" column="loan_no" select="selectProjectPurchaseOrderById">
         </collection>
     </resultMap>
 
@@ -64,7 +64,7 @@
 		where tb1.id = #{id}
 	</select>
 
-    <select id="selectProjectPurchaseOrderById" parameterType="long" resultType="com.shenhua119.leadservice.entity.ProjectPurchaseOrderEntity">
+    <select id="selectProjectPurchaseOrderById" parameterType="long" resultType="com.shenhua119.leadservice.entity.ProjectPurchaseOrder">
 		select
 			ppo.*
 		from tb_project_purchase_order ppo

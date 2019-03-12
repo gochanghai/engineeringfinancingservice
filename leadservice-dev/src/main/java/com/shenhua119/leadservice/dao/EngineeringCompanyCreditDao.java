@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shenhua119.leadservice.entity.EngineeringCompanyCreditEntity;
+import com.shenhua119.leadservice.entity.CompanyProductCredit;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2019-1-17 10:15
  */
 @Mapper
-public interface EngineeringCompanyCreditDao extends BaseMapper<EngineeringCompanyCreditEntity> {
+public interface EngineeringCompanyCreditDao extends BaseMapper<CompanyProductCredit> {
 
 }

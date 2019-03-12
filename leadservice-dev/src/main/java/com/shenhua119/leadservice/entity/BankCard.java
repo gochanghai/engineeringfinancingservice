@@ -22,8 +22,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_bank_card")
-public class BankCardEntity {
+@TableName("bank_card")
+public class BankCard {
 
     /**
      * 主键ID
@@ -56,9 +56,9 @@ public class BankCardEntity {
      */
     private String mobile;
     /**
-     * 姓名
+     * 真是姓名
      */
-    private String name;
+    private String realName;
     /**
      * 证件号码
      */

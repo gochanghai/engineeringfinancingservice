@@ -339,21 +339,21 @@
                     this.qs.stringify(
                         {
                             companyName: this.form.companyName,
-                            companyAddress: this.form.companyAddress,
+                            address: this.form.companyAddress,
                             person: this.form.person,
-                            personIdCard: this.form.personIdCard,
+                            idCard: this.form.personIdCard,
                             idCardSideFace: this.form.idCardSideFace,
                             idCardSideBack: this.form.idCardSideBack,
-                            creditCodeNumber: this.form.creditCodeNumber,
-                            creditCodeCertificate: this.form.creditCodeCertificate,
+                            creditCode: this.form.creditCodeNumber,
+                            creditCodeCert: this.form.creditCodeCertificate,
                             publicAccountName: this.form.publicAccountName,
                             openAccountBank: this.form.openAccountBank,
                             bankAccount: this.form.bankAccount,
-                            userName1: this.form.userName1,
+                            username1: this.form.userName1,
                             phone1: this.form.phone1,
-                            userName2: this.form.userName2,
+                            username2: this.form.userName2,
                             phone2: this.form.phone2,
-                            authorizationFile: this.form.authorizationFile
+                            authFile: this.form.authorizationFile
                         }
                     )).then(function (response) {
                     console.log(response);

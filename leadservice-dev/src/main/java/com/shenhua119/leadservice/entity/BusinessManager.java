@@ -24,7 +24,7 @@ import java.util.Date;
 @Setter
 @Accessors(chain = true)
 @TableName("tb_financier")
-public class FinancierEntity implements Serializable {
+public class BusinessManager implements Serializable {
     /**
      * 主键ID
      */
@@ -34,7 +34,7 @@ public class FinancierEntity implements Serializable {
      * 工程公司ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long comId;
+    private Long companyId;
     // 公司名称
     @TableField(exist=false)
     private String companyName;
@@ -67,10 +67,10 @@ public class FinancierEntity implements Serializable {
     // 与公司合作日期
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date cooperateDate;
+    private Date coopDate;
 
     // 与公司合作年限
-    private Integer cooperateYearNumber;
+    private Integer coopYearNumber;
 
     // 分工司ID
     @JsonSerialize(using= ToStringSerializer.class)

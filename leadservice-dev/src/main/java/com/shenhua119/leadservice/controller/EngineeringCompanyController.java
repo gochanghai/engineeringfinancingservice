@@ -1,8 +1,8 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.EngineeringCompanyCreditEntity;
-import com.shenhua119.leadservice.entity.EngineeringCompanyEntity;
+import com.shenhua119.leadservice.entity.CompanyProductCredit;
+import com.shenhua119.leadservice.entity.EngineeringCompany;
 import com.shenhua119.leadservice.entity.EngineeringCompanyView;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.EngineeringCompanyCreditService;
@@ -33,29 +33,29 @@ public class EngineeringCompanyController {
     private EngineeringCompanyCreditService engineeringCompanyCreditService;
 
     @PutMapping("update")
-    public Msg update(EngineeringCompanyCreditEntity ecc){
+    public Msg update(CompanyProductCredit ecc){
         boolean result = engineeringCompanyCreditService.save(ecc.setCreateDate(new Date()));
-        EngineeringCompanyEntity engineeringCompany = new EngineeringCompanyEntity();
-        engineeringCompany.setId(ecc.getComId()).setFComId(ecc.getFComId()).setCreditAmount(ecc.getAmount());
+        EngineeringCompany engineeringCompany = new EngineeringCompany();
+//        engineeringCompany.setId(ecc.getComId()).setFComId(ecc.getFComId()).setCreditAmount(ecc.getAmount());
         result = engineeringCompanyService.updateById(engineeringCompany);
         return Msg.success();
     }
 
     // 保存数据
     @PostMapping("save")
-    public Msg save(EngineeringCompanyEntity ec){
+    public Msg save(EngineeringCompany ec){
         System.out.println(ec.toString());
         boolean result0 = false ;
         result0 = engineeringCompanyService.save(ec);
         if (result0){
-          EngineeringCompanyEntity ec2 =  engineeringCompanyService.getOne(new QueryWrapper<EngineeringCompanyEntity>()
-                    .eq("credit_code_number",ec.getCreditCodeNumber()));
+          EngineeringCompany ec2 =  engineeringCompanyService.getOne(new QueryWrapper<EngineeringCompany>()
+                    .eq("credit_code",ec.getCreditCode()));
           if (ec2 != null){
               User user = new User();
-              user.setUserName(ec.getUserName1()).setPhone(ec.getPhone1()).setPassword("123456")
+              user.setUsername(ec.getUsername1()).setPhone(ec.getPhone1()).setPassword("123456")
                       .setUserInfoId(ec2.getId()).setUserType(1).setRoleId(1L);
               boolean result1 = userService.save(user);
-              user.setUserName(ec.getUserName2()).setPhone(ec.getPhone2()).setPassword("123456")
+              user.setUsername(ec.getUsername2()).setPhone(ec.getPhone2()).setPassword("123456")
                       .setUserInfoId(ec2.getId()).setUserType(2).setRoleId(1L);
               boolean result2 = userService.save(user);
           }
@@ -76,7 +76,7 @@ public class EngineeringCompanyController {
     @GetMapping("company_info")
     public Msg getEnginneringCompany(Long id){
         System.out.println("获取数据");
-        EngineeringCompanyEntity engineeringCompany = engineeringCompanyService.getEngineeringCompanyById(id);
+        EngineeringCompany engineeringCompany = engineeringCompanyService.getEngineeringCompanyById(id);
         return Msg.success().add("company", engineeringCompany);
     }
 }

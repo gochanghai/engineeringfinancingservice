@@ -21,8 +21,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_engineering_company")
-public class EngineeringCompanyEntity implements Serializable {
+@TableName("engineeringcompany")
+public class EngineeringCompany implements Serializable {
 
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
@@ -31,13 +31,13 @@ public class EngineeringCompanyEntity implements Serializable {
     private String companyName;
 
     // 公司地址
-    private String companyAddress;
+    private String address;
 
     // 企业法人
     private String person;
 
     // 法人身份证号
-    private String personIdCard;
+    private String idCard;
 
     // 法人身份证正面
     private String idCardSideFace;
@@ -46,10 +46,10 @@ public class EngineeringCompanyEntity implements Serializable {
     private String idCardSideBack;
 
     // 统一社会信用代码
-    private String creditCodeNumber;
+    private String creditCode;
 
     // 统一社会信用代码证
-    private String creditCodeCertificate;
+    private String creditCodeCert;
 
     // 对公账户名称
     private String publicAccountName;
@@ -61,22 +61,19 @@ public class EngineeringCompanyEntity implements Serializable {
     private String bankAccount;
 
     // 授权书文件
-    private String authorizationFile;
+    private String authFile;
 
     // 手机号码1
     private String phone1;
 
     // 用户名1
-    private String userName1;
+    private String username1;
 
     // 手机号码2
     private String phone2;
 
     // 用户名2
-    private String userName2;
-
-    // 是否有用户名
-    private Integer isAccount;
+    private String username2;
 
     //资金方ID
     @JsonSerialize(using= ToStringSerializer.class)

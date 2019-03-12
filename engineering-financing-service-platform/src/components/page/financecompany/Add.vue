@@ -42,8 +42,8 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn1" @click="onReturn">返回</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -182,21 +182,21 @@
                 this.$router.push("financial-company-list")
             },
             save(){
-                this.$refs['form'].validate((valid) => {
-                    if (!valid) {
-                        return;
-                    }
-                });
+                // this.$refs['form'].validate((valid) => {
+                //     if (!valid) {
+                //         return;
+                //     }
+                // });
                 let _that = this;
-                this.$axios.post('fc/save',
+                this.$axios.post('api/finance/save',
                     this.qs.stringify(
                         {
-                            companyFullName: this.form.companyFullName,
+                            companyName: this.form.companyFullName,
                             contactPerson: this.form.contactPerson,
                             contactNumber: this.form.contactNumber,
-                            cooperationBank: this.form.cooperationBank,
-                            cooperationBankAddress: this.form.cooperationBankAddress,
-                            userName: this.form.userName,
+                            coopBank: this.form.cooperationBank,
+                            address: this.form.cooperationBankAddress,
+                            username: this.form.userName,
                             phone: this.form.phone,
                             status: this.form.status
                         }

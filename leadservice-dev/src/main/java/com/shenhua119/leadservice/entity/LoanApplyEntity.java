@@ -83,5 +83,5 @@ public class LoanApplyEntity {
      * 项目采购订单
      */
     @TableField(exist=false)
-    private List<ProjectPurchaseOrderEntity> purchaseOrders;
+    private List<ProjectPurchaseOrder> purchaseOrders;
 }

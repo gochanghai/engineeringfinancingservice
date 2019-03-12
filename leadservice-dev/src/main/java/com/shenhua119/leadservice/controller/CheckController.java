@@ -44,7 +44,7 @@ public class CheckController {
      */
     @GetMapping("checkUserName")
     public Msg checkUsername(String userName) {
-        List<User> list = userService.list(new QueryWrapper<User>().eq("user_name", userName));
+        List<User> list = userService.list(new QueryWrapper<User>().eq("username", userName));
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","用户名已存在");
         }
@@ -73,8 +73,8 @@ public class CheckController {
      */
     @GetMapping("checkCreditCode")
     public Msg checkCreditCode(String creditCode) {
-        List<EngineeringCompanyEntity> list = engineeringCompanyService.list(new QueryWrapper<EngineeringCompanyEntity>()
-                .eq("credit_code_number", creditCode));
+        List<EngineeringCompany> list = engineeringCompanyService.list(new QueryWrapper<EngineeringCompany>()
+                .eq("credit_code", creditCode));
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","统一社会信用代码已被使用");
         }
@@ -88,7 +88,7 @@ public class CheckController {
      */
     @GetMapping("checkIdCard")
     public Msg checkIdCard(String idCard) {
-        List<FinancierEntity> list = financierService.list(new QueryWrapper<FinancierEntity>()
+        List<BusinessManager> list = financierService.list(new QueryWrapper<BusinessManager>()
                 .eq("id_card", idCard));
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","身份证号已被使用");
@@ -103,7 +103,7 @@ public class CheckController {
      */
     @GetMapping("checkBankCard")
     public Msg checkBankCard(String bankCard) {
-        List<BankCardEntity> list = bankCardService.list(new QueryWrapper<BankCardEntity>()
+        List<BankCard> list = bankCardService.list(new QueryWrapper<BankCard>()
                 .eq("card_no", bankCard));
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","银行卡号已被使用");
@@ -113,13 +113,13 @@ public class CheckController {
 
     /**
      * 检查资金方企业名称是否可用
-     * @param bankFullName
+     * @param bankName
      * @return
      */
     @GetMapping("checkBankFullName")
-    public Msg checkBankFullName(String bankFullName) {
-        List<FinanceCompanyEntity> list = fundCompanyService.list(new QueryWrapper<FinanceCompanyEntity>()
-                .eq("company_full_name", bankFullName));
+    public Msg checkBankFullName(String bankName) {
+        List<FinanceCompany> list = fundCompanyService.list(new QueryWrapper<FinanceCompany>()
+                .eq("company_name", bankName));
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","企业名称已被使用");
         }

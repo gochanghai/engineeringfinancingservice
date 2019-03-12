@@ -61,19 +61,19 @@ public class CreditApplyController {
         // 获取申请信息
         CreditApplyEntity creditApply = creditApplyService.getById(id);
         // 获取融资人简单信息
-        FinancierEntity financier = financierService.getById(creditApply.getFId());
+        BusinessManager financier = financierService.getById(creditApply.getFId());
         // 获取项目简单信息
-        ProjectEntity project = projectService.getById(creditApply.getPId());
+        Project project = projectService.getById(creditApply.getPId());
         // 获取项目合同信息
-        ProjectContractEntity contract = projectContractService.getById(creditApply.getPId());
+        ProjectContract contract = projectContractService.getById(creditApply.getPId());
         // 获取项目款项信息
-        ProjectPaymentEntity payment = projectPaymentService.getById(creditApply.getPId());
+        ProjectPayment payment = projectPaymentService.getById(creditApply.getPId());
         // 获取项目成本信息
-        ProjectCostEntity cost = projectCostInfoService.getById(creditApply.getPId());
+        ProjectCost cost = projectCostInfoService.getById(creditApply.getPId());
         // 获取项目其它信息
-        ProjectOtherEntity other = projectOtherInfoService.getById(creditApply.getPId());
+        ProjectOther other = projectOtherInfoService.getById(creditApply.getPId());
         // 获取融资人认证信息
-        FinancierAuthenEntity authen = financierAuthenService.getOne(new QueryWrapper<FinancierAuthenEntity>()
+        BusinessManagerAuthen authen = financierAuthenService.getOne(new QueryWrapper<BusinessManagerAuthen>()
                 .eq("f_id", creditApply.getFId()));
         // 返回数据
         return Msg.success().add("applyInfo",creditApply).add("financierInfo",financier)
@@ -84,7 +84,7 @@ public class CreditApplyController {
 
 
     /**
-     * 获取融资人的授信项目数据
+     * 获取融资人的授信申请列表数据
      * @param id
      * @return
      */
@@ -102,7 +102,7 @@ public class CreditApplyController {
      */
     @GetMapping("project/list")
     public Msg getProjectListByFId(Long id){
-        List<ProjectEntity> list = projectService.list(new QueryWrapper<ProjectEntity>().eq("f_id" ,id));
+        List<Project> list = projectService.list(new QueryWrapper<Project>().eq("f_id" ,id));
         // 生成一个申请编号
         String applyNo = SerialNumber.Getnum();
         return Msg.success().add("list",list).add("applyNo",applyNo);
@@ -156,23 +156,27 @@ public class CreditApplyController {
         // 判断是否提交
         if (creditApply.getStatus() == 1)        {
             //获取项目信息得到公司ID
-            ProjectEntity project = projectService.getById(creditApply.getPId());
+            Project project = projectService.getById(creditApply.getPId());
             //设置进度，初始化授信类型，设置公司ID
             creditApply.setStep(1).setCreditType(1)
-                    .setComId(project.getComId()).setStatus(0);
+                    .setComId(project.getCompanyId()).setStatus(0);
 
-            result =  creditApplyService.save(creditApply);
             //
             CreditApprovalEntity cai = new CreditApprovalEntity();
+
+            // 保存授信申请信息
+            result =  creditApplyService.save(creditApply);
+
             //初始化授信审批记录表
-            cai.setCreditId(creditApply.getId()).setId(creditApply.getId());
+            cai.setId(creditApply.getId()).setCreditId(creditApply.getId());
+
             boolean b = creditApprovalService.save(cai);
             if(b){
-                FinancierEntity financier = financierService.getById(project.getFId());
+                BusinessManager financier = financierService.getById(project.getUserId());
                 String content = "亲爱的用户，融资人"+financier.getName()
                         +"请的授信申请（"+project.getProjectName()
                         +"），待您完善项目资料，请您及时处理，便于后期业务的开展！";
-                boolean b1 = messageService.productionMessage(1, "待您完善工程资料通知", content, project.getComId());
+                boolean b1 = messageService.productionMessage(1, "待您完善工程资料通知", content, project.getCompanyId());
             }
         }else {
             creditApply.setStep(0);

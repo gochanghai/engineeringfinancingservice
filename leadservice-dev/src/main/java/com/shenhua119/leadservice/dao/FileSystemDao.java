@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shenhua119.leadservice.entity.FileSystemEntity;
+import com.shenhua119.leadservice.entity.FileSystem;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2018-12-06 18:09
  */
 @Mapper
-public interface FileSystemDao extends BaseMapper<FileSystemEntity> {
+public interface FileSystemDao extends BaseMapper<FileSystem> {
 }

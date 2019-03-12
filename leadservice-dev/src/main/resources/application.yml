@@ -11,7 +11,7 @@ spring:
   ## DataSource Config
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.141/leadservice_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://119.23.105.191/efservice?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
     platform: mysql
@@ -31,15 +31,21 @@ mybatis-plus:
       # 主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
       id-type: auto
       # 字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-      field-strategy: not_empty
+      field-strategy: 2
       # 数据库大写下划线转换
       capital-mode: true
       # 驼峰下划线转换
       column-underline: true
-    refresh: true
+      # 刷新mapper 调试神器
+      refresh-mapper: true
 
 
 # 配置文件上传的临时路径
 fastdfs-path:
   upload_location: D:\develop\upload
-  server_ip: http://192.168.1.89/
+  server_ip: http://192.168.4.167/
+
+
+# 日志
+logging:
+  file: efservice-logs/efservice.log

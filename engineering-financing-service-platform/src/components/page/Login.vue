@@ -64,7 +64,7 @@
                     this.$axios.post('api/login',
                         this.qs.stringify(
                             {
-                                userName: this.ruleForm.username,
+                                username: this.ruleForm.username,
                                 password: this.ruleForm.password,
                             }
                         )).then(function (res) {

@@ -35,7 +35,7 @@ public class ProjectController {
 
     // 保存数据
     @PostMapping("info/save")
-    public Msg projectInfoSave(ProjectContractEntity contract, ProjectCostEntity cost, ProjectPaymentEntity payment, ProjectOtherEntity other){
+    public Msg projectInfoSave(ProjectContract contract, ProjectCost cost, ProjectPayment payment, ProjectOther other){
         System.out.println(contract.toString());
         System.out.println(cost.toString());
         System.out.println(payment.toString());
@@ -53,14 +53,14 @@ public class ProjectController {
 
     // 保存数据
     @PostMapping("save")
-    public Msg save(ProjectEntity project){
+    public Msg save(Project project){
         System.out.println(project.toString());
         boolean result = projectService.save(project.setProjectProgress(0.0));
         if (result == true){
-            ProjectContractEntity contract = new ProjectContractEntity();
-            ProjectCostEntity cost = new ProjectCostEntity();
-            ProjectPaymentEntity payment = new ProjectPaymentEntity();
-            ProjectOtherEntity other = new ProjectOtherEntity();
+            ProjectContract contract = new ProjectContract();
+            ProjectCost cost = new ProjectCost();
+            ProjectPayment payment = new ProjectPayment();
+            ProjectOther other = new ProjectOther();
             contract.setId(project.getId());
             projectContractService.save(contract);
             cost.setId(project.getId());
@@ -78,7 +78,7 @@ public class ProjectController {
     @GetMapping("list")
     public Msg list(Long id){
         System.out.println("获取数据");
-//        List<ProjectEntity>  list = projectContractInfoService.list(new QueryWrapper<ProjectEntity>()
+//        List<Project>  list = projectContractInfoService.list(new QueryWrapper<Project>()
 //                .eq("company_id",id));
         List<ProjectList> list1 = projectService.selectByCompanyId(id);
         System.out.println(list1.size());
@@ -89,9 +89,9 @@ public class ProjectController {
     @GetMapping("flist")
     public Msg listByFId(Long id){
         System.out.println("获取数据");
-//        List<ProjectEntity>  list = projectService.list(new QueryWrapper<ProjectEntity>()
+//        List<Project>  list = projectService.list(new QueryWrapper<Project>()
 //                .eq("f_id",id));
-        List<ProjectEntity> list = projectService.selectByFId(id);
+        List<Project> list = projectService.selectByFId(id);
         System.out.println(list.size());
         return Msg.success().add("list",list);
     }
@@ -104,11 +104,11 @@ public class ProjectController {
     @GetMapping("details")
     public Msg projectInfoDetails(Long id){
         System.out.println("details: " + id);
-        ProjectEntity project = projectService.getById(id);
-        ProjectContractEntity contract = projectContractService.getById(id);
-        ProjectPaymentEntity payment = projectPaymentService.getById(id);
-        ProjectCostEntity cost = projectCostService.getById(id);
-        ProjectOtherEntity other = projectOtherService.getById(id);
+        Project project = projectService.getById(id);
+        ProjectContract contract = projectContractService.getById(id);
+        ProjectPayment payment = projectPaymentService.getById(id);
+        ProjectCost cost = projectCostService.getById(id);
+        ProjectOther other = projectOtherService.getById(id);
         return Msg.success()
                 .add("project",project)
                 .add("contract",contract)

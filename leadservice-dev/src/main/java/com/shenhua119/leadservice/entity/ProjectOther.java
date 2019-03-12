@@ -20,7 +20,7 @@ import java.util.Date;
 @Getter
 @Setter
 @TableName("tb_project_other")
-public class ProjectOtherEntity {
+public class ProjectOther {
 
     /**
      * 项目ID

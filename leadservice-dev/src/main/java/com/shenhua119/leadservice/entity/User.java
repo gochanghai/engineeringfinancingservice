@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_user")
+@TableName("sys_user")
 public class User implements Serializable {
 
     /**
@@ -26,7 +26,7 @@ public class User implements Serializable {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 手机号
@@ -49,9 +49,9 @@ public class User implements Serializable {
     private String headimgurl;
 
     /**
-     * 微信ID
+     * 微信
      */
-    private String wxopenid;
+    private String wechat;
 
     /**
      * 角色ID

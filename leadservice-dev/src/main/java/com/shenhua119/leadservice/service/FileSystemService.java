@@ -1,11 +1,11 @@
 package com.shenhua119.leadservice.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shenhua119.leadservice.entity.FileSystemEntity;
+import com.shenhua119.leadservice.entity.FileSystem;
 
 /**
  * @author liuchanghai
  * @create 2018-12-06 18:11
  */
-public interface FileSystemService extends IService<FileSystemEntity> {
+public interface FileSystemService extends IService<FileSystem> {
 }

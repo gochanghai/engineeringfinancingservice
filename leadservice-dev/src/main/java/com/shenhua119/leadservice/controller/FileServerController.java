@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.FileSystemEntity;
+import com.shenhua119.leadservice.entity.FileSystem;
 import com.shenhua119.leadservice.service.FileSystemService;
 import com.shenhua119.leadservice.util.Msg;
 import com.shenhua119.leadservice.util.SerialNumber;
@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,10 +36,10 @@ public class FileServerController {
     @ResponseBody
     public Msg upload(@RequestParam("file") MultipartFile file) throws IOException {
 
-        FileSystemEntity fileSystem = new FileSystemEntity();
+        FileSystem fileSystem = new FileSystem();
         //
         String originalFilename =  file.getOriginalFilename();
-        String extension  = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String extension  = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String fileNameNew = SerialNumber.Getnum() + extension;
         // 把文件暂时存储在本地服务器上
         File file1 = new File(upload_location +"\\"+ fileNameNew);
@@ -66,8 +65,8 @@ public class FileServerController {
             System.out.println("upload success. file id is: " + fileId);
 
             // 设置文件信息
-            fileSystem.setFileId(fileId).setFilePath(fileId).setFileName(originalFilename)
-                    .setFileType(extension).setFileSize(file.getSize()).setCreateDate(new Date());
+            fileSystem.setFileUrl(fileId).setFilePath(fileId).setFileName(originalFilename)
+                    .setFileType(extension).setFileSize(file.getSize());
 
             //保存文件信息
             boolean result = fileSystemService.save(fileSystem);
@@ -111,7 +110,7 @@ public class FileServerController {
     @GetMapping("/all")
     @ResponseBody
     public Msg getAllList(){
-        List<FileSystemEntity> list = fileSystemService.list(new QueryWrapper<FileSystemEntity>()
+        List<FileSystem> list = fileSystemService.list(new QueryWrapper<FileSystem>()
                 .isNotNull("id")
                 .orderByDesc("create_date"));
         return Msg.success().add("list",list);

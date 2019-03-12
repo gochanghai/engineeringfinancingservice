@@ -18,7 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @TableName("tb_project_credit")
-public class ProjectCreditEntity {
+public class ProjectCredit {
 
     /**
      * 授信ID

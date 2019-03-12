@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("tb_project_purchase_order")
-public class ProjectPurchaseOrderEntity {
+public class ProjectPurchaseOrder {
 
     /**
      * 主键ID

@@ -1,8 +1,8 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.FinancierAuthenEntity;
-import com.shenhua119.leadservice.entity.FinancierEntity;
+import com.shenhua119.leadservice.entity.BusinessManagerAuthen;
+import com.shenhua119.leadservice.entity.BusinessManager;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.FinancierAuthenService;
 import com.shenhua119.leadservice.service.FinancierService;
@@ -37,26 +37,26 @@ public class FinancierController {
     @GetMapping("get")
     public Msg getById(Long id){
         logger.info("get: " + id);
-        FinancierEntity financier = financierService.getById(id);
+        BusinessManager financier = financierService.getById(id);
         logger.info("获取成功： " + financier.toString());
         return  Msg.success().add("userInfo",financier);
     }
 
     //
     @PostMapping("save")
-    public Msg saveFinancier(FinancierEntity financier){
+    public Msg saveFinancier(BusinessManager financier){
         System.out.println(financier.getName() + financier.getIdCard());
         boolean result = financierService.save(financier);
 
         // 判断手机号码是否存在
         if (financier.getPhone() != null){
-            financier = financierService.getOne(new QueryWrapper<FinancierEntity>().eq("phone", financier.getPhone()));
+            financier = financierService.getOne(new QueryWrapper<BusinessManager>().eq("phone", financier.getPhone()));
             User user = new User();
             user.setPhone(financier.getPhone()).setPassword("123456").setUserType(1)
                     .setRoleId(3L).setUserInfoId(financier.getId());
             boolean result2 = userService.save(user);
-            FinancierAuthenEntity authen = new FinancierAuthenEntity();
-            authen.setId(financier.getId()).setFId(financier.getId());
+            BusinessManagerAuthen authen = new BusinessManagerAuthen();
+            authen.setId(financier.getId()).setUserId(financier.getId());
             financierAuthenService.save(authen);
         }
         System.out.println("保存成功： " + result);
@@ -66,7 +66,7 @@ public class FinancierController {
     //
     @GetMapping("all")
     public Msg list(){
-        List<FinancierEntity> list = financierService.selectAll();
+        List<BusinessManager> list = financierService.selectAll();
         System.out.println("获取成功： " + list.size());
         return  Msg.success().add("list",list);
     }
@@ -74,7 +74,7 @@ public class FinancierController {
     @GetMapping("list")
     public Msg list(Long id){
         System.out.println("list: " + id);
-        List<FinancierEntity> list = financierService.listByCompanyId(id);
+        List<BusinessManager> list = financierService.listByCompanyId(id);
         System.out.println("获取成功： " + list.size());
         return  Msg.success().add("list",list);
     }

@@ -2,7 +2,7 @@ package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.common.annotation.Log;
-import com.shenhua119.leadservice.entity.FinancierEntity;
+import com.shenhua119.leadservice.entity.BusinessManager;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.EngineeringCompanyService;
 import com.shenhua119.leadservice.service.FinancierService;
@@ -40,17 +40,17 @@ public class LoginController {
 
     @Log("用户登录")
     @PostMapping("login")
-    public Msg login(String userName, String password){
+    public Msg login(String username, String password){
 
-        System.out.println(userName + "用户登录");
+        System.out.println(username + "用户登录");
         /**
          * 使用用户名登陆
          */
-        User user1= userService.getOne(new QueryWrapper<User>().eq("user_name",userName));
+        User user1= userService.getOne(new QueryWrapper<User>().eq("username",username));
         // 判断用户名是否存在
         if ( user1 != null){
-            if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)){
-                System.out.println("用户名登录：" + userName);
+            if (user1.getUsername().equals(username) && user1.getPassword().equals(password)){
+                System.out.println("用户名登录：" + username);
                 System.out.println("roleId: " + user1.getRoleId());
                 // 用户角色判断
                 if ( user1.getRoleId() == 1 ){
@@ -61,7 +61,7 @@ public class LoginController {
                 }
                 if ( user1.getRoleId() == 3 ){
 
-                    FinancierEntity financier = financierService.getById(user1.getUserInfoId());
+                    BusinessManager financier = financierService.getById(user1.getUserInfoId());
 
                     return Msg.success().add("userInfo",user1)
                                         .add("nickname", financier.getName())
@@ -76,15 +76,15 @@ public class LoginController {
         /**
          * 使用手机号登陆
          */
-        User user2 = userService.getOne(new QueryWrapper<User>().eq("phone",userName));
+        User user2 = userService.getOne(new QueryWrapper<User>().eq("phone",username));
         // 判断用户是否存在
         if ( user2 != null){
-            if (user2.getPhone().equals(userName) && user2.getPassword().equals(password)){
-                System.out.println("手机登录： " + userName);
+            if (user2.getPhone().equals(username) && user2.getPassword().equals(password)){
+                System.out.println("手机登录： " + username);
                 System.out.println("roleId: " + user2.getRoleId());
                 if (user2.getRoleId() == 3){
-                    FinancierEntity financierEntity = financierService.getById(user2.getUserInfoId());
-                    return Msg.success().add("userInfo",user2).add("userInfo2", financierEntity)
+                    BusinessManager businessManager = financierService.getById(user2.getUserInfoId());
+                    return Msg.success().add("userInfo",user2).add("userInfo2", businessManager)
                             .add("fileBasePath",fileBasePath);
                 }
                 return Msg.success().add("userInfo",user2).add("fileBasePath",fileBasePath);

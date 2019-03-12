@@ -19,7 +19,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_system_message")
+@TableName("message_system")
 public class MessageEntity {
     /**
      * 主键ID

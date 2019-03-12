@@ -16,12 +16,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("tb_project_payment")
-public class ProjectPaymentEntity {
+public class ProjectPayment {
+    /**
+     * Id
+     */
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long id;
+
     /**
      * 项目Id
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long id;
+    private Long projectId;
     /**
      * 前期累计开票额
      */
@@ -39,27 +45,27 @@ public class ProjectPaymentEntity {
     /**
      * 发票凭证
      */
-    private String invoiceFile;
+    private String invoice;
 
     /**
      * 转账凭证
      */
-    private String transferFile;
+    private String transfer;
 
     /**
      * 对应发票凭证
      */
-    private String transferToInvoiceFile;
+    private String transferToInvoice;
 
     /**
      * 采购合同
      */
-    private String buyContractFile;
+    private String purchaseContract;
 
     /**
      * 采购发票
      */
-    private String buyInvoiceFile;
+    private String purchaseInvoice;
 
     /**
      * 送货单

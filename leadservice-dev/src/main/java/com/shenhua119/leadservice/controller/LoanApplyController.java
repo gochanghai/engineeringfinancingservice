@@ -41,18 +41,18 @@ public class LoanApplyController {
     public Msg save(LoanApplyEntity loanApply){
         System.out.println(loanApply.toString());
         // 根据项目ID 得到项目信息，从而得到工程公司ID
-        ProjectEntity project = projectService.getById(loanApply.getPId());
+        Project project = projectService.getById(loanApply.getPId());
         // 设置工程公司ID
-        loanApply.setComId(project.getComId());
+        loanApply.setComId(project.getCompanyId());
         boolean result = loanApplyInfoService.save(loanApply);
         System.out.println("放款申请信息保存成功: " + result);
         LoanApprovalEntity approval = new LoanApprovalEntity();
         approval.setId(loanApply.getId()).setApplyId(loanApply.getId());
         boolean b1 = loanApprovalService.save(approval);
         if (result){
-            FinancierEntity financier = financierService.getById(project.getFId());
+            BusinessManager financier = financierService.getById(project.getUserId());
             String content = "亲爱的用户，融资人"+financier.getName()+"请放款，待您放款审批，请您及时处理，便于后期业务的开展！";
-            boolean b = messageService.productionMessage(1, "待您放款审批通知", content, project.getComId());
+            boolean b = messageService.productionMessage(1, "待您放款审批通知", content, project.getCompanyId());
         }
         return Msg.success();
     }
@@ -63,7 +63,7 @@ public class LoanApplyController {
      * @return
      */
     @PostMapping("purchase/save")
-    public Msg savePurchase(ProjectPurchaseOrderEntity purchaseOrder){
+    public Msg savePurchase(ProjectPurchaseOrder purchaseOrder){
         System.out.println(purchaseOrder.toString());
         boolean result = projectPurchaseOrderService.save(purchaseOrder);
         System.out.println("放款采购信息保存成功: " + result);

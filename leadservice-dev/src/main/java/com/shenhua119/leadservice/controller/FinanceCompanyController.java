@@ -1,8 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.FinanceCompanyEntity;
-import com.shenhua119.leadservice.entity.User;
+import com.shenhua119.leadservice.entity.FinanceCompany;
 import com.shenhua119.leadservice.service.FinanceCompanyService;
 import com.shenhua119.leadservice.service.UserService;
 import com.shenhua119.leadservice.util.Msg;
@@ -18,7 +16,7 @@ import java.util.List;
  */
 @CrossOrigin // 决解跨域问题
 @RestController
-@RequestMapping("fc")
+@RequestMapping("api/finance")
 public class FinanceCompanyController {
 
     @Autowired
@@ -28,26 +26,20 @@ public class FinanceCompanyController {
 
     // 保存数据
     @PostMapping("save")
-    public Msg save(FinanceCompanyEntity fc){
-        System.out.println(fc.getCompanyFullName() + fc.getContactPerson());
-        boolean result = financeCompanyService.save(fc);
-        if (result){
-            fc = financeCompanyService.getOne(new QueryWrapper<FinanceCompanyEntity>().eq("phone",fc.getPhone()));
-            User user = new User();
-            user.setUserName(fc.getUserName()).setPhone(fc.getPhone()).setPassword("123456")
-                    .setUserInfoId(fc.getId()).setUserType(1).setRoleId(2L);
-            boolean result2 = userService.save(user);
-            return Msg.success();
+    public Msg save(FinanceCompany finance){
+        System.out.println(finance);
+        boolean result = financeCompanyService.saveAndCreateAccount(finance);
+        if(result){
+            return Msg.fail().add("message","数据保存成功");
         }
-
-        return Msg.fail();
+        return Msg.fail().add("message","数据保存失败");
     }
 
     // 获取数据
     @GetMapping("list")
     public Msg list(){
         System.out.println("获取数据");
-        List<FinanceCompanyEntity> list = financeCompanyService.list(null);
+        List<FinanceCompany> list = financeCompanyService.list(null);
         return Msg.success().add("list", list);
     }
 
@@ -55,7 +47,7 @@ public class FinanceCompanyController {
     @GetMapping("options")
     public Msg fundNCompanyameList(){
         System.out.println("options 获取数据");
-        List<FinanceCompanyEntity> list = financeCompanyService.listCompanyNameAndComId();
+        List<FinanceCompany> list = financeCompanyService.listCompanyNameAndComId();
         return Msg.success().add("list", list);
     }
 }

@@ -2,7 +2,7 @@ package com.shenhua119.leadservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shenhua119.leadservice.dao.ProjectDao;
-import com.shenhua119.leadservice.entity.ProjectEntity;
+import com.shenhua119.leadservice.entity.Project;
 import com.shenhua119.leadservice.entity.ProjectList;
 import com.shenhua119.leadservice.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2018-12-05 19:06
  */
 @Service
-public class ProjectContractInfoServiceImpl extends ServiceImpl<ProjectDao, ProjectEntity> implements ProjectService {
+public class ProjectContractInfoServiceImpl extends ServiceImpl<ProjectDao, Project> implements ProjectService {
 
     @Autowired
     private ProjectDao projectDao;
@@ -26,7 +26,7 @@ public class ProjectContractInfoServiceImpl extends ServiceImpl<ProjectDao, Proj
     }
 
     @Override
-    public List<ProjectEntity> selectByFId(Long fId) {
+    public List<Project> selectByFId(Long fId) {
         return projectDao.selectByFId(fId);
     }
 }

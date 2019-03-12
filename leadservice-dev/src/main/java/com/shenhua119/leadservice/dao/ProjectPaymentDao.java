@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shenhua119.leadservice.entity.ProjectPaymentEntity;
+import com.shenhua119.leadservice.entity.ProjectPayment;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2018-12-09 0:30
  */
 @Mapper
-public interface ProjectPaymentDao extends BaseMapper<ProjectPaymentEntity> {
+public interface ProjectPaymentDao extends BaseMapper<ProjectPayment> {
 }

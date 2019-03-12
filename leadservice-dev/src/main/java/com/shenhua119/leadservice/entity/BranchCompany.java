@@ -8,49 +8,49 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * @author liuchanghai
- * @create 2019-01-15 16:58
+ * @create 2018-11-30 0:11
+ * <p>分公司实体</p>
  */
-
 @Data
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_eng_company_credit")
-public class EngineeringCompanyCreditEntity {
+@TableName("company_branch")
+public class BranchCompany implements Serializable {
+
     /**
      * 主键ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
+
     /**
-     * 工程公司ID
+     * 总公司ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long comId;
+    private Long pId;
+
     /**
-     * 产品ID
+     * 公司名称
      */
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long productId;
+    private String companyName;
+
     /**
-     * 资金方ID
+     * 公司地址
      */
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long fComId;
+    private String address;
+
     /**
-     * 授信额度
+     * 联系人
      */
-    private Double amount;
+    private String contactPerson;
+
     /**
-     * 状态
+     * 联系电话
      */
-    private Integer status;
-    /**
-     * 授信时间
-     */
-    private Date createDate;
+    private String phone;
 }

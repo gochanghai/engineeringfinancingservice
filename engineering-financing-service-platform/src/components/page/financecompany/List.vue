@@ -110,7 +110,9 @@
             },
             // 添加
             add(){
-
+                this.$router.push({
+                    path:'financecompany-add'
+                })
             }
         }
     }

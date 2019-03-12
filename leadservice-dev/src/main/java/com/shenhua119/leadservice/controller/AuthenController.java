@@ -42,10 +42,10 @@ public class AuthenController {
     @GetMapping("bm_info_details")
     public Msg getBusinessManagerInfo(Long id){
         System.out.println("bm_info_details: " + id);
-        FinancierEntity financier = financierService.getById(id);
-        FinancierAuthenEntity authen = financierAuthenService.getById(id);
-        List<FinancierCarEntity> cars = financierCarInfoService.list(new QueryWrapper<FinancierCarEntity>().eq("f_id", id));
-        List<FinancierHouseEntity> houses = financierHouseInfoService.list(new QueryWrapper<FinancierHouseEntity>().eq("f_id", id));
+        BusinessManager financier = financierService.getById(id);
+        BusinessManagerAuthen authen = financierAuthenService.getById(id);
+        List<Car> cars = financierCarInfoService.list(new QueryWrapper<Car>().eq("f_id", id));
+        List<House> houses = financierHouseInfoService.list(new QueryWrapper<House>().eq("f_id", id));
         return Msg.success()
                 .add("baseinfo",financier)
                 .add("authenInfo",authen)
@@ -54,7 +54,7 @@ public class AuthenController {
     }
     // 保存数据
     @PostMapping("bankCard/save")
-    public Msg saveBackCardInfo(BankCardEntity bankCard){
+    public Msg saveBackCardInfo(BankCard bankCard){
         System.out.println("save BankCardInfo" + bankCard.toString());
         boolean result = bankCardService.save(bankCard);
         return Msg.success();
@@ -62,7 +62,7 @@ public class AuthenController {
 
     // 保存数据
     @PostMapping("save")
-    public Msg save(FinancierAuthenEntity financier, BankCardEntity bankCard){
+    public Msg save(BusinessManagerAuthen financier, BankCard bankCard){
         System.out.println("save financierBaseInfo: " + financier.toString());
         System.out.println("save bankCard: " + bankCard.toString());
         logger.info(financier.toString());
@@ -75,7 +75,7 @@ public class AuthenController {
 
     // 保存数据
     @PostMapping("save/car")
-    public Msg saveCar(FinancierCarEntity car){
+    public Msg saveCar(Car car){
         logger.info(car.toString());
         System.out.println("save car " + car.toString());
         boolean result = financierCarInfoService.saveOrUpdate(car);
@@ -84,7 +84,7 @@ public class AuthenController {
 
     // 保存数据
     @PostMapping("save/house")
-    public Msg saveHouse(FinancierHouseEntity house){
+    public Msg saveHouse(House house){
         logger.info(house.toString());
         System.out.println("save house" + house.toString());
         boolean result = financierHouseInfoService.saveOrUpdate(house);

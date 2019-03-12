@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shenhua119.leadservice.entity.FinancierHouseEntity;
+import com.shenhua119.leadservice.entity.House;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2018-11-29 22:28
  */
 @Mapper
-public interface FinancierHouseDao extends BaseMapper<FinancierHouseEntity> {
+public interface FinancierHouseDao extends BaseMapper<House> {
 }

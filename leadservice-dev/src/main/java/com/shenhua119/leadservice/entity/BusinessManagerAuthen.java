@@ -18,15 +18,15 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_financier_authen")
-public class FinancierAuthenEntity {
+@TableName("businessmanager_authen")
+public class BusinessManagerAuthen {
 
     // 主键Id
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
-    // 融资人Id
+    // 用户Id
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long fId;
+    private Long userId;
 
     // 银行卡号
     private String bankCardNo;
@@ -74,7 +74,7 @@ public class FinancierAuthenEntity {
     private String spouseIdCardSideBack;
 
     // 结婚证
-    private String marriageCertificate;
+    private String marriageCert;
 
     // 配偶户口本主页
     private String sHouseholdRegHome;
@@ -83,12 +83,12 @@ public class FinancierAuthenEntity {
     private String sHouseholdRegPersonal;
 
     // 离婚证
-    private String divorceCertificate;
+    private String divorceCert;
 
     //公司名称
     private String companyName;
 
-    // 统一社会信用代码
+    // 信用代码
     private String creditCode;
 
     // 公司营业执照

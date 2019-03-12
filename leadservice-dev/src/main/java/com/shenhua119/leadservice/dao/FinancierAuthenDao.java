@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shenhua119.leadservice.entity.FinancierAuthenEntity;
+import com.shenhua119.leadservice.entity.BusinessManagerAuthen;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2018-11-29 22:28
  */
 @Mapper
-public interface FinancierAuthenDao extends BaseMapper<FinancierAuthenEntity> {
+public interface FinancierAuthenDao extends BaseMapper<BusinessManagerAuthen> {
 
 }

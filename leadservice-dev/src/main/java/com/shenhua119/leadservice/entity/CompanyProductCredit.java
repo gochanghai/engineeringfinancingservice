@@ -1,66 +1,57 @@
 package com.shenhua119.leadservice.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 公司金融产品授信实体
  * @author liuchanghai
- * @create 2018-11-30 0:07
+ * @create 2019-01-15 16:58
  */
 
 @Data
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("project_progress_detail")
-public class ProjectProgressDetail implements Serializable {
-
+@TableName("tb_eng_company_credit")
+public class CompanyProductCredit {
     /**
      * 主键ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
-
     /**
-     * 项目ID
+     * 工程公司ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long projectId;
-
+    private Long userId;
     /**
-     * 施工时间
+     * 产品ID
      */
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date date;
-
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long productId;
     /**
-     * 施工进度
+     * 资金方ID
      */
-    private Double progressRatio;
-
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long companyId;
     /**
-     * 进度描述
+     * 授信额度
      */
-    private String desc;
-
+    private Double amount;
     /**
-     * 产值
+     * 状态
      */
-    private Double outputValue;
-
+    private Integer status;
     /**
-     * 现场文件
+     * 授信时间
      */
-    private String progressFile;
+    private Date createDate;
 }

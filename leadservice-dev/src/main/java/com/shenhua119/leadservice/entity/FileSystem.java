@@ -19,29 +19,43 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_file_system")
-public class FileSystemEntity {
-
+@TableName("file_system")
+public class FileSystem {
+    /**
+     * 主键ID
+     */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
-    // 文件ID
-    private String fileId;
-
-    // 文件存储路径
-    private String filePath;
-
-    // 文件大小
-    private Long fileSize;
-
-    // 文件名称
+    /**
+     * 文件名称
+     */
     private String fileName;
 
-    // 文件类型
+    /**
+     * 文件大小
+     */
+    private Long fileSize;
+
+    /**
+     * 文件类型
+     */
     private String fileType;
 
-    // 上传时间
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    /**
+     * 文件url
+     */
+    private String fileUrl;
+
+    /**
+     * 文件路径
+     */
+    private String filePath;
+
+    /**
+     * 上传时间
+     */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
 }

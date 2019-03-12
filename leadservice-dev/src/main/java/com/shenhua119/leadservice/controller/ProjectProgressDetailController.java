@@ -1,7 +1,7 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.shenhua119.leadservice.entity.ProjectEntity;
+import com.shenhua119.leadservice.entity.Project;
 import com.shenhua119.leadservice.entity.ProjectProgressDetail;
 import com.shenhua119.leadservice.service.ProjectService;
 import com.shenhua119.leadservice.service.ProjectProgressDetailService;
@@ -31,8 +31,8 @@ public class ProjectProgressDetailController {
     public Msg save(ProjectProgressDetail ppd){
         System.out.println("项目" + ppd.getProjectId() + " 添加项目进度");
         boolean result1 = projectProgressDetailService.save(ppd);
-        ProjectEntity pc = new ProjectEntity();
-        pc.setId(ppd.getProjectId()).setProjectProgress(ppd.getConstructionProgress());
+        Project pc = new Project();
+        pc.setId(ppd.getProjectId()).setProjectProgress(ppd.getProgressRatio());
         if (result1){
             boolean result2 = projectContractInfoService.updateById(pc);
             return Msg.success();

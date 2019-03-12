@@ -20,18 +20,23 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_project")
-public class ProjectEntity implements Serializable {
+@TableName("project")
+public class Project implements Serializable {
     /**
      * 项目Id
      */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
     /**
+     *商务经理Id
+     */
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long userId;
+    /**
      *工程公司ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long comId;
+    private Long companyId;
     /**
      *项目名称
      */
@@ -49,15 +54,11 @@ public class ProjectEntity implements Serializable {
      */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long childComId;
-    /**
-     *商务经理Id
-     */
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long fId;
+
     /**
      *预授信金额
      */
-    private Double shouldCreditAmount;
+    private Double creditAmount;
     /**
      *项目进度
      */
@@ -71,6 +72,6 @@ public class ProjectEntity implements Serializable {
      * 分公司
      */
     @TableField(exist=false)
-    private ChildCompanyEntity childCompany;
+    private BranchCompany childCompany;
 
 }

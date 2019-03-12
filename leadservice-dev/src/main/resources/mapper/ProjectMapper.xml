@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shenhua119.leadservice.dao.ProjectDao">
-    <resultMap id="projectMapsLazyLoading" type="com.shenhua119.leadservice.entity.ProjectEntity" >
+    <resultMap id="projectMapsLazyLoading" type="com.shenhua119.leadservice.entity.Project" >
         <id column="id" property="id"/>
         <result column="p_id" property="pId"/>
         <result column="project_name" property="projectName"/>
@@ -12,7 +12,7 @@
         <result column="project_progress" property="projectProgress"/>
         <result column="f_id" property="fId"/>
         <result column="is_credit" property="isCredit"/>
-        <collection property="childCompany" ofType="com.shenhua119.leadservice.entity.ChildCompanyEntity" column="child_com_id" select="selectChildCompanyById">
+        <collection property="childCompany" ofType="com.shenhua119.leadservice.entity.BranchCompany" column="child_com_id" select="selectChildCompanyById">
         </collection>
     </resultMap>
 
@@ -23,7 +23,7 @@
 		where f_id = #{fId}
 	</select>
 
-    <select id="selectChildCompanyById" parameterType="long" resultType="com.shenhua119.leadservice.entity.ChildCompanyEntity">
+    <select id="selectChildCompanyById" parameterType="long" resultType="com.shenhua119.leadservice.entity.BranchCompany">
 		select
 			*
 		from tb_child_company

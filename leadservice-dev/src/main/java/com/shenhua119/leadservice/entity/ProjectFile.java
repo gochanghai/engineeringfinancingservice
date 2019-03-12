@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.util.Date;
 
-public class ProjectFileEntity {
+public class ProjectFile {
     /**
      *主键ID
      */

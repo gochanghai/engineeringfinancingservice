@@ -21,7 +21,7 @@ import java.util.Date;
 @Getter
 @Setter
 @TableName("tb_project_contract")
-public class ProjectContractEntity implements Serializable {
+public class ProjectContract implements Serializable {
     /**
      * 项目Id
      */
@@ -34,7 +34,7 @@ public class ProjectContractEntity implements Serializable {
     /**
      * 项目地址
      */
-    private String projectAdress;
+    private String address;
     /**
      * 合同金额
      */
@@ -52,13 +52,13 @@ public class ProjectContractEntity implements Serializable {
      */
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date constructionStartDate;
+    private Date startDate;
     /**
      * 施工结束日期
      */
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date constructionEndDate;
+    private Date endDate;
     /**
      * 结算方式
      */
