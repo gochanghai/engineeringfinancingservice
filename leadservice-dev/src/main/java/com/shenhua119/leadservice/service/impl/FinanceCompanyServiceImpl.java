@@ -46,6 +46,7 @@ public class FinanceCompanyServiceImpl extends ServiceImpl<FinanceCompanyDao, Fi
         User user = new User();
         user.setUsername(finance.getUsername())
             .setPhone(finance.getPhone())
+            .setNickname("FC_" + finance.getUsername())
             .setPassword("123456")
             .setUserType(1)
             .setRoleId(2L);

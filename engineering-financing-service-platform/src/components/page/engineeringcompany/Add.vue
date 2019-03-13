@@ -114,7 +114,7 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
             </el-col>

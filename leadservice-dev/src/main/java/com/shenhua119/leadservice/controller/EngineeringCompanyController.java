@@ -1,10 +1,7 @@
 package com.shenhua119.leadservice.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.CompanyProductCredit;
 import com.shenhua119.leadservice.entity.EngineeringCompany;
-import com.shenhua119.leadservice.entity.EngineeringCompanyView;
-import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.EngineeringCompanyCreditService;
 import com.shenhua119.leadservice.service.EngineeringCompanyService;
 import com.shenhua119.leadservice.service.UserService;
@@ -36,39 +33,31 @@ public class EngineeringCompanyController {
     public Msg update(CompanyProductCredit ecc){
         boolean result = engineeringCompanyCreditService.save(ecc.setCreateDate(new Date()));
         EngineeringCompany engineeringCompany = new EngineeringCompany();
-//        engineeringCompany.setId(ecc.getComId()).setFComId(ecc.getFComId()).setCreditAmount(ecc.getAmount());
         result = engineeringCompanyService.updateById(engineeringCompany);
         return Msg.success();
     }
 
-    // 保存数据
+    /**
+     * 保存工程公司的数据
+     * @param engineering
+     * @return
+     */
     @PostMapping("save")
-    public Msg save(EngineeringCompany ec){
-        System.out.println(ec.toString());
-        boolean result0 = false ;
-        result0 = engineeringCompanyService.save(ec);
-        if (result0){
-          EngineeringCompany ec2 =  engineeringCompanyService.getOne(new QueryWrapper<EngineeringCompany>()
-                    .eq("credit_code",ec.getCreditCode()));
-          if (ec2 != null){
-              User user = new User();
-              user.setUsername(ec.getUsername1()).setPhone(ec.getPhone1()).setPassword("123456")
-                      .setUserInfoId(ec2.getId()).setUserType(1).setRoleId(1L);
-              boolean result1 = userService.save(user);
-              user.setUsername(ec.getUsername2()).setPhone(ec.getPhone2()).setPassword("123456")
-                      .setUserInfoId(ec2.getId()).setUserType(2).setRoleId(1L);
-              boolean result2 = userService.save(user);
-          }
+    public Msg save(EngineeringCompany engineering){
+        System.out.println(engineering.toString());
+        boolean b = engineeringCompanyService.saveAndCreateAccount(engineering);
+        if (b){
+            return Msg.success();
         }
-
-        return Msg.success();
+        return Msg.fail();
     }
 
     // 获取数据
     @GetMapping("list")
     public Msg list(){
         System.out.println("获取工程公司数据");
-        List<EngineeringCompanyView> list = engineeringCompanyService.listAll();
+//        List<EngineeringCompanyView> list = engineeringCompanyService.listAll();
+        List<EngineeringCompany> list = engineeringCompanyService.list(null);
         return Msg.success().add("list", list);
     }
 

@@ -7,5 +7,5 @@ import com.shenhua119.leadservice.entity.BranchCompany;
  * @author liuchanghai
  * @create 2018-12-06 18:11
  */
-public interface ChildCompanyService extends IService<BranchCompany> {
+public interface BranchCompanyService extends IService<BranchCompany> {
 }

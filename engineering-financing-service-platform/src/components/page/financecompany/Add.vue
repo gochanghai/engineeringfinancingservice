@@ -182,11 +182,11 @@
                 this.$router.push("financial-company-list")
             },
             save(){
-                // this.$refs['form'].validate((valid) => {
-                //     if (!valid) {
-                //         return;
-                //     }
-                // });
+                this.$refs['form'].validate((valid) => {
+                    if (!valid) {
+                        return;
+                    }
+                });
                 let _that = this;
                 this.$axios.post('api/finance/save',
                     this.qs.stringify(

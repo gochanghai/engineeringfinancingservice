@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("engineeringcompany")
+@TableName("company_engineering")
 public class EngineeringCompany implements Serializable {
 
     @JsonSerialize(using= ToStringSerializer.class)
@@ -45,10 +45,10 @@ public class EngineeringCompany implements Serializable {
     // 法人身份证反面
     private String idCardSideBack;
 
-    // 统一社会信用代码
+    // 信用代码
     private String creditCode;
 
-    // 统一社会信用代码证
+    // 信用代码证
     private String creditCodeCert;
 
     // 对公账户名称
@@ -77,6 +77,7 @@ public class EngineeringCompany implements Serializable {
 
     //资金方ID
     @JsonSerialize(using= ToStringSerializer.class)
+    @TableField(exist=false)
     private Long fComId;
 
     // 授信资方名称

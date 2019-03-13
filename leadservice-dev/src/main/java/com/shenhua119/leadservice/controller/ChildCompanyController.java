@@ -2,7 +2,7 @@ package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.BranchCompany;
-import com.shenhua119.leadservice.service.ChildCompanyService;
+import com.shenhua119.leadservice.service.BranchCompanyService;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +20,13 @@ import java.util.List;
 public class ChildCompanyController {
 
     @Autowired
-    private ChildCompanyService childCompanyService;
+    private BranchCompanyService branchCompanyService;
 
     // 保存数据
     @PostMapping("save")
     public Msg save(BranchCompany cc){
         System.out.println(cc.toString());
-        boolean result = childCompanyService.save(cc);
+        boolean result = branchCompanyService.save(cc);
         if (result){
             return Msg.success();
         }
@@ -38,7 +38,7 @@ public class ChildCompanyController {
     public Msg list(Long id){
         System.out.println("获取数据");
         // 使用条件构造获取数据
-        List<BranchCompany> list = childCompanyService
+        List<BranchCompany> list = branchCompanyService
                 .list(new QueryWrapper<BranchCompany>().eq("p_id",id));
         return Msg.success().add("list", list);
     }

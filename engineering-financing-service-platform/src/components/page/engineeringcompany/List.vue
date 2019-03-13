@@ -16,7 +16,7 @@
                             <el-table-column type="index" label="序号" width="100" align="center"/>
                             <el-table-column prop="companyName" label="公司名称"/>
                             <el-table-column prop="person" label="企业法人" width="100" align="center"/>
-                            <el-table-column prop="creditCodeNumber" label="信用代码" align="center"/>
+                            <el-table-column prop="creditCode" label="信用代码" align="center"/>
                             <el-table-column prop="companyFullName" label="授信资方" align="center" />
                             <el-table-column prop="creditAmount" label="担保授信额（万元）" width="150" align="center">
                                 <template slot-scope="scope">

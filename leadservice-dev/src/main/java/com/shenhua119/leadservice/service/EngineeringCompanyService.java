@@ -24,4 +24,11 @@ public interface EngineeringCompanyService extends IService<EngineeringCompany> 
      * @return
      */
     EngineeringCompany getEngineeringCompanyById(Long id);
+
+    /**
+     * 保存创建工程公司并且创建用户
+     * @param engineering
+     * @return
+     */
+    boolean saveAndCreateAccount(EngineeringCompany engineering);
 }

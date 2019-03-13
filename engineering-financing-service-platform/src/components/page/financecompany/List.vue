@@ -14,10 +14,10 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100"/>
-                            <el-table-column prop="companyFullName" label="企业名称"/>
+                            <el-table-column prop="companyName" label="企业名称"/>
                             <el-table-column prop="contactPerson" label="负责人" width="100" align="center"/>
                             <el-table-column prop="contactNumber" label="负责人手机号" width="200" align="center"/>
-                            <el-table-column prop="cooperationBank" label="合作分行"/>
+                            <el-table-column prop="coopBank" label="合作分行"/>
                             <el-table-column prop="status" label="状态" width="100">
                                 <template slot-scope="scope">
                                     <el-tag type="warning">{{scope.row.status | statusToText}}</el-tag>
@@ -90,7 +90,7 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('fc/list',{params:{
+                this.$axios.get('api/finance/list',{params:{
                         id: this.userId
                     }}).then(function (response) {
                     console.log(response);

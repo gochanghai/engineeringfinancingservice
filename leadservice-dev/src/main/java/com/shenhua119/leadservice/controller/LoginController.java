@@ -3,11 +3,9 @@ package com.shenhua119.leadservice.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.common.annotation.Log;
 import com.shenhua119.leadservice.entity.BusinessManager;
+import com.shenhua119.leadservice.entity.CompanyUser;
 import com.shenhua119.leadservice.entity.User;
-import com.shenhua119.leadservice.service.EngineeringCompanyService;
-import com.shenhua119.leadservice.service.FinancierService;
-import com.shenhua119.leadservice.service.FinanceCompanyService;
-import com.shenhua119.leadservice.service.UserService;
+import com.shenhua119.leadservice.service.*;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +32,7 @@ public class LoginController {
     @Autowired
     private FinancierService financierService;
     @Autowired
-    private EngineeringCompanyService engineeringCompanyService;
+    private CompanyUserService companyUserService;
     @Autowired
     private FinanceCompanyService fundCompanyService;
 
@@ -54,7 +52,10 @@ public class LoginController {
                 System.out.println("roleId: " + user1.getRoleId());
                 // 用户角色判断
                 if ( user1.getRoleId() == 1 ){
-                    return Msg.success().add("userInfo",user1).add("fileBasePath",fileBasePath);
+                    CompanyUser companyUser = companyUserService.getOne(new QueryWrapper<CompanyUser>().eq("user_id", user1.getId()));
+                    return Msg.success().add("userInfo",user1)
+                            .add("companyId",companyUser.getCompanyId())
+                            .add("fileBasePath",fileBasePath);
                 }
                 if ( user1.getRoleId() == 2 ){
                     return Msg.success().add("userInfo",user1).add("fileBasePath",fileBasePath);
@@ -91,7 +92,6 @@ public class LoginController {
             }
             return Msg.fail().add("message","密码错误");
         }
-
         return Msg.fail().add("message", "用户名不存在");
     }
 
