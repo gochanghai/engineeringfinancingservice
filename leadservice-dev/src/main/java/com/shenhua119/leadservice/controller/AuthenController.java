@@ -24,7 +24,7 @@ public class AuthenController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private FinancierService financierService;
+    private BusinessManagerService businessManagerService;
     @Autowired
     private FinancierAuthenService financierAuthenService;
     @Autowired
@@ -42,7 +42,7 @@ public class AuthenController {
     @GetMapping("bm_info_details")
     public Msg getBusinessManagerInfo(Long id){
         System.out.println("bm_info_details: " + id);
-        BusinessManager financier = financierService.getById(id);
+        BusinessManager financier = businessManagerService.getById(id);
         BusinessManagerAuthen authen = financierAuthenService.getById(id);
         List<Car> cars = financierCarInfoService.list(new QueryWrapper<Car>().eq("f_id", id));
         List<House> houses = financierHouseInfoService.list(new QueryWrapper<House>().eq("f_id", id));

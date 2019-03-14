@@ -31,7 +31,7 @@ public class CheckController {
     @Autowired
     private EngineeringCompanyService engineeringCompanyService;
     @Autowired
-    private FinancierService financierService;
+    private BusinessManagerService businessManagerService;
     @Autowired
     private BankCardService bankCardService;
     @Autowired
@@ -88,8 +88,8 @@ public class CheckController {
      */
     @GetMapping("checkIdCard")
     public Msg checkIdCard(String idCard) {
-        List<BusinessManager> list = financierService.list(new QueryWrapper<BusinessManager>()
-                .eq("id_card", idCard));
+        var where = new QueryWrapper<BusinessManager>().eq("id_card", idCard);
+        List<BusinessManager> list = businessManagerService.list(where);
         if(list.size() >0 ){
             return Msg.success().add("result",1).add("message","身份证号已被使用");
         }

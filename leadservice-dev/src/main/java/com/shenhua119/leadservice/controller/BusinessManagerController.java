@@ -1,0 +1,73 @@
+package com.shenhua119.leadservice.controller;
+
+import com.shenhua119.leadservice.entity.BusinessManager;
+import com.shenhua119.leadservice.service.BusinessManagerService;
+import com.shenhua119.leadservice.service.FinancierAuthenService;
+import com.shenhua119.leadservice.service.UserService;
+import com.shenhua119.leadservice.util.Msg;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 商务经理访问控制器
+ * @author liuchanghai
+ * @create 2018-11-28 22:28
+ */
+
+@CrossOrigin // 决解跨域问题
+@RestController
+@RequestMapping("api")
+public class BusinessManagerController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private BusinessManagerService businessManagerService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FinancierAuthenService financierAuthenService;
+
+    @GetMapping("get")
+    public Msg getById(Long id){
+        logger.info("get: " + id);
+        BusinessManager financier = businessManagerService.getById(id);
+        logger.info("获取成功： " + financier.toString());
+        return  Msg.success().add("userInfo",financier);
+    }
+
+    /**
+     * 保存商务经理信息
+     * @param business
+     * @return
+     */
+    @PostMapping("business")
+    public Msg saveFinancier(BusinessManager business){
+        System.out.println(business.toString());
+        boolean b = businessManagerService.saveAndCreateAccount(business);
+        if (b){
+            return Msg.success();
+        }
+        return  Msg.fail();
+    }
+
+    //
+    @GetMapping("all")
+    public Msg list(){
+        List<BusinessManager> list = businessManagerService.selectAll();
+        System.out.println("获取成功： " + list.size());
+        return  Msg.success().add("list",list);
+    }
+
+    @GetMapping("list")
+    public Msg list(Long id){
+        System.out.println("list: " + id);
+        List<BusinessManager> list = businessManagerService.listByCompanyId(id);
+        System.out.println("获取成功： " + list.size());
+        return  Msg.success().add("list",list);
+    }
+}

@@ -17,7 +17,7 @@
                             <el-table-column prop="companyName" label="公司名称" width="200"/>
                             <el-table-column prop="contactPerson" label="联系人" align="center"/>
                             <el-table-column prop="phone" label="联系电话" align="center"/>
-                            <el-table-column prop="companyAddress" label="公司地址"/>
+                            <el-table-column prop="address" label="公司地址"/>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
@@ -40,7 +40,7 @@
         name: 'my-project-list',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                companyId: localStorage.getItem('companyId'),
                 loading: true,
                 tableData: [],
                 cur_page: 1,
@@ -85,8 +85,8 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('cc/list',{params:{
-                        id: this.userId
+                this.$axios.get('api/company/branch/list',{params:{
+                        companyId: localStorage.getItem('companyId'),
                     }}).then(function (response) {
                     console.log(response);
                     _than.tableData = response.data.extend.list;

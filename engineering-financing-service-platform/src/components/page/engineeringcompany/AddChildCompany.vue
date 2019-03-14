@@ -60,13 +60,13 @@
             };
             return {
                 name: localStorage.getItem('ms_username'),
-                labelPosition: "right",
+                companyId: localStorage.getItem('companyId'),
                 form: {
                     companyName: null,
-                    companyAddress: null,
+                    comnyAddress: null,
                     contactPerson: null,
                     phone: null,
-                    pId: this.$route.query.id,
+                    pId: localStorage.getItem('companyId'),
                 },
                 // 检验
                 rules: {
@@ -100,17 +100,17 @@
         methods: {
             save(){
                 let _than = this;
-                this.$axios.post('cc/save',
+                this.$axios.post('api/company/branch',
                     this.qs.stringify(
                         {
                             companyName: this.form.companyName,
-                            companyAddress: this.form.companyAddress,
+                            address: this.form.companyAddress,
                             contactPerson: this.form.contactPerson,
                             phone: this.form.phone,
                             pId: this.form.pId,
                         }
-                    )).then( (response)=> {
-                    console.log(response);
+                    )).then( (res)=> {
+                    console.log(res);
                     _than.$router.push("childcompany-list")
                 }).catch(function (error) {
                     console.log(error);

@@ -94,6 +94,9 @@
                             } else {
                                 _than.$router.push("/");
                             }
+                            if(resultDate.userInfo.roleId === '1'){
+                                localStorage.setItem('companyId', resultDate.companyId);
+                            }
 
                         }
                         /**

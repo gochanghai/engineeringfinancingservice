@@ -26,7 +26,7 @@ public class LoanApplyController {
     @Autowired
     private ProjectService projectService;
     @Autowired
-    private FinancierService financierService;
+    private BusinessManagerService businessManagerService;
     @Autowired
     private LoanApprovalService loanApprovalService;
     @Autowired
@@ -50,7 +50,7 @@ public class LoanApplyController {
         approval.setId(loanApply.getId()).setApplyId(loanApply.getId());
         boolean b1 = loanApprovalService.save(approval);
         if (result){
-            BusinessManager financier = financierService.getById(project.getUserId());
+            BusinessManager financier = businessManagerService.getById(project.getUserId());
             String content = "亲爱的用户，融资人"+financier.getName()+"请放款，待您放款审批，请您及时处理，便于后期业务的开展！";
             boolean b = messageService.productionMessage(1, "待您放款审批通知", content, project.getCompanyId());
         }

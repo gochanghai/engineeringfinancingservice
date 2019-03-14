@@ -30,7 +30,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
     @Autowired
-    private FinancierService financierService;
+    private BusinessManagerService businessManagerService;
     @Autowired
     private CompanyUserService companyUserService;
     @Autowired
@@ -62,7 +62,7 @@ public class LoginController {
                 }
                 if ( user1.getRoleId() == 3 ){
 
-                    BusinessManager financier = financierService.getById(user1.getUserInfoId());
+                    BusinessManager financier = businessManagerService.getById(user1.getUserInfoId());
 
                     return Msg.success().add("userInfo",user1)
                                         .add("nickname", financier.getName())
@@ -84,7 +84,7 @@ public class LoginController {
                 System.out.println("手机登录： " + username);
                 System.out.println("roleId: " + user2.getRoleId());
                 if (user2.getRoleId() == 3){
-                    BusinessManager businessManager = financierService.getById(user2.getUserInfoId());
+                    BusinessManager businessManager = businessManagerService.getById(user2.getUserInfoId());
                     return Msg.success().add("userInfo",user2).add("userInfo2", businessManager)
                             .add("fileBasePath",fileBasePath);
                 }

@@ -22,17 +22,17 @@
                                             <el-input v-model="form.phone" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="从业日期：" prop="jobDate">
-                                            <!--<el-input v-model="jobDate" style="width: 400px"/>-->
-                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="jobDate" style="width: 400px;"></el-date-picker>
+                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="jobDate" style="width: 230px;"></el-date-picker>
+                                            从业年限 <el-input v-model="jobYearNumber" style="width: 100px" placeholder="0.00年"/>
                                         </el-form-item>
                                         <el-form-item label="与公司合作日期：" prop="cooperateDate">
-                                            <!--<el-input v-model="cooperateDate" style="width: 400px"/>-->
-                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="cooperateDate" style="width: 400px;"></el-date-picker>
+                                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="cooperateDate" style="width: 230px;"></el-date-picker>
+                                            合作年限 <el-input v-model="cooperateYearNumber" style="width: 100px" placeholder="0.00年"/>
                                         </el-form-item>
                                         <el-form-item label="所属分公司：">
                                             <!--<el-input v-model="form.childCompanyId" style="width: 400px"/>-->
                                             <el-select v-model="form.childCompanyId" placeholder="请选择" style="width: 400px">
-                                                <el-option v-for="(company,index) in childCompanyList" :key="index" :label="company.companyName" :value="company.companyName"></el-option>
+                                                <el-option v-for="(company,index) in childCompanyList" :key="index" :label="company.companyName" :value="company.id"></el-option>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="评级：">
@@ -51,7 +51,7 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -210,11 +210,11 @@
             //分公司列表数据
             getCompangList(){
                 let _than = this;
-                this.$axios.get('cc/list',{params:{
-                        id: this.companyId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.childCompanyList = response.data.extend.list;
+                this.$axios.get('api/company/branch/list',{params:{
+                        companyId: localStorage.getItem('companyId'),
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.childCompanyList = res.data.extend.list;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -231,10 +231,10 @@
                         return;
                     }
                 });
-                this.$axios.post('financier/save',
+                this.$axios.post('api/business',
                     this.qs.stringify(
                         {
-                            companyId:this.companyId,
+                            companyId: localStorage.getItem('companyId'),
                             name: this.form.name,
                             gender: this.form.gender,
                             idCard: this.form.idCard,
@@ -242,10 +242,9 @@
                             phone: this.form.phone,
                             jobDate: this.form.jobDate,
                             jobYearNumber: this.form.jobYearNumber,
-                            cooperateDate: this.form.cooperateDate,
-                            cooperateYearNumber: this.form.cooperateYearNumber,
-                            marriageStatus: this.form.marriageStatus,
-                            childCompanyId: this.form.childCompanyId,
+                            coopDate: this.form.cooperateDate,
+                            coopYearNumber: this.form.cooperateYearNumber,
+                            branchId: this.form.childCompanyId,
                             rate: this.form.rate,
                             rateDesc: this.form.rateDesc,
                             status: this.form.status,

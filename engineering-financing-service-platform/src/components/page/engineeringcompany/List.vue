@@ -45,7 +45,6 @@
         name: 'my-project-list',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
                 loading: true,
                 tableData: [],
                 cur_page: 1,

@@ -12,7 +12,7 @@ import java.util.List;
  * @create 2018-11-29 22:28
  */
 @Mapper
-public interface FinancierDao extends BaseMapper<BusinessManager> {
+public interface BusinessManagerDao extends BaseMapper<BusinessManager> {
 
     @Select("SELECT tb1.id,tb1.`name`, tb1.gender, tb1.phone, tb1.birthdate,tb1.marriage_status,tb1.`status`" +
             ",tb2.company_name FROM `tb_financier` tb1 LEFT JOIN tb_engineering_company tb2 ON tb1.com_id = tb2.id")

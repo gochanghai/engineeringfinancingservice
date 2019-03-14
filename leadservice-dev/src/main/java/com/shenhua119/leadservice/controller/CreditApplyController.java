@@ -26,7 +26,7 @@ public class CreditApplyController {
     @Autowired
     private CreditApplyService creditApplyService;
     @Autowired
-    private FinancierService financierService;
+    private BusinessManagerService businessManagerService;
     /**项目成本信息业务接口*/
     @Autowired
     private ProjectCostService projectCostInfoService;
@@ -61,7 +61,7 @@ public class CreditApplyController {
         // 获取申请信息
         CreditApplyEntity creditApply = creditApplyService.getById(id);
         // 获取融资人简单信息
-        BusinessManager financier = financierService.getById(creditApply.getFId());
+        BusinessManager financier = businessManagerService.getById(creditApply.getFId());
         // 获取项目简单信息
         Project project = projectService.getById(creditApply.getPId());
         // 获取项目合同信息
@@ -172,7 +172,7 @@ public class CreditApplyController {
 
             boolean b = creditApprovalService.save(cai);
             if(b){
-                BusinessManager financier = financierService.getById(project.getUserId());
+                BusinessManager financier = businessManagerService.getById(project.getUserId());
                 String content = "亲爱的用户，融资人"+financier.getName()
                         +"请的授信申请（"+project.getProjectName()
                         +"），待您完善项目资料，请您及时处理，便于后期业务的开展！";
