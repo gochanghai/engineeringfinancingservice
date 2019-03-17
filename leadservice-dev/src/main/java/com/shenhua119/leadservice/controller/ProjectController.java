@@ -1,5 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.*;
 import com.shenhua119.leadservice.service.*;
 import com.shenhua119.leadservice.util.Msg;
@@ -33,66 +34,42 @@ public class ProjectController {
     @Autowired
     private ProjectOtherService projectOtherService;
 
-    // 保存数据
-    @PostMapping("info/save")
-    public Msg projectInfoSave(ProjectContract contract, ProjectCost cost, ProjectPayment payment, ProjectOther other){
-        System.out.println(contract.toString());
-        System.out.println(cost.toString());
-        System.out.println(payment.toString());
-        System.out.println(other.toString());
-        logger.info(contract.toString());
-        logger.info(cost.toString());
-        logger.info(payment.toString());
-        logger.info(other.toString());
-        boolean result0 =  projectContractService.updateById(contract);
-        boolean result1 = projectPaymentService.updateById(payment);
-        boolean result2 = projectCostService.updateById(cost);
-        boolean result3 = projectOtherService.updateById(other);
-        return Msg.success();
-    }
-
-    // 保存数据
-    @PostMapping("save")
+    /**
+     * 保存项目
+     * @param project
+     * @return
+     */
+    @PostMapping("")
     public Msg save(Project project){
-        System.out.println(project.toString());
-        boolean result = projectService.save(project.setProjectProgress(0.0));
-        if (result == true){
-            ProjectContract contract = new ProjectContract();
-            ProjectCost cost = new ProjectCost();
-            ProjectPayment payment = new ProjectPayment();
-            ProjectOther other = new ProjectOther();
-            contract.setId(project.getId());
-            projectContractService.save(contract);
-            cost.setId(project.getId());
-            projectCostService.save(cost);
-            payment.setId(project.getId());
-            projectPaymentService.save(payment);
-            other.setId(project.getId());
-            projectOtherService.save(other);
+        boolean b = projectService.save(project);
+        if (b){
             return Msg.success();
         }
         return Msg.fail();
     }
 
-    // 获取数据
+    /**
+     * 获取工程公司的项目
+     * @param companyId
+     * @return
+     */
     @GetMapping("list")
-    public Msg list(Long id){
+    public Msg list(Long companyId){
         System.out.println("获取数据");
-//        List<Project>  list = projectContractInfoService.list(new QueryWrapper<Project>()
-//                .eq("company_id",id));
-        List<ProjectList> list1 = projectService.selectByCompanyId(id);
-        System.out.println(list1.size());
-        return Msg.success().add("list",list1);
+        List<ProjectList> list = projectService.selectByCompanyId(companyId);
+        return Msg.success().add("list",list);
     }
 
-    // 获取数据
-    @GetMapping("flist")
-    public Msg listByFId(Long id){
+    /**
+     * 获取商务经理的项目
+     * @param userId
+     * @return
+     */
+    @GetMapping("list/bm")
+    public Msg getProjectListByUserId(Long userId){
         System.out.println("获取数据");
-//        List<Project>  list = projectService.list(new QueryWrapper<Project>()
-//                .eq("f_id",id));
-        List<Project> list = projectService.selectByFId(id);
-        System.out.println(list.size());
+        var where = new QueryWrapper<Project>().eq("user_id", userId);
+        List<Project> list = projectService.list(where);
         return Msg.success().add("list",list);
     }
 

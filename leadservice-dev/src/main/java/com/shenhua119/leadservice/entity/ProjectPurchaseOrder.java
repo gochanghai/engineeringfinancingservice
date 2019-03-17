@@ -15,7 +15,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_purchase_order")
+@TableName("project_purchase_order")
 public class ProjectPurchaseOrder {
 
     /**

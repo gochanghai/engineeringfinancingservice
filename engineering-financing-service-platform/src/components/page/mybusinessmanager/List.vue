@@ -104,8 +104,8 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('financier/list',{params:{
-                        id: this.userId
+                this.$axios.get('api/business/list',{params:{
+                        companyId: localStorage.getItem('companyId'),
                     }}).then(function (response) {
                     console.log(response);
                     _than.tableData = response.data.extend.list;

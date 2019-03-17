@@ -20,13 +20,20 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_contract")
+@TableName("project_contract")
 public class ProjectContract implements Serializable {
+    /**
+     * 主键Id
+     */
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long id;
+
     /**
      * 项目Id
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long id;
+    private Long projectId;
+
     /**
      * 甲方名称
      */
@@ -38,7 +45,7 @@ public class ProjectContract implements Serializable {
     /**
      * 合同金额
      */
-    private String contractAmount;
+    private Double contractAmount;
     /**
      * 预结算金额
      */
@@ -46,7 +53,7 @@ public class ProjectContract implements Serializable {
     /**
      * 保函要求
      */
-    private Integer guaranteeClaim;
+    private String guaranteeClaim;
     /**
      * 施工开始日期
      */
@@ -62,7 +69,7 @@ public class ProjectContract implements Serializable {
     /**
      * 结算方式
      */
-    private Integer clearType;
+    private String clearType;
     /**
      * 预付款
      */
@@ -112,7 +119,7 @@ public class ProjectContract implements Serializable {
     /**
      * 保质期支付方式
      */
-    private Double warrantyPayType;
+    private String warrantyPayType;
     /**
      * 项目合同文件
      */
@@ -132,5 +139,5 @@ public class ProjectContract implements Serializable {
     /**
      * 是否购买保险
      */
-    private Integer isBuyInsur;
+    private Integer isInsur;
 }

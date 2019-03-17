@@ -440,6 +440,11 @@
                     this.items = [
                         {
                             icon: 'el-icon-lx-home',
+                            index: 'authen-manager',
+                            title: '认证管理'
+                        },
+                        {
+                            icon: 'el-icon-lx-home',
                             index: 'engineeringcompany-list',
                             title: '工程公司管理'
                         },

@@ -23,16 +23,16 @@
                                         </el-form-item>
                                         <el-form-item label="从业日期：" prop="jobDate">
                                             <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="jobDate" style="width: 230px;"></el-date-picker>
-                                            从业年限 <el-input v-model="jobYearNumber" style="width: 100px" placeholder="0.00年"/>
+                                            从业年限 <el-input v-model="form.jobYearNumber" style="width: 100px" placeholder="0.00年"/>
                                         </el-form-item>
                                         <el-form-item label="与公司合作日期：" prop="cooperateDate">
                                             <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="cooperateDate" style="width: 230px;"></el-date-picker>
-                                            合作年限 <el-input v-model="cooperateYearNumber" style="width: 100px" placeholder="0.00年"/>
+                                            合作年限 <el-input v-model="form.cooperateYearNumber" style="width: 100px" placeholder="0.00年"/>
                                         </el-form-item>
                                         <el-form-item label="所属分公司：">
                                             <!--<el-input v-model="form.childCompanyId" style="width: 400px"/>-->
                                             <el-select v-model="form.childCompanyId" placeholder="请选择" style="width: 400px">
-                                                <el-option v-for="(company,index) in childCompanyList" :key="index" :label="company.companyName" :value="company.id"></el-option>
+                                                <el-option v-for="(company,index) in companyList" :key="index" :label="company.companyName" :value="company.id"></el-option>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="评级：">
@@ -126,7 +126,7 @@
                     {id:4,name:'E'}
                 ],
                 companyId: localStorage.getItem('userInfoId'),
-                childCompanyList: null,
+                companyList: null,
                 idCard: null,
                 jobDate: null,
                 cooperateDate: null,
@@ -214,7 +214,7 @@
                         companyId: localStorage.getItem('companyId'),
                     }}).then(function (res) {
                     console.log(res);
-                    _than.childCompanyList = res.data.extend.list;
+                    _than.companyList = res.data.extend.list;
                 }).catch(function (error) {
                     console.log(error);
                 });

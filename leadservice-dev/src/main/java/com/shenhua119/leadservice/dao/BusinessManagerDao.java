@@ -14,11 +14,11 @@ import java.util.List;
 @Mapper
 public interface BusinessManagerDao extends BaseMapper<BusinessManager> {
 
-    @Select("SELECT tb1.id,tb1.`name`, tb1.gender, tb1.phone, tb1.birthdate,tb1.marriage_status,tb1.`status`" +
-            ",tb2.company_name FROM `tb_financier` tb1 LEFT JOIN tb_engineering_company tb2 ON tb1.com_id = tb2.id")
+    @Select("SELECT tb1.id,tb1.`name`, tb1.gender, tb1.phone, tb1.birthdate,tb1.`status`" +
+            ",tb2.company_name FROM `businessmanager` tb1 LEFT JOIN company_engineering tb2 ON tb1.company_id = tb2.id")
     List<BusinessManager> selectAll();
 
-    @Select("SELECT tb1.*, tb2.company_name AS child_company_name FROM `tb_financier` tb1 " +
-            "LEFT JOIN tb_child_company tb2 ON tb1.child_com_id = tb2.id WHERE tb1.com_id = #{id}")
+    @Select("SELECT tb1.*, tb2.company_name AS child_company_name FROM `businessmanager` tb1 " +
+            "LEFT JOIN company_branch tb2 ON tb1.branch_id = tb2.id WHERE tb1.company_id = #{id}")
     List<BusinessManager> selectListByComId(Long companyId);
 }

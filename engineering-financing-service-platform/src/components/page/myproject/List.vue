@@ -54,7 +54,7 @@
         name: 'my-project',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('userId'),
                 loading: true,
                 tableData: [],
                 cur_page: 1,
@@ -81,11 +81,11 @@
             },
             getDataList(){
                 let _than = this;
-                this.$axios.get('api/project/flist',{params:{
-                        id: this.userId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                this.$axios.get('api/project/list/bm',{params:{
+                        userId: this.userId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.tableData = res.data.extend.list;
                     _than.loading= false;
                 }).catch(function (error) {
                     console.log(error);

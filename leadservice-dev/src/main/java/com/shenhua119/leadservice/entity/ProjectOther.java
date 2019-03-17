@@ -19,18 +19,25 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_other")
+@TableName("project_other")
 public class ProjectOther {
+
+    /**
+     * 主键ID
+     */
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long id;
 
     /**
      * 项目ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long id;
+    private Long projectId;
+
     /**
      * 是否购买保险
      */
-    private Integer isBuyInsur;
+    private Integer isInsur;
     /**
      * 保险到日期
      */

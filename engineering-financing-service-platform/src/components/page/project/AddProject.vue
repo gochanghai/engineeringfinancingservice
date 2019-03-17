@@ -23,14 +23,14 @@
                                         </el-form-item>
                                         <el-form-item label="所属分公司：" prop="phone">
                                             <!--<el-input v-model="form.comId" style="width: 400px"/>-->
-                                            <el-select v-model="form.childComId" placeholder="请选择所属分公司" style="width: 400px">
+                                            <el-select v-model="form.branchId" placeholder="请选择所属分公司" style="width: 400px">
                                                 <el-option v-for="item in companyList" :key="item.id" :label="item.companyName" :value="item.id"/>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="商务经理：" prop="phone">
                                             <!--<el-input v-model="form.fId" style="width: 400px"/>-->
-                                            <el-select v-model="form.fId" placeholder="请选择所属商务经理" style="width: 400px">
-                                                <el-option v-for="type in this.bmList" :key="type.id" :label="type.name" :value="type.id"/>
+                                            <el-select v-model="form.userId" placeholder="请选择所属商务经理" style="width: 400px">
+                                                <el-option v-for="type in this.bmList" :key="type.id" :label="type.name" :value="type.userId"/>
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="预授信金额：" prop="shouldCreditAmount">
@@ -73,16 +73,16 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
-                comId: localStorage.getItem('userInfoId'),
+                companyId: localStorage.getItem('companyId'),
                 companyList: [],
                 bmList: [],
                 form: {
                     projectName: '',
                     contractNo: '',
                     contractAmount: '0.00',
-                    childComId: '',
+                    branchId: '',
                     shouldCreditAmount: '',
-                    fId:'',
+                    userId:'',
                 },
                 // 检验
                 rules: {
@@ -118,8 +118,8 @@
         methods: {
             getCompanyList(){
                 let _than = this;
-                this.$axios.get('cc/list',{params:{
-                        id: this.comId
+                this.$axios.get('api/company/branch/list',{params:{
+                        companyId: this.companyId
                     }}).then(function (response) {
                     console.log(response);
                     _than.companyList = response.data.extend.list;
@@ -130,8 +130,8 @@
             },
             getBusinessManagerList(){
                 let _than = this;
-                this.$axios.get('financier/list',{params:{
-                        id: this.comId
+                this.$axios.get('api/business/list',{params:{
+                        companyId: this.companyId
                     }}).then(function (response) {
                     console.log(response);
                     _than.bmList = response.data.extend.list;
@@ -142,16 +142,16 @@
             },
             save(){
                 let _than = this;
-                this.$axios.post('api/project/save',
+                this.$axios.post('api/project',
                     this.qs.stringify(
                         {
                             projectName: this.form.projectName,
                             contractNo: this.form.contractNo,
                             contractAmount: this.form.contractAmount,
-                            childComId: this.form.childComId,
-                            shouldCreditAmount: this.form.shouldCreditAmount,
-                            fId: this.form.fId,
-                            comId: this.comId,
+                            branchId: this.form.branchId,
+                            creditAmount: this.form.shouldCreditAmount,
+                            userId: this.form.userId,
+                            companyId: this.companyId,
                         }
                     )).then((response)=> {
                     console.log(response);

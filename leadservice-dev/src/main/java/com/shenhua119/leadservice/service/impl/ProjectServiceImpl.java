@@ -15,7 +15,7 @@ import java.util.List;
  * @create 2018-12-05 19:06
  */
 @Service
-public class ProjectContractInfoServiceImpl extends ServiceImpl<ProjectDao, Project> implements ProjectService {
+public class ProjectServiceImpl extends ServiceImpl<ProjectDao, Project> implements ProjectService {
 
     @Autowired
     private ProjectDao projectDao;

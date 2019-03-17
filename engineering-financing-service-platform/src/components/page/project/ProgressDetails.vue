@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row :gutter="20">
+        <el-row :gutter="20" v-show="!addVisible">
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
@@ -13,11 +13,11 @@
                                 <!--<p>Title, Company</p>-->
                             </div>
                             <div class="body">
-                                <p>施工进度：{{item.constructionProgress}}%</p>
+                                <p>施工进度：{{item.progressRatio}}%</p>
                                 <p>进度描述：{{item.progressDesc}}</p>
                                 <p>确定产值：{{item.outputValue}}万</p>
                                 <p>施工现场照片或视频</p>
-                                <img v-show="item.progressFile.length > 0" :src=" filesysip + item.progressFile" width="100px" height="100px"/>
+                                <img v-show="item.progressFile != null" :src=" filesysip + item.progressFile" width="100px" height="100px"/>
                                 <!--<ul>-->
                                 <!--<li>Rerum sit libero possimus amet excepturi</li>-->
                                 <!--<li>Exercitationem enim dolores sunt praesentium dolorum praesentium</li>-->
@@ -34,40 +34,43 @@
         </el-row>
 
         <!-- 更新进度弹出框 -->
-        <el-dialog title="编辑" :visible.sync="addVisible" width="30%">
-            <el-form ref="form" :model="form" :rules="rules2" status-icon label-width="200px" class="demo-ruleForm">
-                <el-form-item label="日期">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
-                                    value-format="yyyy-MM-dd" style="width: 150px;" ></el-date-picker>
-                </el-form-item>
-                <el-form-item label="施工进度" prop="constructionProgress">
-                    <el-input v-model.number="form.constructionProgress" style="width: 100px"></el-input>%
-                </el-form-item>
-                <el-form-item label="进度描述">
-                    <el-input type="textarea" v-model="form.progressDesc"></el-input>
-                </el-form-item>
-                <el-form-item label="确定产值" prop="outputValue">
-                    <el-input v-model.number="form.outputValue" style="width: 100px"></el-input>万元
-                </el-form-item>
-                <el-form-item label="施工现场照片或视频">
-                    <el-upload
-                            action="http://192.168.1.98:8088/filesystem/upload/"
-                            list-type="picture-card"
-                            :class="{disabled: isShowUploadBtn}"
-                            name="file"
-                            :on-success="handleSuccess"
-                            :on-preview="handlePictureCardPreview"
-                            :on-remove="handleRemove">
-                        <i class="el-icon-plus"></i>
-                    </el-upload>
-                </el-form-item>
-
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
-                <el-button type="primary" @click="save('form')">确 定</el-button>
-            </span>
-        </el-dialog>
+        <el-row :gutter="20" v-show="addVisible">
+            <el-col :span="24">
+                <el-card shadow="hover">
+                    <el-form ref="form" :model="form" :rules="rules2" status-icon label-width="200px" class="demo-ruleForm">
+                        <el-form-item label="日期">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
+                                            value-format="yyyy-MM-dd" style="width: 200px;" />
+                        </el-form-item>
+                        <el-form-item label="施工进度" prop="progressRatio">
+                            <el-input v-model.number="form.progressRatio" style="width: 180px"/>%
+                        </el-form-item>
+                        <el-form-item label="进度描述">
+                            <el-input type="textarea" style="width: 400px" v-model="form.progressDesc"/>
+                        </el-form-item>
+                        <el-form-item label="确定产值" prop="outputValue">
+                            <el-input v-model.number="form.outputValue" style="width: 180px"></el-input>万元
+                        </el-form-item>
+                        <el-form-item label="施工现场照片或视频">
+                            <el-upload
+                                    action="http://192.168.1.98:8088/filesystem/upload/"
+                                    list-type="picture-card"
+                                    :class="{disabled: isShowUploadBtn}"
+                                    name="file"
+                                    :on-success="handleSuccess"
+                                    :on-preview="handlePictureCardPreview"
+                                    :on-remove="handleRemove">
+                                <i class="el-icon-plus"></i>
+                            </el-upload>
+                        </el-form-item>
+                        <div class="info-bottom-box">
+                            <div class="info-bottom-btn1" @click="addVisible = false">取 消</div>
+                            <div class="info-bottom-btn2" @click="save('form')">确 定</div>
+                        </div>
+                    </el-form>
+                </el-card>
+            </el-col>
+        </el-row>
         <!-- 附件预览弹出框 -->
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
@@ -79,7 +82,6 @@
     export default {
         name: "ProjectProgressDetail",
         data: function(){
-
             var checkConstructionProgress = (rule, value, callback) => {
                 console.log("wwwww: check");
                 if (!value) {
@@ -121,7 +123,6 @@
                     }
                 }, 1000);
             };
-
             return {
                 filesysip: localStorage.getItem("fileBasePath"),
                 dataList: null,
@@ -131,11 +132,11 @@
                 dialogVisible: false,
                 projectId: this.$route.query.id,
                 form:{
-                    date: '',
-                    constructionProgress: null,
-                    progressDesc: '',
+                    date: null,
+                    progressRatio: null,
+                    progressDesc: null,
                     outputValue: null,
-                    progressFile:''
+                    progressFile: null
                 },
 
                 rules2: {
@@ -145,7 +146,7 @@
                     outputValue: [
                         { validator:  checkOutputValue, trigger: 'blur' }
                     ],
-                    constructionProgress: [
+                    progressRatio: [
                         { validator: checkConstructionProgress, trigger: 'blur' }
                     ]
                 }
@@ -160,11 +161,11 @@
             // 获取项目进度数据
             getDataList(){
                 let _than = this;
-                this.$axios.get('ppd/list',{params:{
-                        id: this.projectId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.dataList = response.data.extend.list;
+                this.$axios.get('api/project/progress/list',{params:{
+                        projectId: this.projectId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.dataList = res.data.extend.list;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -187,18 +188,18 @@
                 let _than = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        _than.$axios.post('ppd/save',
+                        _than.$axios.post('api/project/progress',
                             _than.qs.stringify(
                                 {
                                     date: this.form.date,
-                                    constructionProgress: this.form.constructionProgress,
+                                    progressRatio: this.form.progressRatio,
                                     progressDesc: this.form.progressDesc,
                                     outputValue: this.form.outputValue,
-                                    progressFile: this.form.progressFile,
+                                    file: this.form.progressFile,
                                     projectId: this.projectId
                                 }
-                            )).then(function (response) {
-                            console.log(response);
+                            )).then(function (res) {
+                            console.log(res);
                             _than.addVisible = false;
                             _than.getDataList();
                         }).catch(function (error) {

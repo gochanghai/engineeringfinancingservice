@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin // 决解跨域问题
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/business")
 public class BusinessManagerController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -32,6 +32,11 @@ public class BusinessManagerController {
     @Autowired
     private FinancierAuthenService financierAuthenService;
 
+    /**
+     * 获取一个商务经理的信息
+     * @param id
+     * @return
+     */
     @GetMapping("get")
     public Msg getById(Long id){
         logger.info("get: " + id);
@@ -45,8 +50,8 @@ public class BusinessManagerController {
      * @param business
      * @return
      */
-    @PostMapping("business")
-    public Msg saveFinancier(BusinessManager business){
+    @PostMapping("/")
+    public Msg save(BusinessManager business){
         System.out.println(business.toString());
         boolean b = businessManagerService.saveAndCreateAccount(business);
         if (b){
@@ -55,7 +60,10 @@ public class BusinessManagerController {
         return  Msg.fail();
     }
 
-    //
+    /**
+     * 获取所有的商务经理
+     * @return
+     */
     @GetMapping("all")
     public Msg list(){
         List<BusinessManager> list = businessManagerService.selectAll();
@@ -63,10 +71,15 @@ public class BusinessManagerController {
         return  Msg.success().add("list",list);
     }
 
+    /**
+     * 获取工程公司的商务经理
+     * @param companyId
+     * @return
+     */
     @GetMapping("list")
-    public Msg list(Long id){
-        System.out.println("list: " + id);
-        List<BusinessManager> list = businessManagerService.listByCompanyId(id);
+    public Msg list(Long companyId){
+        System.out.println("list: " + companyId);
+        List<BusinessManager> list = businessManagerService.listByCompanyId(companyId);
         System.out.println("获取成功： " + list.size());
         return  Msg.success().add("list",list);
     }

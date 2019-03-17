@@ -15,13 +15,18 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_cost")
+@TableName("project_cost")
 public class ProjectCost {
+    /**
+     * 主键ID
+     */
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long id;
     /**
      * 项目ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long id;
+    private Long projectId;
     /**
      * 项目利润率
      */

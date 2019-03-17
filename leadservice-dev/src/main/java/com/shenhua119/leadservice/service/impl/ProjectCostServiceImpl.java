@@ -11,5 +11,5 @@ import org.springframework.stereotype.Service;
  * @create 2018-12-06 18:11
  */
 @Service
-public class ProjectCostInfoServiceImpl extends ServiceImpl<ProjectCostDao, ProjectCost> implements ProjectCostService {
+public class ProjectCostServiceImpl extends ServiceImpl<ProjectCostDao, ProjectCost> implements ProjectCostService {
 }

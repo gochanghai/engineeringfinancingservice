@@ -21,10 +21,11 @@
                                     <div class="form-box">
                                         <el-form label-width="100px" :model="form" :rules="rules">
                                             <el-form-item label="申请编号：" >
-                                                <el-input v-model="creditNo" style="width: 200px"/>
+                                                <el-input v-model="applyNo" style="width: 200px" disabled/>
                                             </el-form-item>
                                             <el-form-item label="申请日期：">
-                                                <el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="date" style="width: 200px"></el-date-picker>
+                                                <el-input v-model="date" style="width: 200px" disabled/>
+                                                <!--<el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="date" style="width: 200px"></el-date-picker>-->
                                             </el-form-item>
                                             <el-form-item label="申请人：">
                                                 <el-input v-model="name" style="width: 200px"/>
@@ -109,9 +110,9 @@
                 name: localStorage.getItem('ms_username'),
                 uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('userId'),
                 userName: localStorage.getItem('user_name'),
-                creditNo: '',
+                applyNo: formatDate(new Date(),'yyyyMMdd') + new Date().getTime(),
                 projectList: [],
                 creditNo: null,
                 creditAmount: 0,
@@ -172,8 +173,8 @@
             // 获取项目数据
             getProjectList(){
                 let _than = this;
-                this.$axios.get('api/credit/project/list',{params:{
-                        id: _than.userId
+                this.$axios.get('api/project/list/bm',{params:{
+                        userId: _than.userId
                     }}).then((response)=> {
                     console.log(response);
                     _than.projectList = response.data.extend.list;

@@ -243,6 +243,11 @@ export default new Router({
                     component: resolve => require(['../components/page/setting/UserList.vue'], resolve),
                     meta: { title: 'setting-usermanager' }
                 },
+                {
+                    path: '/authen-manager',
+                    component: resolve => require(['../components/page/authenmanager/List.vue'], resolve),
+                    meta: { title: 'authen-manager' }
+                },
                 // onlian end
 
 

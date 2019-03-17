@@ -52,7 +52,7 @@ public class ProjectProgressDetail implements Serializable {
     /**
      * 进度描述
      */
-    private String desc;
+    private String progressDesc;
 
     /**
      * 产值
@@ -62,5 +62,5 @@ public class ProjectProgressDetail implements Serializable {
     /**
      * 现场文件
      */
-    private String progressFile;
+    private String file;
 }

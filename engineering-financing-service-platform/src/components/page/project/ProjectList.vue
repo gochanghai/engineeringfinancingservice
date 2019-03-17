@@ -27,12 +27,12 @@
                             </el-table-column>
                             <el-table-column label="预授信金额(万元)" width="150" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.shouldCreditAmount}}万
+                                    {{scope.row.shouldCreditAmount}}
                                 </template>
                             </el-table-column>
                             <el-table-column label="项目进度" width="100" align="center">
                                 <template slot-scope="scope">
-                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"></el-progress>
+                                    <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.projectProgress" color="#ff8208"/>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
@@ -58,7 +58,7 @@
         name: 'ProjectList',
         data() {
             return {
-                companyId: localStorage.getItem('userInfoId'),
+                companyId: localStorage.getItem('companyId'),
                 loading: true,
 
                 url: './static/vuetable.json',
@@ -80,7 +80,6 @@
             }
         },
         created() {
-            // this.getData();
             // 获取Table数据
             this.getDataList();
         },
@@ -113,12 +112,11 @@
             },
             getDataList(){
                 let _than = this;
-                    console.log("companyId: " +  localStorage.getItem('userInfoId'));
                 this.$axios.get('api/project/list',{params:{
-                        id: this.companyId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                        companyId: this.companyId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.tableData = res.data.extend.list;
                     _than.loading= false;
                 }).catch(function (error) {
                     console.log(error);
@@ -179,10 +177,8 @@
             },
             // 查看项目进度进度
             findProgress(projectId){
-                //
-                console.log(projectId);
                 this.$router.push({
-                    path:'priject-progress-details?id=' + projectId
+                    path:'project-progress-details?id=' + projectId
                 })
             },
             // 查看项目资料

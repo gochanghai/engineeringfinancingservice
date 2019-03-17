@@ -53,7 +53,7 @@ public class Project implements Serializable {
      *所属分公司Id
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long childComId;
+    private Long branchId;
 
     /**
      *预授信金额
@@ -63,10 +63,6 @@ public class Project implements Serializable {
      *项目进度
      */
     private Double projectProgress;
-    /**
-     *是否授信
-     */
-    private Integer isCredit;
 
     /**
      * 分公司

@@ -15,7 +15,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_payment")
+@TableName("project_payment")
 public class ProjectPayment {
     /**
      * Id
@@ -31,16 +31,16 @@ public class ProjectPayment {
     /**
      * 前期累计开票额
      */
-    private Double sumBillAmount;
+    private Double totalBillAmount;
     /**
      * 前期累计回款额
      */
-    private Double sumPaybackAmount;
+    private Double totalPaybackAmount;
 
     /**
      * 前期累计付款额
      */
-    private Double sumPaymentAmount;
+    private Double totalPaymentAmount;
 
     /**
      * 发票凭证
@@ -55,7 +55,7 @@ public class ProjectPayment {
     /**
      * 对应发票凭证
      */
-    private String transferToInvoice;
+    private String transferInvoice;
 
     /**
      * 采购合同

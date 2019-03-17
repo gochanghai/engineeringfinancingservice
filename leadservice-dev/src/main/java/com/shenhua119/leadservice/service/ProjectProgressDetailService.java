@@ -8,4 +8,10 @@ import com.shenhua119.leadservice.entity.ProjectProgressDetail;
  * @create 2018-12-06 18:20
  */
 public interface ProjectProgressDetailService extends IService<ProjectProgressDetail> {
+    /**
+     * 保存进度明细并更新项目进度
+     * @param progress
+     * @return
+     */
+    boolean saveAndProjectProgress(ProjectProgressDetail progress);
 }

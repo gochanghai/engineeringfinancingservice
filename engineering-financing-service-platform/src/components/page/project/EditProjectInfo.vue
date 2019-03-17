@@ -4,26 +4,30 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="clearfix">
-                        <span>项目资料</span>
+                        <span :class="newTitle != 1 ? 'project-title-nave': 'project-title-nave nave2'" @click="newTitle=1">项目基本信息</span>
+                        <span :class="newTitle != 2 ? 'project-title-nave': 'project-title-nave nave2'" @click="newTitle=2">项目成本信息</span>
+                        <span :class="newTitle != 3 ? 'project-title-nave': 'project-title-nave nave2'" @click="newTitle=3">项目款项信息</span>
+                        <span :class="newTitle != 4 ? 'project-title-nave': 'project-title-nave nave2'" @click="newTitle=4">项目其它信息</span>
+                        <span :class="newTitle != 5 ? 'project-title-nave': 'project-title-nave nave2'" @click="newTitle=5">项目重要文件</span>
                     </div>
                     <!-- 项目信息 -->
                     <div class="info-box">
-                        <div class="info-title">项目资料</div>
+                        <!--<div class="info-title">项目资料</div>-->
                         <div class="info-btn-box">
                             <!--<div class="is-show-btn">展开</div>-->
                             <div class="info-content">
                                 <!-- 个人身份信息 -->
-                                <div class="content-title">
-                                    <div class="content-lable1">项目基本信息</div>
+                                <!--<div class="content-title">-->
+                                    <!--<div class="content-lable1">项目基本信息</div>-->
                                     <!--<div class="content-lable2">已认证</div>-->
-                                </div>
-                                <div class="content-info-box">
+                                <!--</div>-->
+                                <div class="content-info-box" v-show="newTitle === 1">
                                     <el-form>
                                         <el-form-item label="甲方名称：" style="margin-bottom: 0">
                                             <el-input v-model="form.partyAName" style="width: 300px"/>
                                         </el-form-item>
                                         <el-form-item label="项目地址：" style="margin-bottom: 0">
-                                            <el-input v-model="form.projectAdress" style="width: 300px"/>
+                                            <el-input v-model="form.adddress" style="width: 300px"/>
                                         </el-form-item>
                                         <el-form-item label="合同金额：" style="margin-bottom: 0">
                                             {{form.contractAmount}}万
@@ -37,7 +41,7 @@
                                         </el-form-item>
                                         <el-form-item label="施工期限：" style="margin-bottom: 0">
                                             <el-date-picker
-                                                    v-model="date"
+                                                    v-model="startEndDate"
                                                     value-format="yyyy-MM-dd"
                                                     type="daterange"
                                                     range-separator="至"
@@ -176,11 +180,11 @@
                                     </el-form>
                                 </div>
                                 <!-- 项目成本信息 -->
-                                <div class="content-title">
-                                    <div class="content-lable1">项目成本信息</div>
+                                <!--<div class="content-title">-->
+                                    <!--<div class="content-lable1">项目成本信息</div>-->
                                     <!--<div class="content-lable2">已婚</div>-->
-                                </div>
-                                <div class="content-info-box">
+                                <!--</div>-->
+                                <div class="content-info-box" v-show="newTitle === 2">
                                     <el-form>
                                         <el-form-item label="项目利润率：" style="margin-bottom: 0">
                                             <el-input v-model="form.profitMargin" style="width: 100px"/>%
@@ -252,14 +256,14 @@
                                     </el-form>
                                 </div>
                                 <!-- 项目款项信息 -->
-                                <div class="content-title">
-                                    <div class="content-lable1">项目款项信息</div>
+                                <!--<div class="content-title">-->
+                                    <!--<div class="content-lable1">项目款项信息</div>-->
                                     <!--<div class="content-lable2">已认证</div>-->
-                                </div>
-                                <div class="content-info-box">
+                                <!--</div>-->
+                                <div class="content-info-box" v-show="newTitle === 3">
                                     <el-form>
                                         <el-form-item label="前期累计开票额：" style="margin-bottom: 0">
-                                            <el-input v-model="form.sumBillAmount" style="width: 100px"></el-input>万
+                                            <el-input v-model="form.totalBillAmount" style="width: 100px"></el-input>万
                                         </el-form-item>
                                         <el-form-item>
                                             <div class="file-box" @mouseenter="beforUpload(9)">
@@ -279,7 +283,7 @@
                                             </div>
                                         </el-form-item>
                                         <el-form-item label="前期累计回款额：" style="margin-bottom: 0">
-                                            <el-input v-model="form.sumPaybackAmount" style="width: 100px"/>万
+                                            <el-input v-model="form.totalPaybackAmount" style="width: 100px"/>万
                                         </el-form-item>
                                         <el-form-item>
                                             <div class="file-box">
@@ -317,7 +321,7 @@
                                             </div>
                                         </el-form-item>
                                         <el-form-item label="前期累计付款额：" style="margin-bottom: 0">
-                                            <el-input v-model="form.sumPaymentAmount" style="width: 80px"/>万
+                                            <el-input v-model="form.totalPaymentAmount" style="width: 80px"/>万
                                         </el-form-item>
                                         <el-form-item>
                                             <div class="file-box">
@@ -386,19 +390,19 @@
                                     </el-form>
                                 </div>
                                 <!-- 其它信息 -->
-                                <div class="content-title">
-                                    <div class="content-lable1">其它信息</div>
+                                <!--<div class="content-title">-->
+                                    <!--<div class="content-lable1">其它信息</div>-->
                                     <!--<div class="content-lable2">已认证</div>-->
-                                </div>
-                                <div class="content-info-box">
+                                <!--</div>-->
+                                <div class="content-info-box" v-show="newTitle === 4">
                                     <el-form>
                                         <el-form-item label="是否购买意外险：" style="margin-bottom: 0">
-                                            <el-radio-group v-model="form.isBuyInsur">
+                                            <el-radio-group v-model="form.isInsur">
                                                 <el-radio label="1">是</el-radio>
                                                 <el-radio label="0">否</el-radio>
                                             </el-radio-group>
                                         </el-form-item>
-                                        <div v-show="form.isBuyInsur === 1">
+                                        <div v-show="form.isInsur === '1'">
                                             <el-form-item label="" style="margin-bottom: 0">
                                                 <el-form inline style="border-bottom: 0">
                                                     <el-form-item label="保险到期日" style="margin-bottom: 0">
@@ -415,7 +419,7 @@
                                                     </el-form-item>
                                                 </el-form>
                                             </el-form-item>
-                                            <el-form-item label="保单凭证：" style="margin-bottom: 0">
+                                            <el-form-item label="保单凭证：">
                                                 <div class="file-box" @mouseenter="beforUpload(16)">
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
                                                         <!--<img :src="filesystem + projectInfo.other.insurFile" class="image">-->
@@ -445,7 +449,7 @@
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="goBack">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
-                        <div class="info-bottom-btn2" @click="sumbit">提交</div>
+                        <!--<div class="info-bottom-btn2" @click="sumbit">提交</div>-->
                     </div>
                 </el-card>
             </el-col>
@@ -458,24 +462,25 @@
         name: 'edit-project-info',
         data() {
             return {
+                newTitle: 1,
                 name: localStorage.getItem('ms_username'),
                 uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
                 projectId: this.$route.query.id,
                 projectInfo: null,
-                date:'',
+                startEndDate:'',
                 thisUploadType: 1,
                 form:{
                     name: '123',
-                    id: null,
+                    id: 1,
                     contractAmount: 0.00,
                     projectProgress: 0.00,
                     partyAName:null,
-                    projectAdress: null,
+                    adddress: null,
                     shouldClearAmount: null,
                     guaranteeClaim: null,
-                    constructionStartDate: null,
-                    constructionEndDate: null,
+                    startDate: null,
+                    endDate: null,
                     clearType: null,
                     shouldPaymentAmount: null,
                     shouldPaymentDate: null,
@@ -492,11 +497,11 @@
 
                     profitMargin: null,
 
-                    sumBillAmount: null,
-                    sumPaybackAmount: null,
-                    sumPaymentAmount: null,
+                    totalBillAmount: null,
+                    totalPaybackAmount: null,
+                    totalPaymentAmount: null,
 
-                    isBuyInsur: 1,
+                    isInsur: '1',
                     insurEndDate: null,
                     insurAmount: null,
                     insurPersonNumber: null,
@@ -523,35 +528,44 @@
                 insurFile: null,
             }
         },
+        /**
+         * 监听器
+         */
+        watch:{
+            newTitle(value){
+                if(value === 1){
+                    this.getProjectContract();
+                    return;
+                }
+                if(value === 2){
+                    this.getProjectCost();
+                    return;
+                }
+                if(value === 3){
+                    this.getProjectPayment();
+                    return;
+                }
+                if(value === 4){
+                    this.getProjectOther();
+                }
+            },
+            startEndDate(value){
+                this.form.startDate = value[0];
+                this.form.endDate = value[1];
+            }
+        },
         components: {
         },
         computed: {
         },
         created(){
-            this.getDataInfo();
+            this.getProjectContract();
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
-            // 获取信息
-            getDataInfo(){
-                let _than = this;
-                this.$axios.get('api/project/details',{params:{
-                        id: this.projectId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.projectInfo = response.data.extend;
-                    if (response.data.extend.project !== null) {
-                        let project = response.data.extend.project;
-                        _than.form.contractAmount = project.contractAmount;
-                        _than.form.projectProgress = project.projectProgress;
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            },
 
             // 附件上传前
             beforUpload(file_type){
@@ -626,7 +640,7 @@
             },
 
             // 保存
-            save(){
+            save1(){
                 let _that = this;
                 this.$axios.post('api/project/info/save',
                     this.qs.stringify(
@@ -709,12 +723,248 @@
                     console.log(error);
                 });
             },
+
+            /**
+             * 获取合同信息
+             */
+            getProjectContract(){
+                let _than = this;
+                this.$axios.get('api/project/contract',{params:{
+                        projectId: this.projectId
+                    }}).then(function (res) {
+                    console.log(res);
+                    var contract = res.data.extend.contract;
+                    _than.startEndDate = [contract.startDate,contract.endDate]
+                    _than.form = contract;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            /**
+             * 获取成本信息
+             */
+            getProjectCost(){
+                let _than = this;
+                this.$axios.get('api/project/cost',{params:{
+                        projectId: this.projectId
+                    }}).then(function (res) {
+                    console.log(res);
+                    var cost = res.data.extend.cost;
+                    _than.form = cost;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            /**
+             * 获取款项信息
+             */
+            getProjectPayment(){
+                let _than = this;
+                this.$axios.get('api/project/payment',{params:{
+                        projectId: this.projectId
+                    }}).then(function (res) {
+                    console.log(res);
+                    var payment = res.data.extend.payment;
+                    _than.form = payment;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            /**
+             * 获取其它信息
+             */
+            getProjectOther(){
+                let _than = this;
+                this.$axios.get('api/project/other',{params:{
+                        projectId: this.projectId
+                    }}).then(function (res) {
+                    console.log(res);
+                    var other = res.data.extend.other;
+                    _than.form = other;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 保存按钮处理函数
+             */
+            save(){
+                var tag = this.newTitle;
+                // 保存合同信息
+                if(tag === 1){
+                    this.saveContractInfo();
+                }
+                // 保存成信息
+                if(tag === 2){
+                    this.saveCostInfo();
+                }
+                // 保存款项信息
+                if(tag === 3){
+                    this.savePaymentInfo();
+                }
+                // 保存其它信息
+                if(tag === 4){
+                    this.saveOtherInfo();
+                }
+            },
+
+            /**
+             * 保存合同信息
+             */
+            saveContractInfo(){
+                this.$axios.put('api/project/contract',
+                    this.qs.stringify(
+                        {   id:this.form.id,
+                            projectId:this.projectId,
+                            partyAName: this.form.partyAName,
+                            address: this.form.address,
+                            shouldClearAmount: this.form.shouldClearAmount,
+                            guaranteeClaim: this.form.guaranteeClaim,
+                            startDate: this.form.startDate,
+                            endDate: this.form.endDate,
+                            clearType: this.form.clearType,
+                            shouldPaymentAmount: this.form.shouldPaymentAmount,
+                            shouldPaymentDate: this.form.shouldPaymentDate,
+                            progressPaymentType: this.form.progressPaymentType,
+                            monthClearDay: this.form.monthClearDay,
+                            progressPaymentRatio: this.form.progressPaymentRatio,
+                            checkPaymentRatio: this.form.checkPaymentRatio,
+                            checkPaymentDesc: this.form.checkPaymentDesc,
+                            clearPaymentRatio: this.form.clearPaymentRatio,
+                            clearDesc: this.form.clearDesc,
+                            warrantyMoneyPaymentRatio: this.form.warrantyMoneyPaymentRatio,
+                            warranty: this.form.warranty,
+                            warrantyPayType: this.form.warrantyPayType,
+
+                            contractFile: this.contractFile,
+                            contractPaymentFile: this.contractPaymentFile,
+                            inContractLiabilityBook: this.inContractLiabilityBook,
+                            constructionSitePhoto: this.constructionSitePhoto,
+                        }
+                    )).then(function (res){
+                    console.log(res);
+                    _that.$message.success('提交成功！');
+                    _that.pingguVisible = false;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 保存成本信息
+             */
+            saveCostInfo(){
+                this.$axios.post('api/project/cost',
+                    this.qs.stringify(
+                        {   id:this.id,
+                            projectId:this.projectId,
+                            profitMargin: this.form.profitMargin,
+                            progressReturnAccount: this.progressReturnAccount,
+                            outputValueTable: this.outputValueTable,
+                            costAnalysisTable: this.costAnalysisTable,
+                            costAccount: this.costAccount,
+                        }
+                    )).then(function (res){
+                    console.log(res);
+                    _that.$message.success('提交成功！');
+                    _that.pingguVisible = false;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 保存款项信息
+             */
+            savePaymentInfo(){
+                this.$axios.post('api/project/payment',
+                    this.qs.stringify(
+                        {   id:this.form.id,
+                            projectId:this.projectId,
+                            totalBillAmount: this.form.totalBillAmount,
+                            totalPaybackAmount: this.form.totalPaybackAmount,
+                            totalPaymentAmount: this.form.totalPaymentAmount,
+                            invoice: this.invoiceFile,
+                            transfer: this.transferFile,
+                            transferInvoice: this.transferToInvoiceFile,
+                            purchaseContract: this.buyContractFile,
+                            purchaseInvoice: this.buyInvoiceFile,
+                            deliveryNote: this.deliveryNote,
+                            banckTransfer: this.banckTransfer,
+                        }
+                    )).then(function (res){
+                    console.log(res);
+                    _that.$message.success('提交成功！');
+                    _that.pingguVisible = false;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 保存其它信息
+             */
+            saveOtherInfo(){
+                this.$axios.post('api/project/other',
+                    this.qs.stringify(
+                        {   id:this.form.id,
+                            projectId:this.projectId,
+                            isInsur: this.form.isBuyInsur,
+                            insurEndDate: this.form.insurEndDate,
+                            insurAmount: this.form.insurAmount,
+                            insurPersonNumber: this.form.insurPersonNumber,
+                            insurFile: this.insurFile,
+                            unusualDesc: this.form.unusualDesc,
+                        }
+                    )).then(function (res){
+                    console.log(res);
+                    _that.$message.success('提交成功！');
+                    _that.pingguVisible = false;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
         }
     }
 
 </script>
 
 <style>
+    .project-title-nave {
+        height:19px;
+        font-size:14px;
+        font-family:MicrosoftYaHei;
+        /*color:rgba(255,130,8,1);*/
+        width: 80px;
+        line-height:19px;
+        text-align: center;
+        /*border: 1px solid rgba(255,130,8,1);*/
+        padding: 18px 10px;
+        /*margin: 0 10px;*/
+    }
+
+    .project-title-nave:hover {
+        color:rgba(255,130,8,1);
+        font-weight:bold;
+        border-bottom: 2px solid rgba(255,130,8,1);
+    }
+
+    .nave2 {
+        /*padding: 18px 10px;*/
+        /*margin: 0 10px;*/
+        color:rgba(255,130,8,1);
+        font-weight:bold;
+        border-bottom: 2px solid rgba(255,130,8,1);
+    }
     .info-title{
         font-size:14px;
         font-family:MicrosoftYaHei-Bold;
