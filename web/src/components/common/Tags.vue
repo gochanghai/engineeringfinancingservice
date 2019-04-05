@@ -89,6 +89,22 @@
         },
         created(){
             this.setTags(this.$route);
+            // 监听关闭当前页面的标签页
+            bus.$on('close_current_tags', () => {
+                for (let i = 0, len = this.tagsList.length; i < len; i++) {
+                    const item = this.tagsList[i];
+                    if(item.path === this.$route.fullPath){
+                        if(i < len - 1){
+                            this.$router.push(this.tagsList[i+1].path);
+                        }else if(i > 0){
+                            this.$router.push(this.tagsList[i-1].path);
+                        }else{
+                            this.$router.push('/');
+                        }
+                        this.tagsList.splice(i, 1);
+                    }
+                }
+            })
         }
     }
 
@@ -102,7 +118,8 @@
         overflow: hidden;
         background: #fff;
         padding-right: 120px;
-        box-shadow: 0 5px 10px #ddd;
+        padding-bottom: 10px;
+        box-shadow: 0 5px 0 0 #ccc;
     }
 
     .tags ul {

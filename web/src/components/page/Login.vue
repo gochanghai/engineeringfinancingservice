@@ -12,14 +12,14 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')">
+                    <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="login('ruleForm')">
                         <!--<el-button slot="prepend" icon="el-icon-lx-lock"></el-button>-->
                     </el-input>
                     <!--<p class="forgot-tips">忘记密码？</p>-->
                 </el-form-item>
                 <p class="forgot-tips">忘记密码？</p>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="login('ruleForm')">登录</el-button>
                     <!--<el-button type="primary" @click="submit">登录</el-button>-->
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
@@ -49,50 +49,110 @@
             }
         },
         methods: {
-            submitForm(formName) {
-                // this.$refs[formName].validate((valid) => {
-                //     if (valid) {
-                //         localStorage.setItem('ms_username',this.ruleForm.username);
-                //         localStorage.setItem('userInfo',"20");
-                //         localStorage.setItem('role',"00");
-                //         this.$router.push('/');
-                //     } else {
-                //         console.log('error submit!!');
-                //         return false;
-                //     }
-                    let _than = this;
-                    this.$axios.post('api/login',
-                        this.qs.stringify(
-                            {
-                                userName: this.ruleForm.username,
-                                password: this.ruleForm.password,
+            login(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (!valid) {
+                        // localStorage.setItem('ms_username',this.ruleForm.username);
+                        // localStorage.setItem('userInfo',"20");
+                        // localStorage.setItem('role',"00");
+                        // this.$router.push('/');
+                        return;
+                    } else {
+                        let _than = this;
+                        this.$axios.post('api/login',
+                            this.qs.stringify(
+                                {
+                                    username: this.ruleForm.username,
+                                    password: this.ruleForm.password,
+                                }
+                            )).then(res => {
+                            console.log(res);
+                            let result = res.data.extend;
+                            let code = res.data.code;
+                            /**
+                             * 用户登录失败
+                             */
+                            if(200 === code){
+                                _than.$message.error(res.data.extend);
+                            }                            
+                            /**
+                             * 判断用户是否登陆成功
+                             */
+                            if (100 === code) {                                
+                                _than.getUserInfo(result.userId)
                             }
-                        )).then(function (response) {
-                        console.log(response);
-                        if (response.data.code = 100) {
-                            let resultDate = response.data.extend;
-                            localStorage.setItem("fileBasePath",resultDate.fileBasePath);
-                            localStorage.setItem('ms_username', _than.ruleForm.username);
-                            localStorage.setItem('userInfo', resultDate.userInfo);
-                            console.log("roleId: " + resultDate.userInfo.roleId);
-                            localStorage.setItem('role', resultDate.userInfo.roleId);
-                            localStorage.setItem('userInfoId', resultDate.userInfo.userInfoId);
-                            if(resultDate.userInfo.roleId === 3){
-                                console.log("name: " + resultDate.userInfo2.name);
-                                localStorage.setItem('user_name', resultDate.userInfo2.name);
-                            }
-                        }
-                        _than.$router.push("/")
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
+                            
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                    
                     // localStorage.setItem('role', 0);
                     // _than.$router.push("/")
-                // });
+                });
             },
-            submit: function () {
+
+            submit() {
                 this.$router.push("/")
             },
+
+            /**
+             * 获取用户信息
+             */
+            getUserInfo(userId){
+                let _than = this;
+                this.$axios.get('api/user/info',{params:{userId: userId
+                    }}).then( res => {
+                        console.log(res);
+                        let userInfo = res.data.extend;
+                        localStorage.setItem("fileBasePath", userInfo.fileBasePath);
+                        localStorage.setItem('userId', userInfo.userId);
+                        localStorage.setItem('role', userInfo.roleId);
+                        localStorage.setItem('ms_username', userInfo.nickname);
+                        if(0 != userInfo.status){
+                            if (3 === userInfo.roleId) {
+                                console.log('roleId = 3');
+                                localStorage.setItem('real_name', userInfo.realname);
+                                _than.getUserAuhthenStatus(userInfo.userId);
+                            } else {
+                                _than.$router.push("/");
+                            }
+                            if(1 === userInfo.roleId){
+                                localStorage.setItem('companyId', userInfo.companyId);
+                            }
+                        }else{
+                            _than.$router.push("/setting-changepassword");
+                        }                        
+                        // 设置附件上传地址
+                        localStorage.setItem('uploadPath', 'http://192.168.1.101:8088/filesystem/upload/');
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 获取用户的认证状态
+             */
+            getUserAuhthenStatus(userId){
+                let _than = this;
+                this.$axios.get('api/authen/status',{params:{userId: userId
+                }}).then( res => {                    
+                    let result = res.data.extend;
+                    console.log(result);
+                    // 未认证
+                    if(0 === result.status){
+                        _than.$router.push("/unauthen-home");
+                    }else{
+                        _than.$router.push("/home2");
+                    }
+                    // 认证状态存入缓存
+                    localStorage.setItem('authenStatus', result.status);
+                    localStorage.setItem('authenName', result.name);
+                    
+                }).catch( error => {
+                    console.log(error);
+                });
+            }
 
         }
     }

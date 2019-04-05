@@ -2,9 +2,13 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="collapse-btn" @click="collapseChage">
-            <!--<i class="el-icon-menu"></i>-->
+            <i class="el-icon-menu"></i>
         </div>
-        <div class="logo"><img src="../../../static/img/logo.png"/></div><!-- 后台管理系统 -->
+        <div class="logo" v-show="!collapse">
+            <!--<img src="../../../static/img/logo.png">-->
+            <!--后台管理系统-->
+            <div class="logo-name">工程投融资平台</div>
+        </div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
@@ -23,11 +27,11 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="static/img/img.jpg"></div>
+                <div class="user-avator"><img src="../../assets/img/img.jpg"></div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}} <i class="el-icon-arrow-down" style="padding-left: 15px"></i>
+                        {{username}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <a href="http://blog.gdfengshuo.com/about/" target="_blank">
@@ -113,35 +117,50 @@
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        height: 80px;
+        height: 70px;
         font-size: 22px;
-        color: #222222;
+        color: #fff;
         background-color: #fff;
-        box-shadow: 0 5px 10px #ddd;
+        box-shadow:0px 2px 4px 0px rgba(0,0,0,0.5);
+    ;
     }
     .collapse-btn{
         float: left;
         padding: 0 21px;
         cursor: pointer;
-        line-height: 80px;
+        height: 70px;
+        line-height: 70px;
+        /* my add*/
         background-color: #0f1632;
     }
     .header .logo{
         float: left;
-        width: 170px;
-        line-height: 35px;
+        width:136px;
+        line-height: 70px;
+        /* my add*/
         background-color: #0f1632;
-        padding: 17.5px 40px;
-        text-align: center;
+    }
+    .logo>img{
+        width: 130px;
+        height: 30px;
+        margin: 20px 3px;
+    }
+    .logo .logo-name{
+        width: 130px;
+        height: 30px;
+        margin: 20px 3px;
+        line-height: 30px;
+        text-align: left;
+        font-size: 18px;
     }
     .header-right{
         float: right;
-        padding-right: 80px;
-        background-color: #fff;
+        padding-right: 20px;
+        color: #303133;
     }
     .header-user-con{
         display: flex;
-        height: 80px;
+        height: 70px;
         align-items: center;
     }
     .btn-fullscreen{
@@ -168,26 +187,24 @@
         color: #fff;
     }
     .btn-bell .el-icon-bell{
-        color: #cccccc;
+        color: #606266;
     }
     .user-name{
-        margin-left: 20px;
+        margin-left: 10px;
     }
     .user-avator{
-        margin-left: 40px;
+        margin-left: 20px;
     }
     .user-avator img{
         display: block;
         width:40px;
         height:40px;
-        line-height: 40px;
         border-radius: 50%;
-        background-position: center;
     }
     .el-dropdown-link{
-        color: #000000;
+        color: #fff;
         cursor: pointer;
-        font-size: 14px;
+        color: #606266;
     }
     .el-dropdown-menu__item{
         text-align: center;

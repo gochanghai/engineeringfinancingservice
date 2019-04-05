@@ -2,9 +2,9 @@
     <div class="wrapper">
         <v-head></v-head>
         <v-sidebar></v-sidebar>
-        <div class="content-box" style="top: 80px;" :class="{'content-collapse':collapse}">
+        <div class="content-box" :class="{'content-collapse':collapse}">
             <!--<v-tags></v-tags>-->
-            <div class="content" style="padding: 0 20px;">
+            <div class="content">
                 <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList">
                         <router-view></router-view>

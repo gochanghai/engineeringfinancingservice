@@ -19,7 +19,7 @@
                 <span>&lt;i class=&quot;el-icon-lx-weibo&quot;&gt;&lt;/i&gt;</span>
             </p>
             <p class="example-p">
-                <i class="el-icon-lx-emojifill" style="font-size: 30px;color: #ffc300"></i>
+                <i class="el-icon-lx-emojifill" style="font-size: 30px;color: #ffc300;"></i>
                 <span>&lt;i class=&quot;el-icon-lx-emojifill&quot;&gt;&lt;/i&gt;</span>
             </p>
             <br>

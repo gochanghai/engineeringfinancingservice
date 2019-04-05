@@ -8,19 +8,130 @@
         <div class="container">
             <el-tabs v-model="message">
                 <el-tab-pane :label="`未读消息(${unread.length})`" name="first">
-                    <el-table :data="unread" :show-header="false" style="width: 100%">
-                        <el-table-column>
-                            <template slot-scope="scope">
-                                <span class="message-title">{{scope.row.title}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="date" width="180"></el-table-column>
-                        <el-table-column width="120">
-                            <template slot-scope="scope">
-                                <el-button size="small" @click="handleRead(scope.$index)">标为已读</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-item-title">
+                            <div class="message-badge">NEW</div>
+                            <div class="message-type">• 消息通知</div>
+                            <div class="message-date">2019-01-22 15:30:36</div>
+                        </div>
+                        <div class="message-item-content">
+                            <div class="message-content-title">放款完成通知：</div>
+                            <div class="message-content">亲爱的用户，您的放款申请已经批复完毕，近期款项会打入您的账户，请您注意账户变动信息wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww！</div>
+                        </div>
+                    </div>
+                    <!--<el-table :data="unread" :show-header="false" style="width: 100%">-->
+
+                        <!--<el-table-column>-->
+                            <!--<template slot-scope="scope">-->
+                                <!--<span class="message-title"><div class="info-badge">NEW</div>{{scope.row.title}}</span>-->
+                            <!--</template>-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column prop="date" width="180"></el-table-column>-->
+                        <!--<el-table-column width="120">-->
+                            <!--<template slot-scope="scope">-->
+                                <!--<el-button size="small" @click="handleRead(scope.$index)">标为已读</el-button>-->
+                            <!--</template>-->
+                        <!--</el-table-column>-->
+                    <!--</el-table>-->
                     <div class="handle-row">
                         <el-button type="primary">全部标为已读</el-button>
                     </div>
@@ -119,11 +230,80 @@
 </script>
 
 <style>
-.message-title{
-    cursor: pointer;
-}
-.handle-row{
-    margin-top: 30px;
-}
+    .message-title{
+        cursor: pointer;
+        float: left;
+    }
+    .handle-row{
+        margin-top: 30px;
+    }
+
+    .message-item{
+        width: auto;
+        padding: 20px 0px;
+        margin: 20px 60px;
+        border-bottom: 1px dashed #ccc;
+    }
+    .message-item-title{
+        width:100%;
+        height:16px;
+        font-size:12px;
+        font-family:MicrosoftYaHei;
+        color:rgba(34,34,34,1);
+        line-height:16px;
+        text-align: left;
+    }
+    .message-type{
+        display: block;
+        height:16px;
+        color:rgba(34,34,34,1);
+        line-height:16px;
+        float: left;
+        margin-left: 20px;
+    }
+    .message-date{
+        display: block;
+        height:16px;
+        color:rgba(34,34,34,1);
+        line-height:16px;
+        float: left;
+        margin: 0 50px;
+    }
+    .message-badge{
+        display: block;
+        float: left;
+        width:40px;
+        height:16px;
+        background:rgba(255,130,8,1);
+        border-radius:8px;
+        color:rgba(255,255,255,1);
+        line-height:16px;
+        text-align: center;
+    }
+    .message-item-content {
+        padding: 16px 20px 16px 60px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .message-content-title{
+        display: block;
+        float: left;
+        width:98px;
+        height:19px;
+        font-size:14px;
+        font-family:MicrosoftYaHei-Bold;
+        font-weight:bold;
+        color:rgba(34,34,34,1);
+        line-height:19px;
+    }
+    .message-content{
+        display: block;
+        float: left;
+        width: 90%;
+        font-size:14px;
+        font-family:MicrosoftYaHei;
+        color:rgba(34,34,34,1);
+        line-height:19px;
+    }
 </style>
 
