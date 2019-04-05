@@ -33,4 +33,13 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean updateNickname(Long id, String nickname);
+
+    /**
+     * 使用用户名或手机号码登陆
+     * username = username || phone
+     * @param username
+     * @param password
+     * @return
+     */
+    User loginByUsernameOrPhone(String username, String password);
 }

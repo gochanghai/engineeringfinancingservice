@@ -6,8 +6,6 @@ import com.shenhua119.leadservice.entity.MessageEntity;
 import com.shenhua119.leadservice.service.MessageService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 /**
  * @author liuchanghai
  * @create 2019-01-19 22:12
@@ -31,8 +29,6 @@ public class MessageServiceImpl extends ServiceImpl<MessageDao, MessageEntity> i
         message.setType(type)
                 .setTitle(title)
                 .setContent(content)
-                .setStatus(0)
-                .setCreateDate(new Date())
                 .setUserId(userID);
         // 保存数据并返回结果
         return save(message);

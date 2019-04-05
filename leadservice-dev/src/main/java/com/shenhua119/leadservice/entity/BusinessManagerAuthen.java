@@ -28,6 +28,8 @@ public class BusinessManagerAuthen {
     @JsonSerialize(using= ToStringSerializer.class)
     private Long userId;
 
+    private String name;
+    private String idCard;
     // 银行卡号
     private String bankCardNo;
 
@@ -68,19 +70,19 @@ public class BusinessManagerAuthen {
     private String spouseDomicile;
 
     // 配偶身份正面
-    private String spouseIdCardSideFace;
+    private String sidCardSideFace;
 
     // 配偶身份证反面
-    private String spouseIdCardSideBack;
+    private String sidCardSideBack;
 
     // 结婚证
     private String marriageCert;
 
     // 配偶户口本主页
-    private String sHouseholdRegHome;
+    private String shouseholdRegHome;
 
     // 配偶户口本个人页
-    private String sHouseholdRegPersonal;
+    private String shouseholdRegPersonal;
 
     // 离婚证
     private String divorceCert;
@@ -104,10 +106,10 @@ public class BusinessManagerAuthen {
     private String socialInsurCardNo;
 
     // 现在购买社保公司
-    private String buySocialInsurCompany;
+    private String socialInsurCompany;
 
     // 最近缴纳社保清单
-    private String paySocialInsurDetails;
+    private String socialInsurDetails;
 
     // 是否有社保
     private Integer isSocialecurity;
@@ -117,5 +119,10 @@ public class BusinessManagerAuthen {
 
     // 是否有车
     private Integer isCar;
+
+    /**
+     * 认证状态
+     */
+    private Integer status;
 
 }

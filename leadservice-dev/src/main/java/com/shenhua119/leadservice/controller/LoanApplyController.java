@@ -34,20 +34,20 @@ public class LoanApplyController {
 
     /**
      * 保存申请数据
-     * @param loanApply
+     * @param projectLoanApply
      * @return
      */
     @PostMapping("save")
-    public Msg save(LoanApplyEntity loanApply){
-        System.out.println(loanApply.toString());
+    public Msg save(ProjectLoanApply projectLoanApply){
+        System.out.println(projectLoanApply.toString());
         // 根据项目ID 得到项目信息，从而得到工程公司ID
-        Project project = projectService.getById(loanApply.getPId());
+        Project project = projectService.getById(projectLoanApply.getUserId());
         // 设置工程公司ID
-        loanApply.setComId(project.getCompanyId());
-        boolean result = loanApplyInfoService.save(loanApply);
+        projectLoanApply.setCompanyId(project.getCompanyId());
+        boolean result = loanApplyInfoService.save(projectLoanApply);
         System.out.println("放款申请信息保存成功: " + result);
-        LoanApprovalEntity approval = new LoanApprovalEntity();
-        approval.setId(loanApply.getId()).setApplyId(loanApply.getId());
+        LoanExamineapprove approval = new LoanExamineapprove();
+        approval.setId(projectLoanApply.getId()).setApplyId(projectLoanApply.getId());
         boolean b1 = loanApprovalService.save(approval);
         if (result){
             BusinessManager financier = businessManagerService.getById(project.getUserId());
@@ -78,7 +78,7 @@ public class LoanApplyController {
     @GetMapping("f/list")
     public Msg listByFinancierId(Long id){
         System.out.println("融资人："+ id +" 获取数据");
-        List<LoanApplyEntity> list = loanApplyInfoService.listByFinancierId(id);
+        List<ProjectLoanApply> list = loanApplyInfoService.listByFinancierId(id);
         return Msg.success().add("list",list);
     }
 
@@ -90,7 +90,7 @@ public class LoanApplyController {
     @GetMapping("com/list")
     public Msg listByEngCompanyId(Long id){
         System.out.println("工程公司： "+ id +" 获取数据");
-        List<LoanApplyEntity> list = loanApplyInfoService.listByEngCompanyId(id);
+        List<ProjectLoanApply> list = loanApplyInfoService.listByEngCompanyId(id);
         return Msg.success().add("list",list);
     }
 
@@ -101,7 +101,7 @@ public class LoanApplyController {
     @GetMapping("list")
     public Msg list(){
         System.out.println("获取数据");
-        List<LoanApplyEntity> list = loanApplyInfoService.listAll();
+        List<ProjectLoanApply> list = loanApplyInfoService.listAll();
         return Msg.success().add("list",list);
     }
     /**
@@ -112,14 +112,14 @@ public class LoanApplyController {
     @GetMapping("fund/list")
     public Msg listByFundCompanyId(Long id){
         System.out.println("资金方："+ id +" 获取数据");
-        List<LoanApplyEntity> list = loanApplyInfoService.listByFundCompanyId(id);
+        List<ProjectLoanApply> list = loanApplyInfoService.listByFundCompanyId(id);
         return Msg.success().add("list",list);
     }
 
     @GetMapping("f/info")
     public Msg loanApplyInfoByiId(Long id){
         System.out.println("获取一条放款申请："+ id +" 信息明细");
-        LoanApplyEntity loanApply = loanApplyInfoService.loanApplyById(id);
-        return Msg.success().add("applyInfo",loanApply);
+        ProjectLoanApply projectLoanApply = loanApplyInfoService.loanApplyById(id);
+        return Msg.success().add("applyInfo", projectLoanApply);
     }
 }

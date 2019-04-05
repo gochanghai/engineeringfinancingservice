@@ -15,6 +15,6 @@ import java.util.List;
 @Mapper
 public interface FinanceCompanyDao extends BaseMapper<FinanceCompany> {
 
-    @Select("SELECT t.id, t.company_full_name, t.cooperation_bank FROM `tb_finance_company` t")
+    @Select("SELECT t.id, t.company_name, t.coop_bank FROM `company_finance` t")
     List<FinanceCompany> selectListCompanyNameAndComId();
 }

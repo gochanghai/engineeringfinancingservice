@@ -155,7 +155,7 @@ public class WaterMarkUtils {
      * @param markContentColor 水印文字的颜色
      * @param waterMarkContent 水印的文字
      */
-    public void imageWaterMarkByText(String srcImgPath, String outImgPath, Color markContentColor, String waterMarkContent) {
+    public static void imageWaterMarkByText(String srcImgPath, String outImgPath, Color markContentColor, String waterMarkContent) {
         try {
             // 读取原图片信息
             File srcImgFile = new File(srcImgPath);
@@ -193,7 +193,7 @@ public class WaterMarkUtils {
      * @param g
      * @return 水印文字总长度
      */
-    public int getWatermarkLength(String waterMarkContent, Graphics2D g) {
+    public static int getWatermarkLength(String waterMarkContent, Graphics2D g) {
         return g.getFontMetrics(g.getFont()).charsWidth(waterMarkContent.toCharArray(), 0, waterMarkContent.length());
     }
 

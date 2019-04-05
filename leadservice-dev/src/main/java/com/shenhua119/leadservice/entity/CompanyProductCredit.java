@@ -20,7 +20,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_eng_company_credit")
+@TableName("company_credit_product")
 public class CompanyProductCredit {
     /**
      * 主键ID
@@ -31,7 +31,7 @@ public class CompanyProductCredit {
      * 工程公司ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long userId;
+    private Long companyId;
     /**
      * 产品ID
      */
@@ -41,7 +41,7 @@ public class CompanyProductCredit {
      * 资金方ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long companyId;
+    private Long fcompanyId;
     /**
      * 授信额度
      */
@@ -53,5 +53,5 @@ public class CompanyProductCredit {
     /**
      * 授信时间
      */
-    private Date createDate;
+    private Date createTime;
 }

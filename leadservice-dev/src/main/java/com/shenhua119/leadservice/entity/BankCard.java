@@ -7,9 +7,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 /**
  * <pre> 银行卡信息实体类 </pre>
@@ -38,11 +35,15 @@ public class BankCard {
     /**
      * 银行卡号
      */
-    private String cardNo;
+    private String accountNo;
     /**
-     *银行卡类型  DC: 借记卡 CC: 信用卡
+     *银行卡类型  借记卡  信用卡
      */
     private String cardType;
+    /**
+     *银行卡类型代码  DC: 借记卡 CC: 信用卡
+     */
+    private String cardTypeCode;
     /**
      * 银行
      */
@@ -54,7 +55,7 @@ public class BankCard {
     /**
      * 手机号码
      */
-    private String mobile;
+    private String phone;
     /**
      * 真是姓名
      */
@@ -62,18 +63,26 @@ public class BankCard {
     /**
      * 证件号码
      */
-    private String number;
+    private String idCard;
     /**
      * 证件类型
      */
     private String type;
+
+    private String cardName;
+    private String birthday;
+    private String gender;
+
+    private String province;
+    private String city;
+    private String prefecture;
+    private String area;
+
+    private String addrCode;
+    private String lastCode;
+
     /**
      * 状态
      */
-    private Integer status;
-    /**
-     * 创建时间
-     */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date createDate;
+    private String status;
 }

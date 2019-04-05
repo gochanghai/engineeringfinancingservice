@@ -41,6 +41,6 @@ public class Car implements Serializable {
     /**
      * 车辆说明
      */
-    private String desc;
+    private String remarks;
 
 }

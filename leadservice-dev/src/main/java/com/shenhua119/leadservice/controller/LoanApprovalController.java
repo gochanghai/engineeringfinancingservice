@@ -1,6 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
-import com.shenhua119.leadservice.entity.LoanApprovalEntity;
+import com.shenhua119.leadservice.entity.LoanExamineapprove;
 import com.shenhua119.leadservice.service.LoanApprovalService;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 /**
  * <p> 贷款审批控制器 </p>
@@ -31,9 +29,8 @@ public class LoanApprovalController {
      * @return
      */
     @PostMapping("ec_save")
-    public Msg saveEngComApproval(LoanApprovalEntity lai){
+    public Msg saveEngComApproval(LoanExamineapprove lai){
         System.out.println("ec: "  + lai);
-        lai.setEcDate(new Date());
         boolean b = loanApprovalService.save(lai);
         return Msg.success();
     }
@@ -44,9 +41,8 @@ public class LoanApprovalController {
      * @return
      */
     @PostMapping("p_save")
-    public Msg save(LoanApprovalEntity lai){
+    public Msg save(LoanExamineapprove lai){
         System.out.println("p: " + lai);
-        lai.setPDate(new Date());
         boolean b = loanApprovalService.updateById(lai);
         return Msg.success();
     }
@@ -57,9 +53,8 @@ public class LoanApprovalController {
      * @return
      */
     @PostMapping("f_save")
-    public Msg saveFundComApproval(LoanApprovalEntity lai){
+    public Msg saveFundComApproval(LoanExamineapprove lai){
         System.out.println("fund com: " + lai);
-        lai.setFDate(new Date());
         boolean b = loanApprovalService.updateById(lai);
         return Msg.success();
     }

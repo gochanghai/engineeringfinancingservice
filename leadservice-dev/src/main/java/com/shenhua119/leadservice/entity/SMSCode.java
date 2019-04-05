@@ -1,5 +1,9 @@
 package com.shenhua119.leadservice.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
@@ -7,15 +11,22 @@ import java.util.Date;
  * @create 2018-12-09 1:37
  * 短信验证码
  */
+
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+@TableName("sms_code")
 public class SMSCode {
 
-    // 主键ID
     private Long id;
-    // 手机号码
-    private String phone;
-    // 验证码
-    private String code;
-    // 创建时间
-    private Date createDate;
+    private String phoneNumber;
+    private String checkCode;
+    private Integer validTime;
+    private String type;
+    private String templateCode;
+    private Date createTime;
 
 }

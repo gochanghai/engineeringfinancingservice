@@ -1,6 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
-import com.shenhua119.leadservice.entity.FinanceProductEntity;
+import com.shenhua119.leadservice.entity.FinanceProduct;
 import com.shenhua119.leadservice.service.FinanceProductService;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class FinanceProductController {
     @GetMapping("id")
     public Msg getProductById(Long id) {
         System.out.println("获取一个产品的信息：" + id);
-        FinanceProductEntity product = financeProductService.getById(id);
+        FinanceProduct product = financeProductService.getById(id);
         return Msg.success().add("product", product);
     }
     /**
@@ -39,8 +39,8 @@ public class FinanceProductController {
      * @param product
      * @return
      */
-    @PostMapping("save")
-    public Msg save(FinanceProductEntity product) {
+    @PostMapping("")
+    public Msg save(FinanceProduct product) {
         boolean result = financeProductService.save(product);
         System.out.println("新增金融产品成功");
         return Msg.success();

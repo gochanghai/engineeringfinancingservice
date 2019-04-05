@@ -49,7 +49,7 @@ public class ProjectProgressDetailController {
     public Msg list(Long projectId){
         System.out.println("项目: " + projectId + " 获取数据");
         // 使用条件构造获取数据
-        var where = new QueryWrapper<ProjectProgressDetail>().eq("project_id", projectId).orderByDesc("date");
+        var where = new QueryWrapper<ProjectProgressDetail>().eq("project_id", projectId).orderByDesc("create_date");
         List<ProjectProgressDetail> list = projectProgressDetailService.list(where);
         return Msg.success().add("list", list);
     }

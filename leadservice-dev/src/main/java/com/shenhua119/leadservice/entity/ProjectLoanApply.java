@@ -21,67 +21,47 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-@TableName("tb_loan_apply")
-public class LoanApplyEntity {
+@TableName("project_loan_apply")
+public class ProjectLoanApply {
 
-    /**
-     * 主键ID
-     */
+    /** 主键ID */
     @JsonSerialize(using= ToStringSerializer.class)
     private  Long id;
-    /**
-     * 项目ID
-     */
+    /** 项目ID */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long pId;
-    /**
-     * 项目名称
-     */
+    private Long projectId;
+    /** 项目名称 */
     @TableField(exist=false)
     private String projectName;
-    /**
-     * 贷款编号
-     */
-    private String loanNo;
+    /** 贷款编号 */
+    private String applyNo;
 
-    // 申请贷款时间
+    /** 申请日期 */
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date loanDate;
-    /**
-     * 融资人姓名
-     */
-    @TableField(exist=false)
+    private Date applyDate;
+    /** 申请人姓名 */
     private String name;
-    /**
-     * 申请放款金额
-     */
-    private Double loanAmount;
-    /**
-     * 申请放款周期
-     */
+    /** 申请放款金额 */
+    private Double applyAmount;
+    /** 申请放款周期 */
     private Integer loanCycle;
-    /**
-     * 状态
-     */
+    /** 状态 */
     private String status;
-    /**
-     * 融资人ID
-     */
+    /** 融资人ID */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long fId;
-    /**
-     * 工程公司ID
-     */
-    private Long comId;
-    /**
-     * 资金方ID
-     */
-    private Long fComId;
+    private Long userId;
+    /** 工程公司ID */
+    private Long companyId;
+    /** 资金方ID */
+    private Long fcompanyId;
 
-    /**
-     * 项目采购订单
-     */
+    /** 更新时间 */
+    private Date updateTime;
+    /** 修改时间 */
+    private Date createTime;
+
+    /** 项目采购订单 */
     @TableField(exist=false)
     private List<ProjectPurchaseOrder> purchaseOrders;
 }

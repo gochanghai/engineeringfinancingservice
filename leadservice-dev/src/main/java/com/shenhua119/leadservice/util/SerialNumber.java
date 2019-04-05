@@ -35,5 +35,11 @@ public class SerialNumber {
         public static void main(String[] args) {
             String m= Getnum();
             System.out.println(m);
+
+            // 生成6位数验证码
+            for (var i = 0; i<20; i++){
+                System.out.println((int)((Math.random() * 9 + 1) * 100000));
+            }
+
         }
 }

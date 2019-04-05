@@ -17,39 +17,35 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
-@TableName("tb_project_credit")
-public class ProjectCredit {
+@TableName("project_credit")
+public class CreditProjectProduct {
 
     /**
      * 授信ID
      */
     private Long id;
+
+    /**
+     * 商务经理ID
+     */
+    private Long userId;
     /**
      * 项目ID
      */
     private Long projectId;
     /**
-     * 授信编号
+     * 授信申请编号
      */
-    private String creditNo;
-    /**
-     * 授信时间
-     */
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date creditDate;
-    /**
-     * 用户ID
-     */
-    private Long userId;
+    private String applyNo;
+
     /**
      * 授信金额
      */
-    private Double creditAmount;
+    private Double amount;
     /**
      * 资金方ID
      */
-    private Long fId;
+    private Long fcompanyId;
     /**
      * 金融产品ID
      */

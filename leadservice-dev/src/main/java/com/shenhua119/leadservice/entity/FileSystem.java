@@ -35,7 +35,7 @@ public class FileSystem {
     /**
      * 文件大小
      */
-    private Long fileSize;
+    private String fileSize;
 
     /**
      * 文件类型
@@ -51,6 +51,11 @@ public class FileSystem {
      * 文件路径
      */
     private String filePath;
+
+    /**
+     * 文件状态
+     */
+    private Integer status;
 
     /**
      * 上传时间

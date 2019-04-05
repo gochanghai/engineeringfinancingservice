@@ -1,5 +1,6 @@
 package com.shenhua119.leadservice.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shenhua119.leadservice.entity.BusinessManager;
 import com.shenhua119.leadservice.service.BusinessManagerService;
 import com.shenhua119.leadservice.service.FinancierAuthenService;
@@ -82,5 +83,19 @@ public class BusinessManagerController {
         List<BusinessManager> list = businessManagerService.listByCompanyId(companyId);
         System.out.println("获取成功： " + list.size());
         return  Msg.success().add("list",list);
+    }
+
+    /**
+     * 获取商务经理姓名及身份证号
+     * @param userId
+     * @return
+     */
+    @GetMapping("user_id")
+    public Msg getNameAndIdCard(Long userId){
+        System.out.println("获取商务经理姓名及身份证号: " + userId);
+        var where = new QueryWrapper<BusinessManager>().eq("user_id", userId);
+        BusinessManager manager = businessManagerService.getOne(where);
+        System.out.println("获取商务经理姓名及身份证号获取成功： " + manager);
+        return  Msg.success().add("name",manager.getName()).add("idCard",manager.getIdCard());
     }
 }

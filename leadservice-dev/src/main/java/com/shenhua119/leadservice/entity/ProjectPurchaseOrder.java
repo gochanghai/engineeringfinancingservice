@@ -27,7 +27,7 @@ public class ProjectPurchaseOrder {
      * 项目ID
      */
     @JsonSerialize(using= ToStringSerializer.class)
-    private Long pId;
+    private Long projectId;
     /**
      * 放款申请编号
      */
@@ -44,7 +44,7 @@ public class ProjectPurchaseOrder {
     /**
      * 采购订单总金额
      */
-    private String orderSumAmount;
+    private String orderAmount;
     /**
      * 采购订单附件
      */
@@ -52,7 +52,7 @@ public class ProjectPurchaseOrder {
     /**
      * 采购发票总金额
      */
-    private String invoiceSumAmount;
+    private String invoiceAmount;
     /**
      * 采购发票附件
      */
@@ -60,18 +60,18 @@ public class ProjectPurchaseOrder {
     /**
      * 送货单附件
      */
-    private String deliveryBillFile;
+    private String deliveryFile;
     /**
      * 供应商银行账号
      */
-    private String bankCardNo;
+    private String bankAccount;
     /**
      * 供应商银行账户名
      */
-    private String bankAccountName;
+    private String accountName;
     /**
      * 开户行
      */
-    private String openAccountBank;
+    private String bank;
 
 }

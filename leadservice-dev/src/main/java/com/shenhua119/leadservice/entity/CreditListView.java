@@ -26,11 +26,11 @@ public class CreditListView {
     private Long id;
 
     // 授信编号
-    private String creditNo;
+    private String applyNo;
 
     // 授信时间
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date date;
+    private Date applyDate;
 
     // 申请授信额度
     private Double applyAmount;
@@ -54,7 +54,7 @@ public class CreditListView {
     private String companyName;
 
     // 资金渠道
-    private String companyFullName;
+    private String fcompanyName;
 
     // 状态
     private Integer status;

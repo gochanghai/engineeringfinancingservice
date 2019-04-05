@@ -9,7 +9,6 @@ import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class EngineeringCompanyController {
 
     @PutMapping("update")
     public Msg update(CompanyProductCredit ecc){
-        boolean result = engineeringCompanyCreditService.save(ecc.setCreateDate(new Date()));
+        boolean result = engineeringCompanyCreditService.save(ecc);
         EngineeringCompany engineeringCompany = new EngineeringCompany();
         result = engineeringCompanyService.updateById(engineeringCompany);
         return Msg.success();

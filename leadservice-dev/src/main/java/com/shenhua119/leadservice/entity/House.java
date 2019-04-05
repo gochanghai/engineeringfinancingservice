@@ -41,6 +41,6 @@ public class House implements Serializable {
     /**
      * 房产说明
      */
-    private String esc;
+    private String remarks;
 
 }
