@@ -16,19 +16,20 @@
                         <el-button type="primary" class="btn-search" icon="search" @click="search">查询</el-button>
                     </div>
                     <div class="loan-info-box" v-loading="loading">
-                        <div class="list" v-for=" (item, index) in tableData">
+                        <div class="list" v-for=" (item, index) in tableData" :key="index">
                             <div class="loan-info-box list loan-info">
-                                <div class="item">申请日期: {{item.loanDate}}</div>
-                                <div class="item">申请编号: {{item.loanNo}}</div>
+                                <div class="item">申请日期: {{item.applyDate}}</div>
+                                <div class="item">申请编号: {{item.applyNo}}</div>
                                 <div class="item">申请人: {{item.name}}</div>
                                 <div class="item">项目名称: {{item.projectName}}</div>
-                                <div class="item">申请放款金额: {{item.loanAmount}} 万</div>
+                                <div class="item">申请放款金额: {{item.applyAmount}} 万</div>
 
                                 <div class="btn-sz" v-show="isShowPurchase === index" @click="isShowPurchaseInfo(-1)">收起 ▲</div>
                                 <div class="btn-sz" v-show="isShowPurchase !== index" @click="isShowPurchaseInfo(index)">展开 ▼</div>
-                                <div class="tag-status">待确认</div>
-                                <div class="btn-cancel" @click="gotoSubmit(item.id, -1)">拒绝</div>
-                                <div class="btn-submit" @click="gotoSubmit(item.id, 1)">确认</div>
+                                <div class="tag-status" v-if="item.step === 1 && item.status != -1">待确认</div>
+                                <div class="tag-status" v-if="item.step === 1 && item.status === -1">已拒绝</div>
+                                <div class="btn-cancel" v-if="item.step === 1 && item.status != -1" @click="gotoSubmit(item.id,item.applyNo, -1)">拒绝</div>
+                                <div class="btn-submit" v-if="item.step === 1 && item.status != -1" @click="gotoSubmit(item.id,item.applyNo, 1)">确认</div>
                             </div>
                             <div class="purchase-info" v-show="isShowPurchase === index">
                                 <el-table border :data="item.purchaseOrders">
@@ -39,9 +40,9 @@
                                             <img :src="filesysip + scope.row.contractFile" @click="filePreview(scope.row.contractFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="orderSumAmount" label="采购订单总金额" align="center">
+                                    <el-table-column prop="orderAmount" label="采购订单总金额" align="center">
                                         <template slot-scope="scope">
-                                            {{ scope.row.orderSumAmount}} 万
+                                            {{ scope.row.orderAmount}} 万
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="orderFile" label="采购订单附件" align="center">
@@ -49,9 +50,9 @@
                                             <img :src="filesysip + scope.row.orderFile" @click="filePreview(scope.row.orderFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="invoiceSumAmount" label="采购发票总金额" align="center">
+                                    <el-table-column prop="invoiceAmount" label="采购发票总金额" align="center">
                                         <template slot-scope="scope">
-                                            {{ scope.row.invoiceSumAmount}} 万
+                                            {{ scope.row.invoiceAmount}} 万
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="invoiceFile" label="采购发票附件" align="center">
@@ -59,16 +60,16 @@
                                             <img :src="filesysip + scope.row.invoiceFile" @click="filePreview(scope.row.invoiceFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="deliveryBillFile" label="送货单附件" align="center">
+                                    <el-table-column prop="deliveryFile" label="送货单附件" align="center">
                                         <template slot-scope="scope">
-                                            <img :src="filesysip + scope.row.deliveryBillFile" @click="filePreview(scope.row.deliveryBillFile)" width="30" height="25"/>
+                                            <img :src="filesysip + scope.row.deliveryFile" @click="filePreview(scope.row.deliveryFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="bankCardNo" label="供应商银行账户名" align="center">
+                                    <el-table-column prop="accountName" label="供应商银行账户名" align="center">
                                     </el-table-column>
-                                    <el-table-column prop="bankAccountName" label="供应商银行账号" align="center">
+                                    <el-table-column prop="bankAccount" label="供应商银行账号" align="center">
                                     </el-table-column>
-                                    <el-table-column prop="openAccountBank" label="开户行" align="center">
+                                    <el-table-column prop="bank" label="开户行" align="center">
                                     </el-table-column>
                                 </el-table>
                             </div>
@@ -83,38 +84,21 @@
         </el-row>
 
         <!-- 审批弹出框 -->
-        <el-dialog :visible.sync="submitVisible" center width="30%">
+        <el-dialog :visible.sync="submitVisible" center width="550px">
             <el-form ref="form" :model="form" :rules="rules" label-width="170px">
                 <el-form-item label="放款申请资料是否通过">
-                    <el-radio-group v-model="form.pResult">
+                    <el-radio-group v-model="form.result">
                         <el-radio :label="1">是</el-radio>
                         <el-radio :label="-1">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <div  v-show="this.form.pResult === 1">
-                    <el-form-item label="有效采购金额共计" prop="pPurchaseAmount">
-                        <el-input v-model="form.pPurchaseAmount" style="width: 200px"></el-input> 万
-                    </el-form-item>
-                    <el-form-item label="项目资信评估表">
-                        <el-upload
-                                class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-change="handleChange">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
-                    </el-form-item>
-                    <el-form-item label="项目现场情况">
-                        <el-upload
-                                class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-change="handleChange">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                        </el-upload>
+                <div  v-show="this.form.result === 1">
+                    <el-form-item label="有效采购金额共计" prop="amount">
+                        <el-input v-model="form.amount" style="width: 200px"></el-input> 万
                     </el-form-item>
                 </div>
-
-                <el-form-item label="请输入拒绝原因"  v-show="this.form.pResult === -1" prop="pDesc">
-                    <el-input type="textarea" v-model="form.pDesc" style="width: 300px"></el-input>
+                <el-form-item label="请输入拒绝原因"  v-show="this.form.result === -1" prop="opinion">
+                    <el-input type="textarea" v-model="form.opinion" style="width: 300px"></el-input>
                 </el-form-item>
 
             </el-form>
@@ -208,24 +192,17 @@
                 sendFreeVisible: false,
                 confirmFreeVisible: false,
                 form: {
-                    id: null,
-                    pResult: 1,
-                    pPurchaseAmount: null,
-                    onSiteFile: null,
-                    creditRatingFile: null,
-                    pDesc: null,
+                    id: '',
+                    result: 1,
+                    amount: '',
+                    opinion: '',
+                    no: ''
                 },
                 rules: {
-                    pPurchaseAmount: [
+                    amount: [
                         {required: true, message: '请输入有效采购金额', trigger: 'blur'}
                     ],
-                    onSiteFile: [
-                        {required: true, message: '请上传现场文件', trigger: 'change'}
-                    ],
-                    creditRatingFile: [
-                        {required: true, message: '请上传资信评估表', trigger: 'blur'}
-                    ],
-                    pDesc: [
+                    opinion: [
                         {required: true, message: '请输入拒绝原因', trigger: 'change'}
                     ],
                 },
@@ -350,29 +327,31 @@
             },
 
             // 审批
-            gotoSubmit(id, result){
-                this.form.pResult = result;
+            gotoSubmit(id, no, result){
+                this.form.result = result;
                 this.form.id = id;
+                this.form.no = no;
                 this.submitVisible = true;
             },
             // 保存审批信息
             save(formName){
-                let _than = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        _than.$axios.post('loan_appr/p_save',
-                            _than.qs.stringify(
+                    if (!valid) {
+                        this.$axios.post('loan/appr/save',
+                            this.qs.stringify(
                                 {
-                                    id: this.form.id,
-                                    pResult: this.form.pResult,
-                                    pPurchaseAmount: this.form.pPurchaseAmount,
-                                    onSiteFile: this.form.onSiteFile,
-                                    creditRatingFile: this.form.creditRatingFile,
-                                    ecDescc: this.form.ecDesc,
+                                    applyId: this.form.id,
+                                    applyNo: this.form.no,
+                                    name: localStorage.getItem('ms_username'),
+                                    result: this.form.result,
+                                    purchaseAmount: this.form.amount,
+                                    opinion: this.form.opinion,
                                 }
-                            )).then(function (response) {
-                            console.log(response);
-                            _than.submitVisible = false;
+                            )).then(res => {
+                            console.log(res);
+                            this.submitVisible = false;
+                            this.$message.success('保存成功！');
+                            this.getTableData();
                         }).catch(function (error) {
                             console.log(error);
                         });
@@ -380,9 +359,7 @@
                         console.log('error submit!!');
                         return false;
                     }
-                });
-                this.$message.success('保存成功！');
-
+                });      
             },
         }
     }

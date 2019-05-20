@@ -21,25 +21,25 @@
                                     <div class="form-box">
                                         <el-form label-width="100px">
                                             <el-form-item label="申请编号：" style="margin-bottom: 0">
-                                                {{applyInfo.creditApply.creditNo}}
+                                                {{applyInfo.applyNo}}
                                             </el-form-item>
-                                            <el-form-item label="申请日期："style="margin-bottom: 0">
-                                                {{applyInfo.creditApply.date}}
+                                            <el-form-item label="申请日期：" style="margin-bottom: 0">
+                                                {{applyInfo.applyDate}}
                                             </el-form-item>
-                                            <el-form-item label="申请人："style="margin-bottom: 0">
-                                                {{applyInfo.financier.name}}
+                                            <el-form-item label="申请人：" style="margin-bottom: 0">
+                                                {{applyInfo.name}}
                                             </el-form-item>
                                             <el-form-item label="项目名称：" style="margin-bottom: 0">
-                                                {{applyInfo.project.projectName}}
+                                                {{applyInfo.projectName}}
                                             </el-form-item>
-                                            <el-form-item label="合同编号："style="margin-bottom: 0">
-                                                {{applyInfo.creditApply.contractNo}}
+                                            <el-form-item label="合同编号：" style="margin-bottom: 0">
+                                                {{applyInfo.contractNo}}
                                             </el-form-item>
-                                            <el-form-item label="申请额度："style="margin-bottom: 0">
-                                                {{applyInfo.creditApply.applyAmount}}万
+                                            <el-form-item label="申请额度：" style="margin-bottom: 0">
+                                                {{applyInfo.applyAmount}}万
                                             </el-form-item>
-                                            <el-form-item label="申请事由："style="margin-bottom: 0">
-                                                {{applyInfo.creditApply.originIncident}}
+                                            <el-form-item label="申请事由：" style="margin-bottom: 0">
+                                                {{applyInfo.reason}}
                                             </el-form-item>
                                             <el-form-item label="银行流水：" style="margin-bottom: 0">
                                                 <div class="file-box">
@@ -48,7 +48,7 @@
                                                                 class="avatar-uploader"
                                                                 action="https://jsonplaceholder.typicode.com/posts/"
                                                                 :show-file-list="false">
-                                                            <img v-if="applyInfo.creditApply.bankListFile === null" class="avatar">
+                                                            <img v-if="applyInfo.bankWater != null" :src=" filesystem + applyInfo.bankWater" class="avatar">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
@@ -82,9 +82,21 @@
         data: function(){
             return {
                 name: localStorage.getItem('ms_username'),
+                filesystem: localStorage.getItem("fileBasePath"), 
                 id: this.$route.query.id,
                 isAgree: false,
-                applyInfo: '',
+                applyInfo: {
+                    id: "",
+                    projectName: '',
+                    applyNo: "",
+                    applyDate: "",
+                    name: "",
+                    projectId: null,
+                    contractNo: '',
+                    applyAmount: null,
+                    reason: null,
+                    bankWater: null,
+                },
             }
         },
         components: {
@@ -101,12 +113,18 @@
         methods: {
             // 获取项目数据
             getApplyInfo(id){
-                let _than = this;
-                this.$axios.get('credit/f/info',{params:{
+                // let _than = this;
+                this.$axios.get('api/credit/apply/info',{params:{
                         id: id
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.applyInfo = response.data.extend;
+                    }}).then(res => {
+                    console.log(res);
+                    if(res.data.extend.applyInfo != null){
+                        this.applyInfo = res.data.extend.applyInfo;
+                    }
+                    if(res.data.extend.projectInfo != null){
+                        this.applyInfo.projectName = res.data.extend.projectInfo.projectName;
+                        this.applyInfo.contractNo = res.data.extend.projectInfo.contractNo;
+                    }
                 }).catch(function (error) {
 
                 });

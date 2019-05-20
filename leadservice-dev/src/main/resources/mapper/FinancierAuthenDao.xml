@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shenhua119.leadservice.dao.FinancierAuthenDao">
+    <resultMap id="loanApplyMapsLazyLoading" type="com.shenhua119.leadservice.entity.BusinessManagerAuthen" >
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="id_card" property="idCard"/>
+        <result column="bank_card_no" property="bankCardNo"/>
+        <result column="bank" property="bank"/>
+        <result column="bank_card_phone" property="bankCardPhone"/>
+        <result column="domicile" property="domicile"/>
+        <result column="id_card_side_face" property="idCardSideFace"/>
+        <result column="id_card_side_back" property="idCardSideBack"/>
+        <result column="id_card_hand" property="idCardHand"/>
+        <result column="household_reg_home" property="householdRegHome"/>
+        <result column="household_reg_personal" property="householdRegPersonal"/>
+        <result column="marriage_status" property="marriageStatus"/>
+        <result column="spouse_name" property="spouseName"/>
+        <result column="spouse_id_card" property="spouseIdCard"/>
+        <result column="spouse_domicile" property="spouseDomicile"/>
+        <result column="sid_card_side_face" property="sidCardSideFace"/>
+        <result column="sid_card_side_back" property="sidCardSideBack"/>
+        <result column="marriage_cert" property="marriageCert"/>
+        <result column="shousehold_reg_home" property="shouseholdRegHome"/>
+        <result column="shousehold_reg_personal" property="shouseholdRegPersonal"/>
+        <result column="divorce_cert" property="divorceCert"/>
+        <result column="company_name" property="companyName"/>
+        <result column="credit_code" property="creditCode"/>
+        <result column="company_business_license" property="companyBusinessLicense"/>
+        <result column="articles_asso_company" property="articlesAssoCompany"/>
+        <result column="office_space_lease_contract" property="officeSpaceLeaseContract"/>
+        <result column="social_insur_card_no" property="socialInsurCardNo"/>
+        <result column="social_insur_company" property="socialInsurCompany"/>
+        <result column="social_insur_details" property="socialInsurDetails"/>
+
+        <result column="is_socialecurity" property="isSocialecurity"/>
+        <result column="is_house" property="isHouse"/>
+        <result column="is_car" property="isCar"/>
+        <collection property="cars" ofType="com.shenhua119.leadservice.entity.Car" column="user_id" select="selectCarByUserId">
+        </collection>
+        <collection property="houses" ofType="com.shenhua119.leadservice.entity.House" column="user_id" select="selectHouseByUserId">
+        </collection>
+    </resultMap>
+
+    <select id="selectAuthDetailByUserId" parameterType="long" resultMap="loanApplyMapsLazyLoading">
+		select
+			tb1.*
+		from businessmanager_authen tb1
+		where tb1.user_id = #{userId}
+	</select>
+
+    <select id="selectCarByUserId" parameterType="long" resultType="com.shenhua119.leadservice.entity.Car">
+		select
+			ppo.*
+		from businessmanager_car ppo
+		where user_id = #{user_id}
+	</select>
+
+    <select id="selectHouseByUserId" parameterType="long" resultType="com.shenhua119.leadservice.entity.House">
+		select
+			ppo.*
+		from businessmanager_house ppo
+		where user_id = #{user_id}
+	</select>
+</mapper>

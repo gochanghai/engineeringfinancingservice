@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -17,10 +15,8 @@ import java.util.Date;
  */
 
 @Data
-@Getter
-@Setter
 @Accessors(chain = true)
-@TableName("company_credit_product")
+@TableName("credit_company_product")
 public class CompanyProductCredit {
     /**
      * 主键ID

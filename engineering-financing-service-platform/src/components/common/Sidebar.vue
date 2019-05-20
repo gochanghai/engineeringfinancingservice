@@ -33,6 +33,7 @@
 
 <script>
     import bus from '../common/bus';
+    const menus = require('../common/util/menu.js');
     export default {
         data() {
             return {
@@ -218,17 +219,14 @@
                 return this.$route.path.replace('/','');
             }
         },
-        created(){
-            /**
-             * 获取用户角色ID
-             */
-            let roleId = localStorage.getItem("role");
+        created(){   
 
             /**
              * 获取用户导航菜单
              */
-            this.setUserNavMenuByRoleId(roleId);
-
+            // this.setUserNavMenuByRoleId(roleId);
+            let items = menus.getUserMenus();
+            this.items = items;
             /**
              * 通过 Event Bus 进行组件间通信，来折叠侧边栏
              */

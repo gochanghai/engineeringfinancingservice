@@ -19,9 +19,9 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                             <el-table-column type="index" label="序号" width="50" align="center">
                             </el-table-column>
-                            <el-table-column prop="creditNo" label="申请编号" sortable width="160" align="center">
+                            <el-table-column prop="applyNo" label="申请编号" sortable width="160" align="center">
                             </el-table-column>
-                            <el-table-column prop="date" label="申请日期" width="100" align="center">
+                            <el-table-column prop="applyDate" label="申请日期" width="100" align="center">
                             </el-table-column>
                             <el-table-column prop="name" label="申请人" width="80" align="center">
                             </el-table-column>
@@ -42,7 +42,7 @@
                             </el-table-column>
                             <el-table-column prop="companyName" label="担保企业" width="150" align="center">
                             </el-table-column>
-                            <el-table-column prop="companyFullName" label="资金渠道" width="150" align="center">
+                            <el-table-column prop="companyName" label="资金渠道" width="150" align="center">
                             </el-table-column>
                             <el-table-column label="审批进度" width="80" align="center">
                                 <template slot-scope="scope">
@@ -152,7 +152,7 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('credit/p/list').then(function (response) {
+                this.$axios.get('api/credit/p').then(function (response) {
                     console.log(response);
                     _than.tableData = response.data.extend.list;
                 }).catch(function (error) {
@@ -256,11 +256,29 @@
                     case '3-0':
                         return '待平台审批';
                         break;
+                    case '3-2':
+                        return '特批-待平台补充资料';
+                        break;
                     case '4-0':
                         return '待资金方批复';
                         break;
                     case '5-0':
                         return '待发起协议';
+                        break;
+                    case '6-0':
+                        return '待签署协议';
+                        break;
+                    case '6-1':
+                        return '待担保方签署协议';
+                        break;
+                    case '6-2':
+                        return '待融资人签署协议';
+                        break;
+                    case '7-0':
+                        return '待确认协议';
+                        break;
+                    case '8-0':
+                        return '授信完成';
                         break;
                     default:
                         return '审批中';

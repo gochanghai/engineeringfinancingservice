@@ -349,11 +349,11 @@ DROP TABLE IF EXISTS `project_progress_detail`;
 CREATE TABLE `project_progress_detail` (
   `id` bigint(20) NOT NULL COMMENT '主键ID',
   `project_id` bigint(20) NOT NULL COMMENT '项目ID',
-  `date` int(11) DEFAULT NULL COMMENT '施工时间',
+  `date` date DEFAULT NULL COMMENT '施工时间',
   `progress_ratio` varchar(200) DEFAULT NULL COMMENT '施工进度',
-  `desc` varchar(50) DEFAULT NULL COMMENT '进度说明',
-  `output_value` int(10) DEFAULT NULL COMMENT '产值',
-  `progress_file` varchar(200) DEFAULT NULL COMMENT '现场文件',
+  `describe` varchar(50) DEFAULT NULL COMMENT '进度说明',
+  `output_value` double (10) DEFAULT NULL COMMENT '产值',
+  `file` varchar(200) DEFAULT NULL COMMENT '现场文件',
   `update_date` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_date` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
@@ -445,3 +445,189 @@ CREATE TABLE `company_user` (
   `create_date` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公司用户关系表';
+
+
+-- ----------------------------
+--  Table structure for `sms_code`
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_code`;
+CREATE TABLE `sms_code` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `phone_number` bigint(20) DEFAULT NULL COMMENT '手机号码',
+  `check_code` varchar(50) DEFAULT NULL COMMENT '验证码',
+  `valid_time` double DEFAULT NULL COMMENT '有效时间',
+  `type` varchar(50) DEFAULT NULL COMMENT '短信类型',
+  `template_code` varchar(50) DEFAULT NULL COMMENT '模板编号',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='短信验证码';
+
+
+-- ----------------------------
+--  Table structure for `project_credit_apply`
+-- ----------------------------
+DROP TABLE IF EXISTS `project_credit_apply`;
+CREATE TABLE `project_credit_apply` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '申请人ID',
+  `project_id` bigint(20) DEFAULT NULL COMMENT '申请授信项目ID',
+  `apply_no` varchar(50) DEFAULT NULL COMMENT '申请编号',
+  `apply_data` date DEFAULT NULL COMMENT '申请时间',
+  `name` varchar(50) DEFAULT NULL COMMENT '申请人',
+  `origin_incident` varchar(50) DEFAULT NULL COMMENT '申请金额',
+  `apply_amount` varchar(50) DEFAULT NULL COMMENT '申请金额',
+  `bank_water` varchar(50) DEFAULT NULL COMMENT '银行流水文件',
+  `step` varchar(50) DEFAULT NULL COMMENT '申请进度',
+  `status` varchar(50) DEFAULT NULL COMMENT '进度状态',
+  `credit_type` varchar(50) DEFAULT NULL COMMENT '授信类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目授信申请';
+
+
+-- ----------------------------
+--  Table structure for `project_credit_apply`
+-- ----------------------------
+DROP TABLE IF EXISTS `project_loan_apply`;
+CREATE TABLE `project_loan_apply` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '申请人ID',
+  `project_id` bigint(20) DEFAULT NULL COMMENT '申请授信项目ID',
+  `apply_no` varchar(50) DEFAULT NULL COMMENT '申请编号',
+  `apply_data` date DEFAULT NULL COMMENT '申请时间',
+  `name` varchar(50) DEFAULT NULL COMMENT '申请人',
+  `apply_amount` varchar(50) DEFAULT NULL COMMENT '申请金额',
+  `loan_cycle` varchar(50) DEFAULT NULL COMMENT '贷款周期',
+  `status` varchar(50) DEFAULT NULL COMMENT '进度状态',
+  `companyId` varchar(50) DEFAULT NULL COMMENT '工程公司ID',
+  `fcompanyId` varchar(50) DEFAULT NULL COMMENT '资金方ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目贷款申请';
+
+
+
+-- ----------------------------
+--  Table structure for `finance_product`
+-- ----------------------------
+DROP TABLE IF EXISTS `finance_product`;
+CREATE TABLE `finance_product` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `product_no` varchar(100) DEFAULT NULL COMMENT '产品编号',
+  `product_name` varchar(100) DEFAULT NULL COMMENT '产品名称',
+  `product_type` date DEFAULT NULL COMMENT '产品类型',
+  `product_img` date DEFAULT NULL COMMENT '产品图片',
+  `year_rate` varchar(50) DEFAULT NULL COMMENT '年率利',
+  `overdue_rate` varchar(50) DEFAULT NULL COMMENT '逾期罚息利率',
+  `deadline_type` varchar(50) DEFAULT NULL COMMENT '期限类型',
+  `deadline_min` varchar(50) DEFAULT NULL COMMENT '期限最小',
+  `deadline_max` varchar(50) DEFAULT NULL COMMENT '期限最大',
+  `fcompanyId` varchar(50) DEFAULT NULL COMMENT '资金方ID',
+  `is_delay` varchar(50) DEFAULT NULL COMMENT '是否可延期',
+  `servicefee_type` varchar(50) DEFAULT NULL COMMENT '服务费类型',
+  `repayment_type` varchar(50) DEFAULT NULL COMMENT '还款类型',
+  `servicefee_rate` varchar(50) DEFAULT NULL COMMENT '服务类率利',
+  `is_assure` varchar(50) DEFAULT NULL COMMENT '是否担保',
+  `assure_company_id` varchar(50) DEFAULT NULL COMMENT '担保公司ID',
+  `mortgage_type` varchar(50) DEFAULT NULL COMMENT '抵押类型',
+  `assurefee_type` varchar(50) DEFAULT NULL COMMENT '担保类型',
+  `assure_fee_rate` varchar(50) DEFAULT NULL COMMENT '担保费率利',
+  `status` varchar(50) DEFAULT NULL COMMENT '产品状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='金融产品';
+
+
+-- ----------------------------
+--  Table structure for `project_purchase_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `project_purchase_order`;
+CREATE TABLE `project_purchase_order` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `loan_no` varchar(100) DEFAULT NULL COMMENT '贷款编号',
+  `contract_no` varchar(100) DEFAULT NULL COMMENT '合同编号',
+  `contract_file` varchar(100) DEFAULT NULL COMMENT '合同附件',
+  `roder_amount` double DEFAULT NULL COMMENT '订单金额',
+  `roder_file` varchar(200) DEFAULT NULL COMMENT '订单附件',
+  `invoice_amount` double DEFAULT NULL COMMENT '发票金额',
+  `invoice_file` varchar(200) DEFAULT NULL COMMENT '发票附件',
+  `delivery_file` varchar(200) DEFAULT NULL COMMENT '送货单',
+  `bank_account` varchar(100) DEFAULT NULL COMMENT '银行账号',
+  `account_name` varchar(100) DEFAULT NULL COMMENT '银行账户名称',
+  `bank` varchar(100) DEFAULT NULL COMMENT '开户行',
+  `status` int (10) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目采购订单信息';
+
+-- ----------------------------
+--  Table structure for `credit_company_product`
+-- ----------------------------
+DROP TABLE IF EXISTS `credit_company_product`;
+CREATE TABLE `credit_company_product` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `company_id` bigint(20) DEFAULT NULL COMMENT '工程公司ID',
+  `fcompany_id` bigint(20) DEFAULT NULL COMMENT '资金方ID',
+  `product_id` bigint(20) DEFAULT NULL COMMENT '金融产品ID',
+  `amount` double DEFAULT NULL COMMENT '授信额度',
+  `status` int (10) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工程公司授信信息';
+
+-- ----------------------------
+--  Table structure for `credit_project_product`
+-- ----------------------------
+DROP TABLE IF EXISTS `credit_project_product`;
+CREATE TABLE `credit_project_product` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `apply_no` varchar(100) DEFAULT NULL COMMENT '授信申请编号',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '商务经理ID',
+  `project_id` bigint(20) DEFAULT NULL COMMENT '工程公司ID',
+  `fcompany_id` bigint(20) DEFAULT NULL COMMENT '资金方ID',
+  `product_id` bigint(20) DEFAULT NULL COMMENT '金融产品ID',
+  `amount` double DEFAULT NULL COMMENT '授信额度',
+  `status` int (10) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目授信信息';
+
+
+-- ----------------------------
+--  Table structure for `project_credit_examineapprove`
+-- ----------------------------
+DROP TABLE IF EXISTS `project_credit_examineapprove`;
+CREATE TABLE `project_credit_examineapprove` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `apply_id` bigint(20) DEFAULT NULL COMMENT '授信申请ID',
+  `apply_no` varchar(100) DEFAULT NULL COMMENT '授信申请编号',
+  `credit_type` varchar(250) DEFAULT NULL COMMENT '授信类型',
+  `result` varchar(20) DEFAULT NULL COMMENT '审批结果',
+  `desc` varchar(250) DEFAULT NULL COMMENT '审批意见',
+  `repay_opinion` varchar(250) DEFAULT NULL COMMENT '还款说明',
+  `credit_date` varchar(200) DEFAULT NULL COMMENT '授信期限',
+  `start_time` varchar(200) DEFAULT NULL COMMENT '授信开始时间',
+  `end_time` varchar(200) DEFAULT NULL COMMENT '授信结束时间',
+  `amount` double DEFAULT NULL COMMENT '授信额度',
+  `opinion` varchar(250) DEFAULT NULL COMMENT '特批说明',
+  `incontrol` varchar(250) DEFAULT NULL COMMENT '内控要点',
+  `after_loandesc` varchar(250) DEFAULT NULL COMMENT '贷后管理说明',
+  `reply_file` varchar(250) DEFAULT NULL COMMENT '批复文件',
+  `name` varchar(250) DEFAULT NULL COMMENT '审批人',
+  `status` int (10) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目授信审批信息';
+
+
+
+-- ----------------------------
+--  Table structure for `project_loan_examineapprove`
+-- ----------------------------
+DROP TABLE IF EXISTS `project_loan_examineapprove`;
+CREATE TABLE `project_loan_examineapprove` (
+  `id` bigint(20) NOT NULL COMMENT '主键ID',
+  `apply_id` bigint(20) DEFAULT NULL COMMENT '贷款申请ID',
+  `apply_no` varchar(100) DEFAULT NULL COMMENT '贷款申请编号',
+  `result` varchar(20) DEFAULT NULL COMMENT '审批结果',
+  `onsite_file` varchar(200) DEFAULT NULL COMMENT '现场文件',
+  `creditrate_file` varchar(200) DEFAULT NULL COMMENT '资信评估文件',
+  `purchase_amount` double DEFAULT NULL COMMENT '采购订单金额',
+  `opinion` varchar(250) DEFAULT NULL COMMENT '审批说明',
+  `name` varchar(250) DEFAULT NULL COMMENT '审批人',
+  `status` int (10) DEFAULT NULL COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='项目贷款审批信息';

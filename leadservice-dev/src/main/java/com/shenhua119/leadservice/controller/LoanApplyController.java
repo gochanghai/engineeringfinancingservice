@@ -34,24 +34,23 @@ public class LoanApplyController {
 
     /**
      * 保存申请数据
-     * @param projectLoanApply
+     * @param applyInfo
      * @return
      */
     @PostMapping("save")
-    public Msg save(ProjectLoanApply projectLoanApply){
-        System.out.println(projectLoanApply.toString());
+    public Msg save(ProjectLoanApply applyInfo){
+        System.out.println(applyInfo.toString());
         // 根据项目ID 得到项目信息，从而得到工程公司ID
-        Project project = projectService.getById(projectLoanApply.getUserId());
+        Project project = projectService.getById(applyInfo.getProjectId());
         // 设置工程公司ID
-        projectLoanApply.setCompanyId(project.getCompanyId());
-        boolean result = loanApplyInfoService.save(projectLoanApply);
+        applyInfo.setCompanyId(project.getCompanyId());
+        boolean result = loanApplyInfoService.save(applyInfo);
         System.out.println("放款申请信息保存成功: " + result);
         LoanExamineapprove approval = new LoanExamineapprove();
-        approval.setId(projectLoanApply.getId()).setApplyId(projectLoanApply.getId());
+        approval.setId(applyInfo.getId()).setApplyId(applyInfo.getId());
         boolean b1 = loanApprovalService.save(approval);
         if (result){
-            BusinessManager financier = businessManagerService.getById(project.getUserId());
-            String content = "亲爱的用户，融资人"+financier.getName()+"请放款，待您放款审批，请您及时处理，便于后期业务的开展！";
+            String content = "亲爱的用户，融资人"+applyInfo.getName()+"请放款，待您放款审批，请您及时处理，便于后期业务的开展！";
             boolean b = messageService.productionMessage(1, "待您放款审批通知", content, project.getCompanyId());
         }
         return Msg.success();
@@ -90,7 +89,7 @@ public class LoanApplyController {
     @GetMapping("com/list")
     public Msg listByEngCompanyId(Long id){
         System.out.println("工程公司： "+ id +" 获取数据");
-        List<ProjectLoanApply> list = loanApplyInfoService.listByEngCompanyId(id);
+        List<ProjectLoanApply> list = loanApplyInfoService.listByCompanyId(id);
         return Msg.success().add("list",list);
     }
 
@@ -109,10 +108,10 @@ public class LoanApplyController {
      * @param id
      * @return
      */
-    @GetMapping("fund/list")
+    @PostMapping("fcompany/list")
     public Msg listByFundCompanyId(Long id){
         System.out.println("资金方："+ id +" 获取数据");
-        List<ProjectLoanApply> list = loanApplyInfoService.listByFundCompanyId(id);
+        List<ProjectLoanApply> list = loanApplyInfoService.listByFcompanyId(id);
         return Msg.success().add("list",list);
     }
 

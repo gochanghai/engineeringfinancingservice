@@ -2,9 +2,11 @@ module.exports = {
     baseUrl: './',
     productionSourceMap: false,
     devServer: {
+        port: '8080',
         proxy: {
             '/api':{
-                target:'http://jsonplaceholder.typicode.com',
+                // target:'http://119.23.105.191:8088',
+                target:'http://192.168.1.101:8088',
                 changeOrigin:true,
                 pathRewrite:{
                     '/api':''

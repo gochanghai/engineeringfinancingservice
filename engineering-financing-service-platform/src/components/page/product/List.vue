@@ -19,21 +19,21 @@
                             </el-table-column>
                             <el-table-column prop="product_name" label="产品名称" width="200" align="center">
                             </el-table-column>
-                            <el-table-column prop="base_year_rate" label="年利率" width="150" align="center">
+                            <el-table-column prop="year_rate" label="年利率" width="150" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag>{{scope.row.base_year_rate}}%</el-tag>
+                                    <el-tag>{{scope.row.year_rate}}%</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column prop="cooperation_bank" label="资金渠道" align="left">
                                 <template slot-scope="scope">
-                                    {{scope.row.company_full_name + scope.row.cooperation_bank}}
+                                    {{scope.row.company_name + scope.row.coop_bank}}
                                 </template>
                             </el-table-column>
                             <el-table-column label="状态" align="center" width="150">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.status === 1">已上架</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === 0">未提交</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.status === -1">已下架</el-tag>
+                                    <el-tag type="warning" v-show="scope.row.status === '1'">已上架</el-tag>
+                                    <el-tag type="warning" v-show="scope.row.status === '0'">未提交</el-tag>
+                                    <el-tag type="warning" v-show="scope.row.status === '-1'">已下架</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">

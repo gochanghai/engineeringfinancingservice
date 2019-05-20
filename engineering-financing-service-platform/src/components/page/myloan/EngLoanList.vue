@@ -14,14 +14,14 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
-                            <el-table-column prop="loanNo" label="申请编号"/>
-                            <el-table-column prop="loanDate" label="申请日期" align="center"/>
+                            <el-table-column prop="applyNo" label="申请编号"/>
+                            <el-table-column prop="applyDate" label="申请日期" align="center"/>
                             <el-table-column prop="name" label="申请人" width="200" align="center">
                             </el-table-column>
                             <el-table-column prop="projectName" label="项目名称" align="center"/>
                             <el-table-column label="本次申请放款金额(万元)" width="200" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.loanAmount}}万
+                                    {{scope.row.applyAmount}}万
                                 </template>
                             </el-table-column>
                             <el-table-column label="状态" width="150" align="center">
@@ -34,7 +34,7 @@
                             <el-table-column label="操作" width="200">
                                 <template slot-scope="scope">
                                     <!--<el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>-->
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">详情信息</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -54,7 +54,7 @@
         name: 'my-project',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('userId'),
                 loading: true,
                 tableData: [],
                 cur_page: 1,

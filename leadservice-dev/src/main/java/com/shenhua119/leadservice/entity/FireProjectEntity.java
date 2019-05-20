@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,10 +17,8 @@ import java.util.Date;
  */
 
 @Data
-@Getter
-@Setter
 @Accessors(chain = true)
-@TableName("tb_fire_project")
+@TableName("fire_project")
 public class FireProjectEntity {
 
     /**

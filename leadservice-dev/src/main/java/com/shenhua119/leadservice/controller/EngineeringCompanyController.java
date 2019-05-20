@@ -6,6 +6,8 @@ import com.shenhua119.leadservice.service.EngineeringCompanyCreditService;
 import com.shenhua119.leadservice.service.EngineeringCompanyService;
 import com.shenhua119.leadservice.service.UserService;
 import com.shenhua119.leadservice.util.Msg;
+import com.shenhua119.leadservice.vo.CompanyInfoVO;
+import com.shenhua119.leadservice.vo.CompanyListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,8 +57,8 @@ public class EngineeringCompanyController {
     @GetMapping("list")
     public Msg list(){
         System.out.println("获取工程公司数据");
-//        List<EngineeringCompanyView> list = engineeringCompanyService.listAll();
-        List<EngineeringCompany> list = engineeringCompanyService.list(null);
+        List<CompanyListVO> list = engineeringCompanyService.listAll();
+//        List<EngineeringCompany> list = engineeringCompanyService.list(null);
         return Msg.success().add("list", list);
     }
 
@@ -64,7 +66,25 @@ public class EngineeringCompanyController {
     @GetMapping("company_info")
     public Msg getEnginneringCompany(Long id){
         System.out.println("获取数据");
-        EngineeringCompany engineeringCompany = engineeringCompanyService.getEngineeringCompanyById(id);
-        return Msg.success().add("company", engineeringCompany);
+        CompanyInfoVO company = engineeringCompanyService.getCompanyInfoById(id);
+        return Msg.success().add("company", company);
+    }
+
+
+    /**
+     * 给企业授信
+     * @param cpc
+     * @return
+     */
+    @PostMapping("credit")
+    public Msg saveCompanyCredit(CompanyProductCredit cpc){
+        System.out.println("工程公司授信开始-------------------");
+        boolean result = engineeringCompanyCreditService.save(cpc);
+        System.out.println("工程公司授信结束---------------");
+        if (result){
+            return Msg.success();
+        }
+        return Msg.fail();
+
     }
 }

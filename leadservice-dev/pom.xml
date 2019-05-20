@@ -6,7 +6,7 @@
     <groupId>com.shenhua119</groupId>
     <artifactId>saas-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>saas-demo</name>
     <description>Demo project for Spring Boot</description>
@@ -21,7 +21,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>10</java.version>
+        <java.version>11</java.version>
+        <!--properties节点中设置docker镜像的前缀“springboot”-->
+        <docker.image.prefix>springboot</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -79,6 +81,11 @@
             <artifactId>fastdfs-client-java</artifactId>
             <version>1.27-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
         <!-- excel  -->
         <!-- 扩展名为.xls 的操作 -->
@@ -114,7 +121,28 @@
             <version>2.1.7</version>
         </dependency>
 
-
+        <!-- aliyun sdk -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-ecs</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+        <!-- aliyun sdk bind bankCard -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.15</version>
+        </dependency>
 
     </dependencies>
 
@@ -123,9 +151,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.4.RELEASE</version>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
                 <configuration>
-                    <!-- 如果没有该项配置，devtools不会起作用，即应用不会restart -->
-                    <fork>true</fork>
+                    <!-- 这里是最终生成的docker镜像名称 -->
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!-- 基础镜像，运行一个springboot应用只需要基础的java环境就行 -->
+                    <baseImage>java:11</baseImage>
+                    <!-- docker启动的时候执行的命令 -->
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>

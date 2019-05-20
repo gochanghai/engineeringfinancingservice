@@ -113,7 +113,7 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="goBack">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
@@ -294,7 +294,7 @@
                         { required: true, message: '请输入手机号', trigger: 'blur' },
                         { validator: checkPhone, trigger: 'blur' }
                     ]
-                },
+                },                
 
             }
         },
@@ -309,6 +309,13 @@
         deactivated(){
         },
         methods: {
+            /**
+             * 表单重置
+             */
+            resetForm() {
+                this.$refs['form'].resetFields();
+            },
+
             // 法人身份证正面上传成功回调函数
             idCardSideFace(response,file,files){
                 console.log(response);
@@ -326,15 +333,16 @@
             authorizationFile(response,file,files){
                 this.form.authorizationFile = response.extend.fileSystem.filePath;
             },
-
+            goBack(){
+                this.$router.go(-1);
+            },
             // 保存数据
             save(){
                 this.$refs['form'].validate((valid) => {
                     if (!valid) {
                         return;
                     }
-                });
-                this.$message.success('保存成功！');
+                });                
                 this.$axios.post('api/engcom/save',
                     this.qs.stringify(
                         {
@@ -355,9 +363,15 @@
                             phone2: this.form.phone2,
                             authFile: this.form.authorizationFile
                         }
-                    )).then(function (response) {
-                    console.log(response);
-                    this.$router.push("engineeringcompany-list")
+                    )).then(res => {
+                    console.log(res);
+                    if(100 == res.data.code){
+                        this.$message.success('保存成功！');
+                        this.resetForm();
+                        this.$router.go(-1);                        
+                    }else{
+                        this.$message.error('保存不成功。');
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });

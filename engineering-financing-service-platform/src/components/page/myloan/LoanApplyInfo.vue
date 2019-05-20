@@ -13,12 +13,12 @@
                                 <!-- 申请信息 -->
                                 <div class="content-info-box">
                                     <el-form ref="form" label-width="100px" class="loan-apply-info" :model="form">
-                                        <el-form-item label="申请编号："style="margin-bottom: 0">{{form.loanNo}}</el-form-item>
-                                        <el-form-item label="申请日期："style="margin-bottom: 0">{{form.loanDate}}</el-form-item>
-                                        <el-form-item label="申请人："style="margin-bottom: 0">{{form.name}}</el-form-item>
+                                        <el-form-item label="申请编号：" style="margin-bottom: 0">{{form.applyNo}}</el-form-item>
+                                        <el-form-item label="申请日期：" style="margin-bottom: 0">{{form.applyDate}}</el-form-item>
+                                        <el-form-item label="申请人：" style="margin-bottom: 0">{{form.name}}</el-form-item>
                                         <el-form-item label="项目名称：" style="margin-bottom: 0">{{ form.projectName}}</el-form-item>
-                                        <el-form-item label="申请金额：" style="margin-bottom: 0">{{form.loanAmount}}</el-form-item>
-                                        <el-form-item label="贷款周期：" style="margin-bottom: 0">{{ form.loanCycle }}</el-form-item>
+                                        <el-form-item label="申请金额：" style="margin-bottom: 0">{{form.applyAmount}}</el-form-item>
+                                        <el-form-item label="贷款周期：" style="margin-bottom: 0">{{ form.loanCycle | 0}}期</el-form-item>
                                     </el-form>
                                 </div>
                             </div>
@@ -31,13 +31,13 @@
                                             <img v-if="scope.row.contractFile !== null" class="avatar" :src=" filesystem + scope.row.contractFile">
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="采购订单总金额" prop="orderSumAmount" width="120" align="center"/>
+                                    <el-table-column label="采购订单总金额" prop="orderAmount" width="120" align="center"/>
                                     <el-table-column label="采购订单附件" width="100" align="center">
                                         <template slot-scope="scope">
                                             <img v-if="scope.row.orderFile !== null" class="avatar" :src=" filesystem + scope.row.orderFile">
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="采购发票总金额" prop="invoiceSumAmount" width="120" align="center"/>
+                                    <el-table-column label="采购发票总金额" prop="invoiceAmount" width="120" align="center"/>
                                     <el-table-column label="采购发票附件" width="100" align="center">
                                         <template slot-scope="scope">
                                             <img v-if="scope.row.invoiceFile !== null" class="avatar" :src=" filesystem + scope.row.invoiceFile">
@@ -45,12 +45,12 @@
                                     </el-table-column>
                                     <el-table-column label="送货单附件" width="100" align="center">
                                         <template slot-scope="scope">
-                                            <img v-if="scope.row.deliveryBillFile !== null" class="avatar" :src=" filesystem + scope.row.deliveryBillFile">
+                                            <img v-if="scope.row.deliveryFile !== null" class="avatar" :src=" filesystem + scope.row.deliveryFile">
                                         </template>
                                     </el-table-column>
-                                    <el-table-column label="供应商银行账户名称" prop="bankAccountName" align="center"/>
-                                    <el-table-column label="供应商银行账号" prop="bankCardNo" align="center"/>
-                                    <el-table-column label="开户行" prop="openAccountBank" align="center"/>
+                                    <el-table-column label="供应商银行账户名称" prop="accountName" align="center"/>
+                                    <el-table-column label="供应商银行账号" prop="bankAccount" align="center"/>
+                                    <el-table-column label="开户行" prop="bank" align="center"/>
                                 </el-table>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                 id: this.$route.query.id,
                 form:{
                     loanNo: null,
-                    loanDate: new Date(),
+                    loanDate: '',
                     loanPerson: null,
                     pId: null,
                     loanAmount: null,
@@ -86,9 +86,9 @@
                 },
                 purchs:[
                     {
-                    contractNo: '',contractFile:null,orderSumAmount:'',orderFile:null,
-                    invoiceSumAmount: null, invoiceFile: null, deliveryBillFile:null, bankCardNo: null,
-                    bankAccountName: null, openAccountBank: null
+                    contractNo: '',contractFile:null,orderAmount:'',orderFile:null,
+                    invoiceAmount: null, invoiceFile: null, deliveryFile:null, bankAccount: null,
+                    accountName: null, bank: null
                 }
                 ],
             }

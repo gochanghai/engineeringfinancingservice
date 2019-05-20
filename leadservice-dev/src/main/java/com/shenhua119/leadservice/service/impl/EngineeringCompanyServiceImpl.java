@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shenhua119.leadservice.dao.EngineeringCompanyDao;
 import com.shenhua119.leadservice.entity.CompanyUser;
 import com.shenhua119.leadservice.entity.EngineeringCompany;
-import com.shenhua119.leadservice.entity.EngineeringCompanyView;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.CompanyUserService;
 import com.shenhua119.leadservice.service.EngineeringCompanyService;
 import com.shenhua119.leadservice.service.UserService;
+import com.shenhua119.leadservice.vo.CompanyInfoVO;
+import com.shenhua119.leadservice.vo.CompanyListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,7 +34,7 @@ public class EngineeringCompanyServiceImpl extends ServiceImpl<EngineeringCompan
     private CompanyUserService companyUserService;
 
     @Override
-    public List<EngineeringCompanyView> listAll() {
+    public List<CompanyListVO> listAll() {
         return engineeringCompanyDao.selectAll();
     }
 
@@ -93,5 +94,11 @@ public class EngineeringCompanyServiceImpl extends ServiceImpl<EngineeringCompan
 
 
         return false;
+    }
+
+    @Override
+    public CompanyInfoVO getCompanyInfoById(Long id) {
+        CompanyInfoVO companyInfoVO = engineeringCompanyDao.selectInfoById(id);
+        return companyInfoVO;
     }
 }

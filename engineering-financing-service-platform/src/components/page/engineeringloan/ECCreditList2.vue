@@ -19,9 +19,9 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                             <el-table-column type="index" label="序号" width="50" align="center">
                             </el-table-column>
-                            <el-table-column prop="creditNo" label="申请编号" sortable width="160" align="center">
+                            <el-table-column prop="applyNo" label="申请编号" sortable width="160" align="center">
                             </el-table-column>
-                            <el-table-column prop="date" label="申请日期" width="100" align="center">
+                            <el-table-column prop="applyDate" label="申请日期" width="100" align="center">
                             </el-table-column>
                             <el-table-column prop="name" label="申请人" width="80" align="center">
                             </el-table-column>
@@ -42,7 +42,7 @@
                             </el-table-column>
                             <el-table-column prop="companyName" label="担保企业" width="150" align="center">
                             </el-table-column>
-                            <el-table-column prop="companyFullName" label="资金渠道" width="150" align="center">
+                            <el-table-column prop="fcompanyName" label="资金渠道" width="150" align="center">
                             </el-table-column>
                             <el-table-column label="审批进度" width="80" align="center">
                                 <template slot-scope="scope">
@@ -55,7 +55,7 @@
                                 <template slot-scope="scope">
                                     <el-button type="warning" size="mini" @click="gotoInfoDetails(scope.row.id)" >详情</el-button>
                                     <el-button type="warning" size="mini" v-show="scope.row.step === 2 && scope.row.status === 0" @click="gotoApprove(scope.row.id)">去审批</el-button>
-                                    <!--<el-button type="text" @click="handleEdit(scope.$index, scope.row)">去审批</el-button>-->
+                                    <el-button type="warning" v-show="scope.row.step === 6" v-if="scope.row.status === 0 || scope.row.status === 1" @click="agreemenBut(scope.row.id)">签署协议</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -96,6 +96,31 @@
             </span>
         </el-dialog>
 
+        <!-- 签署协议弹窗 -->
+        <el-dialog title="担保合同" :visible.sync="agreementVisible" width="700px" center="">
+            <div>
+                二，甲方承诺：
+                1，向乙房申请购房贷款银行或贷款银行认可的机构提供符合要求的房屋资料以备查核.
+                2，保证对出售的房屋拥有独立产权.如果该房屋为共有房屋，则必须取得其他所有共有人的同意出售书面文件.
+                3，保证该出售房屋未予出租.因出租所产生的任何问题由甲方承担并负责解决.
+                4，自签订本协议起，保证将该房屋按约定价格售给乙方，期间不得反悔或将房屋出售给第三人.
+                5，按照前述业务的需要，及时签订各项合同文件和办理各种手续.
+                6，在办理产权过户时，应依要求将房屋产权资料交付贷款银行或贷款银行认可的机构持有.
+                三，乙方承诺：
+                1，向贷款银行或贷款银行认可的机构提供符合要求的资料以备查核，并依规定支付费用.
+                2，保证按原约定价格向甲方购买前述房屋，并及时将贷款所得支付甲方之售房款.
+                3，将所购房屋向贷款银行申请抵押贷款.
+                4，按照前述业务需要，及时签订各项合同文件和办理各种手续，并承担各项费用.
+                5，在办理房屋过户时，应依要求将房屋产权资料交付贷款银行或其认可的机构持有.
+                四，本协议以乙方向贷款银行申请购房抵押贷款获得批准为正式生效条件.如果贷款银行认为乙方的借款申请不符合条件而不予批准，则甲，乙双方可以解除本协议.甲方若向乙方收取定金,应如数退还给乙方.
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="info" @click="auditVisible = false">取 消</el-button>
+                <el-button type="warning" v-if="sign == false" @click="sign = !sign">同意并签署</el-button>
+                <el-button type="warning" v-if="sign == true" @click="saveAgreement">确认</el-button>
+            </span>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -116,12 +141,15 @@
                 delVisible: false,
 
                 auditVisible: false,
+                agreementVisible: false,
+                creditId: '',
                 form: {
                     pResult: 1,
                     pDesc: '',
                     pPerson: '',
                     creditId: ''
                 },
+                sign: false,
                 idx: -1
             }
         },
@@ -153,8 +181,8 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('api/credit/ec_list',{params:{
-                        id: localStorage.getItem('userInfoId')
+                this.$axios.get('api/credit/ec',{params:{
+                        companyId: localStorage.getItem('companyId')
                     }}).then(function (res){
                     console.log(res);
                     _than.tableData = res.data.extend.list;
@@ -243,6 +271,37 @@
                 console.log(this.form);
 
             },
+            agreemenBut(id){
+                this.creditId = id;
+                this.agreementVisible = true;
+            },
+            // 签署协议
+            saveAgreement(){
+                this.$confirm('您确定要提交签署协议吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.$axios.post('api/credit/appr/sign',
+                        this.qs.stringify(
+                            {   id: this.creditId,
+                                userId: localStorage.getItem('companyId'),
+                                name: localStorage.getItem('ms_username'),
+                                step: 6,
+                                status: 2,
+                            }
+                        )).then(res => {
+                        this.$message({type: 'success', message: '提交成功!'});
+                        this.getCreditDataList();
+                        this.agreementVisible = false;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });                    
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消'});
+                });
+                
+            },
         },
         // 过滤器
         filters: {
@@ -265,6 +324,18 @@
                         break;
                     case '5-0':
                         return '待发起协议';
+                        break;
+                    case '6-0':
+                        return '待我签署协议';
+                        break;
+                    case '6-1':
+                        return '待我签署协议';
+                        break;
+                    case '7-0':
+                        return '待确认协议';
+                        break;
+                    case '8-0':
+                        return '授信完成';
                         break;
                     default:
                         return '审批中';

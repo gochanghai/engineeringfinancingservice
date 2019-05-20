@@ -11,7 +11,7 @@ spring:
   ## DataSource Config
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:///efservice?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://119.23.105.191:3306/efservice?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
     platform: mysql
@@ -43,9 +43,14 @@ mybatis-plus:
 # 配置文件上传的临时路径
 fastdfs-path:
   upload_location: D:\develop\upload
-  server_ip: http://192.168.4.167/
+  server_ip: http://119.23.105.191/
+
+#fastdfs-path:
+#  upload_location: /workspace/upload/
+#  server_ip: http://119.23.105.191/
 
 
 # 日志
 logging:
-  file: efservice-logs/efservice.log
+  file: D:\logback\aa.log
+#  file: /workspace/upload/logback/aa.log

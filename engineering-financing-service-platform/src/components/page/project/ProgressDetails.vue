@@ -1,38 +1,21 @@
 <template>
-    <div>
-        <el-row :gutter="20" v-show="!addVisible">
-            <el-col :span="24">
-                <el-card shadow="hover">
-                    <div slot="header" class="clearfix">
-                        <span>放款批复列表</span>
-                    </div>
-                    <div class="timeline">
-                        <div class="entry" v-for="item in dataList">
-                            <div class="title">
-                                <h3>{{item.date}}</h3>
-                                <!--<p>Title, Company</p>-->
-                            </div>
-                            <div class="body">
-                                <p>施工进度：{{item.progressRatio}}%</p>
-                                <p>进度描述：{{item.progressDesc}}</p>
-                                <p>确定产值：{{item.outputValue}}万</p>
-                                <p>施工现场照片或视频</p>
-                                <img v-show="item.progressFile != null" :src=" filesysip + item.progressFile" width="100px" height="100px"/>
-                                <!--<ul>-->
-                                <!--<li>Rerum sit libero possimus amet excepturi</li>-->
-                                <!--<li>Exercitationem enim dolores sunt praesentium dolorum praesentium</li>-->
-                                <!--<li>Modi aut dolores dignissimos sequi sit ut aliquid molestias deserunt illo</li>-->
-                                <!--</ul>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-box">
-                        <el-button type="warning" style="background-color: #ff8208" @click="addVisible = true">更新进度</el-button>
-                    </div>
-                </el-card>
-            </el-col>
-        </el-row>
-
+    <div>        
+        <div class="block" v-show="addVisible == false">
+            <el-timeline>
+                <el-timeline-item v-for="(item, index) in dataList" :timestamp="item.date" :key="index" :color="index == 0 ? '#0bbd87':'#ff8208'" placement="top">
+                    <el-card>
+                        <h4 class="h4">施工进度: {{item.progressRatio}}%</h4>
+                        <h4 class="h4">确定产值: {{item.outputValue}}</h4>                        
+                        <p>进度描述: {{item.progressDesc}}</p>
+                        <p style="padding-top: 10px;">
+                            <img v-show="item.file != null" :src=" filesysip + item.file" width="100px" height="100px"/>
+                        </p>
+                    </el-card>
+                </el-timeline-item>
+            </el-timeline>
+        </div>
+        <!-- <div class="update-btn" v-show="addVisible == false" @click="addVisible = true">返回</div> -->
+        <div class="update-btn" v-show="addVisible == false" @click="addVisible = true">更新进度</div>
         <!-- 更新进度弹出框 -->
         <el-row :gutter="20" v-show="addVisible">
             <el-col :span="24">
@@ -53,7 +36,7 @@
                         </el-form-item>
                         <el-form-item label="施工现场照片或视频">
                             <el-upload
-                                    action="http://192.168.1.98:8088/filesystem/upload/"
+                                    :action="uploadUrl"
                                     list-type="picture-card"
                                     :class="{disabled: isShowUploadBtn}"
                                     name="file"
@@ -124,6 +107,7 @@
                 }, 1000);
             };
             return {
+                uploadUrl: localStorage.getItem("uploadPath"),
                 filesysip: localStorage.getItem("fileBasePath"),
                 dataList: null,
                 isShowUploadBtn: true,
@@ -140,9 +124,6 @@
                 },
 
                 rules2: {
-                    // pass: [
-                    //     { validator: validatePass, trigger: 'blur' }
-                    // ],
                     outputValue: [
                         { validator:  checkOutputValue, trigger: 'blur' }
                     ],
@@ -216,121 +197,57 @@
         }
     }
 </script>
-
 <style scoped>
-    /*body {*/
-        /*background: linear-gradient(55deg, #4E75B9 30%, #5CBF98 90%);*/
-        /*display: flex;*/
-        /*align-items: center;*/
-        /*justify-content: center;*/
-        /*min-height: 100vh;*/
-        /*width: 100vw;*/
-        /*margin: 0;*/
-        /*padding: 100px;*/
-        /*font-family: 'Source Sans Pro', arial, sans-serif;*/
-        /*font-weight: 300;*/
-        /*color: #333;*/
-        /*box-sizing: border-box;*/
-    /*}*/
-    body * {
-        box-sizing: border-box;
-    }
+.h4{
+    display: block;
+    float: left;
+    margin-right: 50px    
+}
+.update-btn{
+    position:fixed; 
+    top: 75px;
+    right: 30px;
+    width:120px;
+    height:30px;
+    line-height: 30px;
+    background:rgba(255,178,103,1);
+    border-radius:5px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+}
+.update-btn:hover{
+    background:rgba(255,130,8,1);
+}
 
-    .timeline {
-        width: 100%;
-        /*max-width: 800px;*/
-        background: #fff;
-        padding: 100px 50px 50px 50px;
-        position: relative;
-        /*box-shadow: 0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2);*/
-        color: #606266;
-        height: 100%;
-    }
-    .timeline:before {
-        content: '';
-        position: absolute;
-        top: 0px;
-        left: calc(33% + 15px);
-        bottom: 0px;
-        width: 4px;
-        background: #ff8208;
-    }
-    .timeline:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+.info-bottom-box{
+    position: relative;
+    width: 540px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 30px 0 40px 0;
 
-    .entry {
-        clear: both;
-        text-align: left;
-        position: relative;
-    }
-    .entry .title {
-        margin-bottom: .5em;
-        float: left;
-        width: 33%;
-        padding-right: 30px;
-        text-align: right;
-        position: relative;
-    }
-    .entry .title:before {
-        content: '';
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        /*border: 4px solid salmon;*/
-        border: 4px solid #ff8208;
-        background-color: #fff;
-        border-radius: 100%;
-        top: 15%;
-        right: -8px;
-        z-index: 99;
-    }
-    .entry .title h3 {
-        margin: 0;
-        font-size: 120%;
-    }
-    .entry .title p {
-        margin: 0;
-        font-size: 100%;
-    }
-    .entry .body {
-        margin: 0 0 3em;
-        float: right;
-        width: 66%;
-        padding-left: 30px;
-    }
-    .entry .body p {
-        line-height: 1.4em;
-    }
-    .entry .body p:first-child {
-        margin-top: 0;
-        font-weight: 400;
-    }
-    .entry .body ul {
-        color: #aaa;
-        padding-left: 0;
-        list-style-type: none;
-    }
-    .entry .body ul li:before {
-        content: "–";
-        margin-right: .5em;
-    }
-    .btn-box{
-        padding: 20px 300px 50px;
-        background-color: #ffffff;
-        text-align: center;
-    }
-
-    .dialog-footer{
-        width: 100%;
-        text-align: center !important;
-    }
-
-    .disabled .el-upload--picture-card {
-        display: none;
-    }
-
-
+}
+.info-bottom-btn1{
+    position: relative;
+    float: left;
+    width:120px;
+    height:30px;
+    line-height: 30px;
+    background:rgba(255,178,103,1);
+    border-radius:5px;
+    color: rgba(255,255,255,1);
+}
+.info-bottom-btn2{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    width:120px;
+    height:30px;
+    line-height: 30px;
+    background:rgba(255,130,8,1);
+    border-radius:5px;
+    color: rgba(255,255,255,1);
+}
 </style>
+
+

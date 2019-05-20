@@ -50,7 +50,7 @@ public class BusinessManagerServiceImpl extends ServiceImpl<BusinessManagerDao, 
                 .setPassword("123456")
                 .setUserType(3)
                 .setRoleId(3L)
-                .setUserInfoId(businessManager.getCompanyId());
+                .setCompanyId(businessManager.getCompanyId());
         boolean b = userService.save(user);
         if(b){
             // 保存商务经理

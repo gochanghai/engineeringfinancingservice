@@ -28,7 +28,7 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="$router.go(-1)">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
@@ -59,9 +59,8 @@
 
                 if (value != this.form.newPassword) {
                     callback(new Error('新密码和确认密码不一样'));
-                } else {
-                    callback();
                 }
+                callback();
             };
             return {
                 name: localStorage.getItem('ms_username'),
@@ -89,10 +88,7 @@
         },
         // 监听器
         watch: {
-            // 'form.newPassword2': function () {
-            //     this.form.bankCardNo = this.cardNo.replace(/\s+/g,"");
-            //     this.cardNo = this.cardNo.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1 ");
-            // }
+
         },
         components: {
         },
@@ -106,30 +102,38 @@
         },
         methods: {
             save(){
-                let _than = this;
-                this.$axios.put('user/change_password',
-                    this.qs.stringify(
-                        {
-                            id: this.userId,
-                            newPassword: this.form.newPassword,
-                            oldPassword: this.form.oldPassword,
-                        }
-                    )).then( (res)=> {
-                    console.log(res);
-                    if(res.data.code === 100){
-                        _than.$message.success("密码修改成功");
-                        _than.$router.push("home2")
+                this.$refs['form'].validate((valid) => {
+                    if(!valid){
                         return;
                     }
-                    _than.$message.success("密码修改失败");
-                }).catch(function (error) {
-                    console.log(error);
-                });
-                console.log(this.form);
 
+                    let _than = this;
+                    this.$axios.put('api/user/change_password',
+                        this.qs.stringify(
+                            {
+                                id: this.userId,
+                                newPassword: this.form.newPassword,
+                                oldPassword: this.form.oldPassword,
+                            }
+                        )).then( res => {
+                        console.log(res);
+                        if(res.data.code === 100){
+                            _than.$message.success("密码修改成功");
+                            _than.$router.push("home2")
+                            return;
+                        }
+                        _than.$message.success("密码修改失败");
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    console.log(this.form);
+                }); 
             },
 
-
+            // 返回
+            goReturn() {
+                this.$router.go(-1);
+            },
         }
     }
 

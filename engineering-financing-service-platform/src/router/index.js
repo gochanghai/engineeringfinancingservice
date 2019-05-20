@@ -28,6 +28,11 @@ export default new Router({
                     meta: { title: 'my-project' }
                 },
                 {
+                    path: '/unauthen-home',
+                    component: resolve => require(['../components/page/home/unAuthenHome.vue'], resolve),
+                    meta: { title: 'unauthenHome' }
+                },
+                {
                     path: '/home1',
                     component: resolve => require(['../components/page/home/Home1.vue'], resolve),
                     meta: { title: 'Home1' }
@@ -59,9 +64,9 @@ export default new Router({
                     meta: { title: 'businessmanager-authen' }
                 },
                 {
-                    path: '/businessmanager-info-details',
+                    path: '/businessmanager-authen-info',
                     component: resolve => require(['../components/page/businessmanager/InfoDateils.vue'], resolve),
-                    meta: { title: 'businessmanager-info-dateils' }
+                    meta: { title: 'authen-info' }
                 },
                 {
                     path: '/engineeringcompany-list',
@@ -74,6 +79,16 @@ export default new Router({
                     meta: { title: 'engineeringcompany-add' }
                 },
                 {
+                    path: '/engineeringcompany-info',
+                    component: resolve => require(['../components/page/engineeringcompany/Info.vue'], resolve),
+                    meta: { title: 'engineeringcompany-info' }
+                },
+                {
+                    path: '/enterprise-info',
+                    component: resolve => require(['../components/page/setting/EnterpriseInfo.vue'], resolve),
+                    meta: { title: 'enterprise-info' }
+                },
+                {
                     path: '/childcompany-list',
                     component: resolve => require(['../components/page/engineeringcompany/ChildList.vue'], resolve),
                     meta: { title: 'childcompany-list' }
@@ -82,6 +97,11 @@ export default new Router({
                     path: '/childcompany-add',
                     component: resolve => require(['../components/page/engineeringcompany/AddChildCompany.vue'], resolve),
                     meta: { title: 'childcompany-add' }
+                },
+                {
+                    path: '/childcompany-info',
+                    component: resolve => require(['../components/page/engineeringcompany/ChildCompanyInfo.vue'], resolve),
+                    meta: { title: 'childcompany-info' }
                 },
                 {
                     path: '/financecompany-list',
@@ -94,8 +114,13 @@ export default new Router({
                     meta: { title: 'engineeringcompany-add' }
                 },
                 {
-                    path: '/product-add',
-                    component: resolve => require(['../components/page/product/Add.vue'], resolve),
+                    path: '/financecompany-info',
+                    component: resolve => require(['../components/page/financecompany/Info.vue'], resolve),
+                    meta: { title: 'engineeringcompany-info' }
+                },
+                {
+                    path: '/product-list',
+                    component: resolve => require(['../components/page/product/List.vue'], resolve),
                     meta: { title: 'product-add' }
                 },
                 {
@@ -134,9 +159,14 @@ export default new Router({
                     meta: { title: 'engineeringloan-credit-list' }
                 },
                 {
-                    path: '/engineeringloan-loan-apply-list',
-                    component: resolve => require(['../components/page/engineeringloan/LoanApplyList.vue'], resolve),
-                    meta: { title: 'engineeringloan-loan-apply-list' }
+                    path: '/engineeringloan-loan-apply-list1',
+                    component: resolve => require(['../components/page/engineeringloan/LoanApplyList1.vue'], resolve),
+                    meta: { title: 'engineeringloan-loan-apply-list1' }
+                },
+                {
+                    path: '/engineeringloan-loan-apply-list2',
+                    component: resolve => require(['../components/page/engineeringloan/LoanApplyList2.vue'], resolve),
+                    meta: { title: 'engineeringloan-loan-apply-list2' }
                 },
                 {
                     path: '/fire-project-list',

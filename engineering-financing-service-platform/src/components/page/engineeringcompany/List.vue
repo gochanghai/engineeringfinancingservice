@@ -17,15 +17,15 @@
                             <el-table-column prop="companyName" label="公司名称"/>
                             <el-table-column prop="person" label="企业法人" width="100" align="center"/>
                             <el-table-column prop="creditCode" label="信用代码" align="center"/>
-                            <el-table-column prop="companyFullName" label="授信资方" align="center" />
-                            <el-table-column prop="creditAmount" label="担保授信额（万元）" width="150" align="center">
+                            <el-table-column prop="financeName" label="授信资方" align="center" />
+                            <el-table-column prop="amount" label="担保授信额（万元）" width="150" align="center">
                                 <template slot-scope="scope">
-                                    {{scope.row.creditAmount}}万
+                                    {{scope.row.creditAmount | amonutFilter}}
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">详情信息</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -79,6 +79,13 @@
                     return '已提交'
                 }
                 return '未提交';
+            },
+
+            amonutFilter(val){
+                if(null != val && val != ''){
+                    return '' + val + '.00万'
+                }
+                return '0.00万'
             }
         },
         methods: {
@@ -106,11 +113,9 @@
                 })
             },
             // 查看详情信息
-            detailsInfo(projectId){
-                //
-                console.log(projectId);
+            detailsInfo(id){
                 this.$router.push({
-                    path:'businessmanager-info-details?id=' + projectId
+                    path:'engineeringcompany-info?id=' + id
                 })
             }
 

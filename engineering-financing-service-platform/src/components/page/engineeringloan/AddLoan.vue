@@ -14,27 +14,27 @@
                                 <div class="content-info-box">
                                     <el-form ref="form" label-width="100px" class="loan-apply-box" :model="form" :rules="rules">
                                         <el-form-item label="申请编号：">
-                                            <el-input v-model="form.loanNo" style="width: 200px"/>
+                                            <el-input v-model="form.applyNo" style="width: 300px" disabled/>
                                         </el-form-item>
                                         <el-form-item label="申请日期：">
-                                            <!--<el-input v-model="form.loanDate" style="width: 400px"/>-->
-                                            <el-date-picker type="date" placeholder="选择日期" v-model="form.loanDate" value-format="yyyy-MM-dd"  disabled style="width: 200px;"/>
+                                            <el-input v-model="form.applyDate" style="width: 300px" disabled/>
+                                            <!-- <el-date-picker type="date" placeholder="选择日期" v-model="form.loanDate" value-format="yyyy-MM-dd"  disabled style="width: 200px;"/> -->
                                         </el-form-item>
                                         <el-form-item label="申请人：">
-                                            <el-input v-model="userName" style="width: 200px"/>
+                                            <el-input v-model="form.name" style="width: 300px" disabled/>
                                         </el-form-item>
-                                        <el-form-item label="项目名称：" prop="pId">
+                                        <el-form-item label="项目名称：" prop="projectId">
                                             <!--<el-input v-model="name" style="width: 200px"/>-->
-                                            <el-select v-model="form.pId" placeholder="请选择项目" style="width: 200px">
+                                            <el-select v-model="form.projectId" placeholder="请选择项目" style="width: 300px">
                                                 <el-option v-for="item in projectList" :key="item.id" :label="item.projectName" :value="item.id"></el-option>
                                             </el-select>
                                         </el-form-item>
-                                        <el-form-item label="申请金额：" prop="loanAmount">
-                                            <el-input v-model="form.loanAmount" style="width: 200px"/> 万元
+                                        <el-form-item label="申请金额：" prop="applyAmount">
+                                            <el-input v-model="form.applyAmount" style="width: 260px"/> 万元
                                         </el-form-item>
                                         <el-form-item label="贷款周期：" prop="loanCycle">
                                             <!--<el-input v-model="form.loanCycle" style="width: 200px"/> 期-->
-                                            <el-select v-model="form.loanCycle" placeholder="请选择贷款周期" style="width: 200px">
+                                            <el-select v-model="form.loanCycle" placeholder="请选择贷款周期" style="width: 300px">
                                                 <el-option v-for="index in 24" :key="index" :label="index+' 期'" :value="index"></el-option>
                                             </el-select>
                                         </el-form-item>
@@ -67,7 +67,7 @@
                                     </el-table-column>
                                     <el-table-column label="采购订单总金额" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <el-input v-model="scope.row.orderSumAmount" placeholder="请输入内容"></el-input>
+                                            <el-input v-model="scope.row.orderAmount" placeholder="请输入内容"></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="采购订单附件" width="120" align="center">
@@ -88,7 +88,7 @@
                                     </el-table-column>
                                     <el-table-column label="采购发票总金额" width="120" align="center">
                                         <template slot-scope="scope">
-                                            <el-input v-model="scope.row.invoiceSumAmount" placeholder="请输入内容"></el-input>
+                                            <el-input v-model="scope.row.invoiceAmount" placeholder="请输入内容"></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="采购发票附件" width="120" align="center">
@@ -117,7 +117,7 @@
                                                         :action="uploadPath"
                                                         :on-success="uploadFileSuccess"
                                                         :show-file-list="false">
-                                                    <img v-if="scope.row.deliveryBillFile !== null" class="avatar" :src=" filesystem + scope.row.deliveryBillFile">
+                                                    <img v-if="scope.row.deliveryFile !== null" class="avatar" :src=" filesystem + scope.row.deliveryFile">
                                                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                 </el-upload>
                                             </div>
@@ -125,17 +125,17 @@
                                     </el-table-column>
                                     <el-table-column label="供应商银行账户名称" width="200" align="center">
                                         <template slot-scope="scope">
-                                            <el-input v-model="scope.row.bankAccountName" placeholder="请输入内容"></el-input>
+                                            <el-input v-model="scope.row.accountName" placeholder="请输入内容"></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="供应商银行账号" width="150" align="center">
                                         <template slot-scope="scope">
-                                            <el-input v-model="scope.row.bankCardNo" placeholder="请输入内容"></el-input>
+                                            <el-input v-model="scope.row.bankAccount" placeholder="请输入内容"></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="开户行" align="center">
                                         <template slot-scope="scope">
-                                            <el-input v-model="scope.row.openAccountBank" placeholder="请输入内容"></el-input>
+                                            <el-input v-model="scope.row.bank" placeholder="请输入内容"></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column label="操作" width="100" align="left">
@@ -162,31 +162,30 @@
 </template>
 
 <script>
+    import {formatDate}  from '../../common/util/date.js';
     export default {
         name: 'apply-loan',
         data() {
             return {
-                name: localStorage.getItem('ms_username'),
                 uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
-                userName: localStorage.getItem('user_name'),
-                userId: localStorage.getItem('userInfoId'),
+                userName: localStorage.getItem('ms_username'),    
                 projectList: [],
                 form:{
-                    fId: localStorage.getItem('userInfoId'),
-                    loanNo: null,
-                    loanDate: new Date(),
-                    loanPerson: null,
-                    pId: null,
-                    loanAmount: null,
+                    userId: localStorage.getItem('userId'),
+                    applyNo: formatDate(new Date(),'yyyyMMdd') + new Date().getTime(),
+                    applyDate: formatDate(new Date(),'yyyy-MM-dd'),
+                    name: '',
+                    projectId: null,
+                    applyAmount: null,
                     loanCycle: null,
                     status: 0
                 },
                 purchs:[
                     {
-                    contractNo: '',contractFile:null,orderSumAmount:'',orderFile:null,
-                    invoiceSumAmount: null, invoiceFile: null, deliveryBillFile:null, bankCardNo: null,
-                    bankAccountName: null, openAccountBank: null
+                    contractNo: '',contractFile:null,orderAmount:'',orderFile:null,
+                    invoiceAmount: null, invoiceFile: null, deliveryFile:null, bankAccount: null,
+                    accountName: null, bank: null
                 }
                 ],
                 rules:{
@@ -201,21 +200,38 @@
         computed: {
         },
         created(){
-            this.getProjectList();
+            let userId = this.form.userId;
+            this.getNameAndIdCard(userId);
+            this.getProjectList(userId);
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
-            // 获取项目数据
-            getProjectList(){
+            /**
+             * 获取用户信息
+             */
+            getNameAndIdCard(userId){
                 let _than = this;
-                this.$axios.get('credit/project/list',{params:{
-                        id: this.id
+                this.$axios.get('api/business/user_id',{params:{
+                        userId: userId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.form.name = res.data.extend.name;
+                    _than.form.idCard = res.data.extend.idCard;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            // 获取项目数据
+            getProjectList(userId){
+                let _than = this;
+                this.$axios.get('api/credit/project/list',{params:{
+                        id: userId
                     }}).then(function (response) {
                     console.log(response);
-                    _than.applyInfo = response.data.extend.applyInfo;
+                    _than.projectList = response.data.extend.list;
                 }).catch(function (error) {
 
                 });
@@ -264,7 +280,7 @@
                 }else if (_that.file_name === 3) {
                     _that.purchs[_that.file_index].invoiceFile = res.extend.fileSystem.filePath;
                 }else if (_that.file_name === 4) {
-                    _that.purchs[_that.file_index].deliveryBillFile = res.extend.fileSystem.filePath;
+                    _that.purchs[_that.file_index].deliveryFile = res.extend.fileSystem.filePath;
                 }
 
             },
@@ -279,18 +295,18 @@
                         console.log(index,purchs[index]);
                         _that.$axios.post('la/purchase/save',
                             _that.qs.stringify({
-                                pId: _that.form.pId,
-                                loanNo: _that.form.loanNo,
+                                projectId: _that.form.projectId,
+                                loanNo: _that.form.applyNo,
                                 contractNo: purchs[index].contractNo,
                                 contractFile:purchs[index].contractFile,
-                                orderSumAmount:purchs[index].orderSumAmount,
+                                orderAmount:purchs[index].orderAmount,
                                 orderFile: purchs[index].orderFile,
-                                invoiceSumAmount: purchs[index].invoiceSumAmount,
+                                invoiceAmount: purchs[index].invoiceAmount,
                                 invoiceFile: purchs[index].invoiceFile,
-                                deliveryBillFile: purchs[index].deliveryBillFile,
-                                bankCardNo: purchs[index].bankCardNo,
-                                bankAccountName: purchs[index].bankAccountName,
-                                openAccountBank: purchs[index].openAccountBank
+                                deliveryFile: purchs[index].deliveryFile,
+                                bankAccount: purchs[index].bankAccount,
+                                accountName: purchs[index].accountName,
+                                bank: purchs[index].bank
                             })
                         ).then(function (response) {
                             console.log(response);
@@ -304,19 +320,23 @@
             // 保存
             saveAndSubmit(){
                 let _than = this;
+                // var params = new URLSearchParams();
+                // params.append('applyInfo', JSON.stringify(this.form)); 
+                // params.append('purchase', JSON.stringify(this.purchs));
                 this.$axios.post('la/save',
                     this.qs.stringify(
                         {
-                            loanNo: this.form.loanNo,
-                            fId: this.form.fId,
-                            loanAmount: this.form.loanAmount,
-                            pId: this.form.pId,
+                            applyNo: this.form.applyNo,
+                            applyDate: this.form.applyDate,
+                            userId: this.form.userId,
+                            applyAmount: this.form.applyAmount,
+                            projectId: this.form.projectId,
                             loanCycle: this.form.loanCycle,
-                            loanDate: this.form.loanDate,
+                            name: this.form.name,
                             status: this.form.status,
                         }
-                    )).then(function (response) {
-                    console.log(response);
+                    )).then(function (res) {
+                    console.log(res);
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -324,6 +344,23 @@
                 this.savePurchInfo();
 
                 this.$router.push("my-loan-el")
+            },
+            save(){
+                let _than = this;
+                var params = new URLSearchParams();
+                params.append('applyInfo', JSON.stringify(this.form));
+                params.append('purchase', JSON.stringify(this.purchs));
+                
+                this.$axios({
+                    method: "POST",
+                    url: 'la/save', 
+                    data: this.form,
+                    headers: {'Content-Type': 'application/json;charset=UTF-8',},}
+                ).then(function (res) {
+                    console.log(res);
+                }).catch(function (error) {
+                    console.log(error);
+                });
             },
             onReturn(){
                 this.$router.push("my-loan-el")

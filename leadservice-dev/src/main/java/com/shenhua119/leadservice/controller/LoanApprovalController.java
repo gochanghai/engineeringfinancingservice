@@ -1,7 +1,9 @@
 package com.shenhua119.leadservice.controller;
 
 import com.shenhua119.leadservice.entity.LoanExamineapprove;
+import com.shenhua119.leadservice.service.LoanApplyService;
 import com.shenhua119.leadservice.service.LoanApprovalService;
+import com.shenhua119.leadservice.service.LoanService;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,33 +19,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin // 决解跨域问题
 @RestController
-@RequestMapping("loan_appr")
+@RequestMapping("loan/appr")
 public class LoanApprovalController {
 
     @Autowired
     private LoanApprovalService loanApprovalService;
+    @Autowired
+    private LoanApplyService loanApplyService;
 
-    /**
-     * 保存工程公司审批信息
-     * @param lai
-     * @return
-     */
-    @PostMapping("ec_save")
-    public Msg saveEngComApproval(LoanExamineapprove lai){
-        System.out.println("ec: "  + lai);
-        boolean b = loanApprovalService.save(lai);
-        return Msg.success();
-    }
+    @Autowired
+    private LoanService loanService;
 
     /**
      * 保存平台审批信息
-     * @param lai
+     * @param approve
      * @return
      */
-    @PostMapping("p_save")
-    public Msg save(LoanExamineapprove lai){
-        System.out.println("p: " + lai);
-        boolean b = loanApprovalService.updateById(lai);
+    @PostMapping("save")
+    public Msg save(LoanExamineapprove approve){
+        System.out.println("p: " + approve);
+        boolean b = loanApplyService.saveExamineApprove(approve);
         return Msg.success();
     }
 
@@ -52,11 +47,17 @@ public class LoanApprovalController {
      * @param lai
      * @return
      */
-    @PostMapping("f_save")
-    public Msg saveFundComApproval(LoanExamineapprove lai){
+    @PostMapping("/f/save")
+    public Msg saveFcomApproval(LoanExamineapprove lai){
         System.out.println("fund com: " + lai);
-        boolean b = loanApprovalService.updateById(lai);
-        return Msg.success();
+        boolean b = loanApplyService.saveExamineApprove(lai);
+        if(b && lai.getResult() == 1){
+//            b = loanService.save(loan);
+        }
+        if(b){
+            return Msg.success();
+        }
+        return Msg.fail();
     }
 
 }

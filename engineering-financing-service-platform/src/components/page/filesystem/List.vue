@@ -20,15 +20,16 @@
                         <el-table-column label="文件预览" width="200" align="center">
                             <template slot-scope="scope">
                                 <div>
-                                    <img v-if="scope.row.fileType === '.pdf'" src="../../../../static/img/pdf.jpg" width="23px" height="23px" @click="filePDFPreview(scope.row.filePath)"/>
-                                    <img v-else="scope.row.fileType === '.jpg'" :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
+                                    <img v-if="scope.row.fileType === 'pdf'" src="../../../../static/img/pdf.jpg" width="23px" height="23px" @click="filePDFPreview(scope.row.filePath)"/>
+                                    <img v-else :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="操作" width="150" align="center">
                             <template slot-scope="scope">
-                                <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-                                <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+                                <el-button size="mini" round @click="downloadFile(scope.row.filePath)">下载</el-button>
+                                <!-- <el-button size="mini" round ><a href="filesysip + scope.row.filePath">预览</a></el-button> -->
+                                <el-button size="mini" round @click="deleteFile(scope.row.id, scope.row.filePath)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -39,6 +40,7 @@
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
+        <!-- pef预览 -->
         <el-dialog :visible.sync="pdfDialogVisible" width="800px" top="20px">
             <div style="width: 100%; height: 900px">
             <embed :src="pdfPath"
@@ -76,29 +78,131 @@
             }
         },
         created(){
-            this.getCreditDataList();
+            this.getFileList();
         },
         methods: {
 
-            // 获取文件列表数据
-            getCreditDataList() {
+            /**
+             * 获取文件列表处理函数
+             */
+            getFileList() {
                 let _than = this;
-                this.$axios.get('filesystem/all').then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                this.$axios.get('filesystem/all').then(function (res) {
+                    console.log(res);
+                    _than.tableData = res.data.extend.list;
                     _than.loading = false;
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
+
+            /**
+             * 图片预览处理函数
+             */
             filePreview(filePath) {
-                this.dialogImageUrl =  this.filesysip + filePath;
-                this.dialogVisible = true;
+                // this.dialogImageUrl =  this.filesysip + filePath;
+                // this.dialogVisible = true;
+                let newpage = this.$router.resolve({ 
+                    name: '文件预览',
+                    query:{
+                        objectType:1,
+                        infoId:filePath
+                    }   
+                });                
+                window.open(newpage.href, '_blank');
             },
+
+            /**
+             * pdf附件预览处理函数
+             */
             filePDFPreview(filePath) {
                 this.pdfPath =  this.filesysip + filePath;
                 this.pdfDialogVisible = true;
             },
+
+            /**
+             * 下载文件处理函数
+             */
+            downloadFile(filePath){
+                this.$axios.post('filesystem/download',this.qs.stringify({filePath:filePath})
+                ).then( res =>{
+                    console.log(res);
+                    this.$message.success('提交成功！');
+                    // this.getFileList();
+                }).catch(function (error) {
+                    console.log(error);
+                });
+    
+            },
+
+            /**
+             * 删除文件处理函数
+             */
+            deleteFile(id, filePath){
+                this.$axios.post('filesystem/delete',this.qs.stringify({id:id, fileId:filePath})
+                ).then( res =>{
+                    console.log(res);
+                    this.$message.success('提交成功！');
+                    this.getFileList();
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            /**
+             * 判断浏览器类型
+             */
+            myBrowser() {
+                // 取得浏览器的userAgent字符串
+                var userAgent = navigator.userAgent; 
+                var isOpera = userAgent.indexOf("Opera") > -1;
+                // 判断是否Opera浏览器
+                if (isOpera) {
+                    return "Opera"
+                }; 
+                // 判断是否Firefox浏览器
+                if (userAgent.indexOf("Firefox") > -1) {
+                    return "FF";
+                }
+                //判断是否Chrome浏览器 
+                if (userAgent.indexOf("Chrome") > -1) {
+                    return "Chrome";
+                }
+                // 判断是否Safari浏览器
+                if (userAgent.indexOf("Safari") > -1) {
+                    return "Safari";
+                }
+                // 判断是否IE浏览器
+                if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+                    return "IE";
+                };
+                // 判断是否Edge浏览器
+                if (userAgent.indexOf("Trident") > -1) {
+                    return "Edge";
+                }
+            },
+
+            /**
+             * 文件下载类型一
+             */
+            download(url){
+                var iframe = document.createElement("iframe")
+                iframe.style.display = "none";
+                iframe.src = url;
+                document.body.appendChild(iframe);
+            },
+            /**
+             * 另存为
+             */
+            saveAs5(url) {
+                var oPop = window.open(imgURL, "", "width=1, height=1, top=5000, left=5000");
+                for (; oPop.document.readyState != "complete";) {
+                    if (oPop.document.readyState == "complete") break;
+                }
+                oPop.document.execCommand("SaveAs");
+                oPop.close();
+            },
+
         }
     }
 

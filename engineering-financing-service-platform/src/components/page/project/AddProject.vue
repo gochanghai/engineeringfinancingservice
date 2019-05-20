@@ -77,6 +77,7 @@
                 companyList: [],
                 bmList: [],
                 form: {
+                    id: "",
                     projectName: '',
                     contractNo: '',
                     contractAmount: '0.00',
@@ -120,9 +121,9 @@
                 let _than = this;
                 this.$axios.get('api/company/branch/list',{params:{
                         companyId: this.companyId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.companyList = response.data.extend.list;
+                    }}).then(res => {
+                    console.log(res);
+                    _than.companyList = res.data.extend.list;
                     _than.loading= false;
                 }).catch(function (error) {
                     console.log(error);
@@ -142,7 +143,13 @@
             },
             save(){
                 let _than = this;
-                this.$axios.post('api/project',
+                let URL = "api/project/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
                         {
                             projectName: this.form.projectName,
@@ -153,8 +160,8 @@
                             userId: this.form.userId,
                             companyId: this.companyId,
                         }
-                    )).then((response)=> {
-                    console.log(response);
+                    )).then(res => {
+                    console.log(res);
                     _than.$router.push("project-list");
                 }).catch(function (error) {
                     console.log(error);

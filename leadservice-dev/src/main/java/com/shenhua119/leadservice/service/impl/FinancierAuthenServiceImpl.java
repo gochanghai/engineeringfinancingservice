@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shenhua119.leadservice.dao.FinancierAuthenDao;
 import com.shenhua119.leadservice.entity.BusinessManagerAuthen;
 import com.shenhua119.leadservice.service.FinancierAuthenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,4 +13,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FinancierAuthenServiceImpl extends ServiceImpl<FinancierAuthenDao, BusinessManagerAuthen> implements FinancierAuthenService {
+    @Autowired
+    private FinancierAuthenDao authenDao;
+    @Override
+    public BusinessManagerAuthen getAuthDetails(Long userId) {
+        return authenDao.selectAuthDetailByUserId(userId);
+    }
 }

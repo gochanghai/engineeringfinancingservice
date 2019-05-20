@@ -1,8 +1,10 @@
 package com.shenhua119.leadservice.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shenhua119.leadservice.entity.Project;
 import com.shenhua119.leadservice.entity.ProjectContract;
 import com.shenhua119.leadservice.service.ProjectContractService;
+import com.shenhua119.leadservice.service.ProjectService;
 import com.shenhua119.leadservice.util.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ public class ProjectContractController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private ProjectContractService projectContractService;
+    @Autowired
+    private ProjectService projectService;
 
     /**
      * 获取项目合同信息
@@ -30,10 +34,12 @@ public class ProjectContractController {
      */
     @GetMapping("contract")
     public Msg get(Long projectId){
+
         System.out.println("获取数据");
+        Project project = projectService.getById(projectId);
         var where = new QueryWrapper<ProjectContract>().eq("project_id", projectId);
-        ProjectContract contract = projectContractService.getOne(where);
-        return Msg.success().add("contract",contract);
+        ProjectContract contract = projectContractService.getOne(where);//
+        return Msg.success().add("contract",contract).add("project",project);
     }
 
     /**
@@ -41,7 +47,7 @@ public class ProjectContractController {
      * @param contract
      * @return
      */
-    @PostMapping("contract")
+    @PostMapping("contract/insert")
     public Msg save(ProjectContract contract){
         System.out.println(contract.toString());
         logger.info(contract.toString());
@@ -57,7 +63,7 @@ public class ProjectContractController {
      * @param contract
      * @return
      */
-    @PutMapping("contract")
+    @PostMapping("contract/update")
     public Msg update(ProjectContract contract){
         System.out.println("更新项目合同信息");
         boolean b = projectContractService.updateById(contract);

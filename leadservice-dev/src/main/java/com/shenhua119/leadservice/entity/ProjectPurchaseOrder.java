@@ -3,9 +3,7 @@ package com.shenhua119.leadservice.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * @author liuchanghai
@@ -15,6 +13,8 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("project_purchase_order")
 public class ProjectPurchaseOrder {
 

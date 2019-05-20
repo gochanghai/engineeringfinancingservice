@@ -39,9 +39,23 @@ public class ProjectController {
      * @param project
      * @return
      */
-    @PostMapping("")
+    @PostMapping("insert")
     public Msg save(Project project){
         boolean b = projectService.save(project);
+        if (b){
+            return Msg.success();
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 更新项目
+     * @param project
+     * @return
+     */
+    @PostMapping("update")
+    public Msg update(Project project){
+        boolean b = projectService.updateById(project);
         if (b){
             return Msg.success();
         }

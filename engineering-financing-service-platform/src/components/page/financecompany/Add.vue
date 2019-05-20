@@ -13,8 +13,8 @@
                                 <!-- 绑定银行卡 -->
                                 <div class="content-info-box">
                                     <el-form ref="form" :model="form" :rules="rules" label-width="200px">
-                                        <el-form-item label="企业全称：" prop="companyFullName">
-                                            <el-input v-model="form.companyFullName" style="width: 400px"/>
+                                        <el-form-item label="企业全称：" prop="companyName">
+                                            <el-input v-model="form.companyName" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="联系人：" prop="contactPerson">
                                             <el-input v-model="form.contactPerson" style="width: 400px"/>
@@ -22,15 +22,15 @@
                                         <el-form-item label="联系电话：" prop="contactNumber">
                                             <el-input v-model="form.contactNumber" style="width: 400px"/>
                                         </el-form-item>
-                                        <el-form-item label="合作分行：" prop="cooperationBank">
-                                            <el-input v-model="form.cooperationBank" style="width: 400px"/>
+                                        <el-form-item label="合作分行：" prop="coopBank">
+                                            <el-input v-model="form.coopBank" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="分行地址：">
-                                            <el-input v-model="form.cooperationBankAddress" style="width: 400px"/>
+                                            <el-input v-model="form.address" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item>系统登录账户</el-form-item>
-                                        <el-form-item label="用户名：" prop="userName">
-                                            <el-input v-model="form.userName" style="width: 400px"/>
+                                        <el-form-item label="用户名：" prop="username">
+                                            <el-input v-model="form.username" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="手机号：" prop="phone">
                                             <el-input v-model="form.phone" style="width: 400px"/>
@@ -43,7 +43,7 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="onReturn">返回</div>
-                        <div class="info-bottom-btn2" @click="save">保存</div>
+                        <div class="info-bottom-btn2" @click="save" v-if="form.id == ''">保存</div>
                     </div>
                 </el-card>
             </el-col>
@@ -59,8 +59,8 @@
                 if (!value) {
                     return callback(new Error('企业全称不能为空'));
                 }
-                this.$axios.get('api/checkBakFullName',{params:{
-                        bankFullName: value
+                this.$axios.get('api/checkBankFullName',{params:{
+                        bankName: value
                     }}).then(function (response) {
                     console.log(response);
                     if (response.data.extend.result == 1) {
@@ -131,30 +131,31 @@
                 name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
                 form: {
-                    companyFullName: null,
+                    id: '',
+                    companyName: null,
                     contactPerson: null,
                     contactNumber: null,
-                    cooperationBank: null,
-                    cooperationBankAddress: null,
-                    userName: null,
+                    coopBank: null,
+                    address: null,
+                    username: null,
                     phone: null,
                     status: 0
                 },
                 rules: {
                     contactPerson: [
-                        { required: true, message: '请输入公司名称', trigger: 'blur' },
+                        { required: true, message: '请输入联系人', trigger: 'blur' },
                     ],
                     contactNumber: [
-                        { required: true, message: '请输入企业法人', trigger: 'blur' },
+                        { required: true, message: '请输入联系电话', trigger: 'blur' },
                     ],
-                    cooperationBankAddress: [
+                    address: [
                         { required: true, message: '请输入地址', trigger: 'blur' },
                     ],
-                    companyFullName: [
+                    companyName: [
                         { required: true, message: '请输入企业名称', trigger: 'blur' },
                         { validator: checkFullName, trigger: 'blur' }
                     ],
-                    userName: [
+                    username: [
                         { required: true, message: '请输入用户名', trigger: 'blur' },
                         { validator:  checkUserName, trigger: 'blur' }
                     ],
@@ -171,6 +172,14 @@
         computed: {
         },
         created(){
+            let id = this.$route.query.id;
+            if(id == undefined){
+                id = '';
+            }
+            this.form.id = id;
+            if(id != null && id != ''){
+                this.getDataInfo(id);
+            }
         },
         activated(){
         },
@@ -178,8 +187,8 @@
         },
         methods: {
             onReturn() {
-                this.$message.success('返回！');
-                this.$router.push("financial-company-list")
+                // 返回上一步
+                this.$router.go(-1);
             },
             save(){
                 this.$refs['form'].validate((valid) => {
@@ -191,28 +200,38 @@
                 this.$axios.post('api/finance/save',
                     this.qs.stringify(
                         {
-                            companyName: this.form.companyFullName,
+                            companyName: this.form.companyName,
                             contactPerson: this.form.contactPerson,
                             contactNumber: this.form.contactNumber,
-                            coopBank: this.form.cooperationBank,
-                            address: this.form.cooperationBankAddress,
-                            username: this.form.userName,
+                            coopBank: this.form.coopBank,
+                            address: this.form.address,
+                            username: this.form.username,
                             phone: this.form.phone,
                             status: this.form.status
                         }
-                    )).then(function (response) {
-                    console.log(response);
+                    )).then(res => {
+                    console.log(res);
                     this.$message.success('保存成功！');
-                    _that.$router.push("financial-company-list")
+                    this.$router.go(-1);
                 }).catch(function (error) {
                     console.log(error);
                 });
-                console.log(this.form);
             },
             saveAndSubmit(){
                 this.$message.success('提交成功！');
                 this.$router.push("my-credit-project-list")
-            }
+            },
+            getDataInfo(id){
+                let _than = this;
+                this.$axios.get('api/finance/info',{params:{
+                        id: id
+                    }}).then(function (response) {
+                    console.log(response);
+                    _than.form = response.data.extend.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
 
 
         }

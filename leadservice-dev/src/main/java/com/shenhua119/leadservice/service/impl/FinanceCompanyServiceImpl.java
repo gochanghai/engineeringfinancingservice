@@ -6,6 +6,7 @@ import com.shenhua119.leadservice.entity.FinanceCompany;
 import com.shenhua119.leadservice.entity.User;
 import com.shenhua119.leadservice.service.FinanceCompanyService;
 import com.shenhua119.leadservice.service.UserService;
+import com.shenhua119.leadservice.vo.FinanceCustomerVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -56,5 +57,10 @@ public class FinanceCompanyServiceImpl extends ServiceImpl<FinanceCompanyDao, Fi
             return save(finance);
         }
         return false;
+    }
+
+    @Override
+    public List<FinanceCustomerVO> listCustomeByCompanyId(Long id) {
+        return financeCompanyDao.selectCustomerList(id);
     }
 }

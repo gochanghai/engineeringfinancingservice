@@ -8,4 +8,5 @@ import com.shenhua119.leadservice.entity.BusinessManagerAuthen;
  * @create 2018-11-29 22:28
  */
 public interface FinancierAuthenService extends IService<BusinessManagerAuthen> {
+    BusinessManagerAuthen getAuthDetails(Long userId);
 }

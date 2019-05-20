@@ -4,6 +4,7 @@ import com.shenhua119.leadservice.entity.FinanceCompany;
 import com.shenhua119.leadservice.service.FinanceCompanyService;
 import com.shenhua119.leadservice.service.UserService;
 import com.shenhua119.leadservice.util.Msg;
+import com.shenhua119.leadservice.vo.FinanceCustomerVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +45,26 @@ public class FinanceCompanyController {
     }
 
     // 获取数据
+    @GetMapping("info")
+    public Msg get(Long id){
+        System.out.println("获取数据");
+        FinanceCompany financeCompany = financeCompanyService.getById(id);
+        return Msg.success().add("data", financeCompany);
+    }
+
+    // 获取数据
     @GetMapping("options")
     public Msg fundNCompanyameList(){
         System.out.println("options 获取数据");
         List<FinanceCompany> list = financeCompanyService.listCompanyNameAndComId();
+        return Msg.success().add("list", list);
+    }
+
+    // 获取数据
+    @PostMapping("customer")
+    public Msg findCustomerList(Long id){
+        System.out.println("options 获取数据");
+        List<FinanceCustomerVO> list = financeCompanyService.listCustomeByCompanyId(id);
         return Msg.success().add("list", list);
     }
 }

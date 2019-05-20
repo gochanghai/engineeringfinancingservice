@@ -33,7 +33,7 @@
                             </el-table-column>
                             <el-table-column label="操作" width="200">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button>
+                                    <!-- <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">进度详情</el-tag></el-button> -->
                                     <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
                                 </template>
                             </el-table-column>
@@ -96,7 +96,7 @@
                 //
                 console.log(projectId);
                 this.$router.push({
-                    path:'priject-progress-details?id=' + projectId
+                    path:'project-progress-details?id=' + projectId
                 })
             },
             // 查看项目详情信息

@@ -2,6 +2,7 @@ package com.shenhua119.leadservice.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shenhua119.leadservice.entity.CreditExamineapprove;
+import com.shenhua119.leadservice.entity.ProjectCreditApply;
 
 /**
  * @author liuchanghai
@@ -11,4 +12,6 @@ public interface CreditApprovalService extends IService<CreditExamineapprove> {
 
     /** 审批提交 */
     boolean approveSubmit(CreditExamineapprove ca);
+
+    boolean signAgreement(ProjectCreditApply ca);
 }

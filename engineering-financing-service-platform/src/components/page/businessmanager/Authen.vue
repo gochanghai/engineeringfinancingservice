@@ -20,7 +20,7 @@
                                         上传认证资料
                                         <div class="triangle"></div>
                                     </li>
-                                    <li :class="{active: step ===3 }">
+                                    <li :class="{active: step === 5}">
                                         完成
                                         <div class="triangle"></div>
                                     </li>
@@ -31,16 +31,20 @@
                             <!--<div class="is-show-btn">展开</div>-->
                             <div class="info-content">
                                 <!-- 绑定银行卡 -->
-                                <div class="content-title" v-show="step === 1">
+                                <div class="content-title" v-show="step === 1 || step === 5">
                                     <div class="content-lable1">绑定银行卡</div>
                                     <!--<div class="content-lable2">查看示例</div>-->
                                 </div>
-                                <div class="content-info-box" v-show="step === 1">
+                                <div class="content-info-box" v-show="step === 1 || step === 5">
                                     <el-form ref="form" :model="form" :rules="rules1" label-width="100px">
-                                        <el-form-item label="姓名：">张三</el-form-item>
-                                        <el-form-item label="身份证号：">430426198502134569</el-form-item>
+                                        <el-form-item label="姓名：">
+                                            <el-input v-model="form.name" disabled style="width: 400px"/>
+                                        </el-form-item>
+                                        <el-form-item label="身份证号：">
+                                            <el-input v-model="form.idCard" disabled style="width: 400px"/>
+                                        </el-form-item>
                                         <el-form-item label="银行卡号：" prop="bankCardNo">
-                                            <el-input v-model="cardNo" style="width: 400px"/>
+                                            <el-input v-model="cardNo" placeholder="请输入银行卡号" style="width: 400px"/>
                                         </el-form-item>
                                         <el-form-item label="开户行：">
                                             <!-- bank logo -->
@@ -49,24 +53,24 @@
                                                 <el-input v-else v-model="form.bank"/>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="手机号：" style="width: 400px">
-                                            <el-input v-model="form.bankCardPhone">
-                                                <template slot="append" style="background-color: #fff">
-                                                    <div>获取验证码</div>
-                                                </template>
+                                        <el-form-item label="手机号：" prop="bankCardPhone">
+                                            <el-input v-model="form.bankCardPhone" placeholder="请输入银行预留的手机号" style="width: 400px">
+                                                <!-- <template slot="append">
+                                                    <div style="background-color: #fff" @click="sendMessage">{{btnText}}</div>
+                                                </template> -->
                                             </el-input>
                                         </el-form-item>
-                                        <el-form-item label="验证码：">
+                                        <!-- <el-form-item label="验证码：">
                                             <el-input v-model="form.code" style="width: 200px"/>
-                                        </el-form-item>
+                                        </el-form-item> -->
                                     </el-form>
                                 </div>
                                 <!-- 个人身份信息 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 2 || step === 5">
                                     <div class="content-lable1">身份信息</div>
                                     <div class="content-lable2">查看示例</div>
                                 </div>
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 2 || step === 5">
                                     <el-form label-width="100px">
                                         <el-form-item label="户籍所在地：" style="margin-bottom: 0">
                                             <el-input v-model="form.domicile" style="width: 400px"></el-input>
@@ -139,11 +143,11 @@
                                     </el-form>
                                 </div>
                                 <!-- 婚姻信息 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 2 || step === 5">
                                     <div class="content-lable1">婚姻状况</div>
                                     <!--<div class="content-lable2">已婚</div>-->
                                 </div>
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 2 || step === 5">
                                     <el-form label-width="130px">
                                         <el-form-item label="婚姻状况：">
                                             <el-radio-group v-model="form.marriageStatus">
@@ -240,11 +244,11 @@
                                     </el-form>
                                 </div>
                                 <!-- 企业信息 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 3 || step === 5">
                                     <div class="content-lable1">企业信息</div>
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 3 || step === 5">
                                     <el-form label-width="140px">
                                         <el-form-item label="名下是否有公司：">
                                             <el-radio-group v-model="form.isCompany">
@@ -303,11 +307,11 @@
                                     </el-form>
                                 </div>
                                 <!-- 社保信息 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 3 || step === 5">
                                     <div class="content-lable1">社保信息</div>
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 3 || step === 5">
                                     <el-form label-width="140px">
                                         <el-form-item label="是否购买社保：">
                                             <el-radio-group v-model="form.isSocialecurity">
@@ -342,12 +346,12 @@
                                     </el-form>
                                 </div>
                                 <!-- 个人资产 -->
-                                <div class="content-title">
+                                <div class="content-title" v-show="step === 4 || step === 5">
                                     <div class="content-lable1">个人资产</div>
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
                                 <!-- 房产信息 -->
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 4 || step === 5">
                                     <el-form label-width="100px">
                                         <el-form-item label="是否有房产">
                                             <el-radio-group v-model="form.isHouse">
@@ -356,7 +360,7 @@
                                             </el-radio-group>
                                         </el-form-item>
                                         <div v-show="form.isHouse === 1">
-                                            <div v-for="(house,index) in form.houses">
+                                            <div v-for="(house,index) in form.houses" :key="index">
                                                 <el-form-item :label="'房产' + (index + 1)" style="margin-bottom: 0">
                                                     <el-button type="info" size="mini" @click="removeHouse(index)">移除房产{{index+1}}</el-button>
                                                 </el-form-item>
@@ -390,7 +394,7 @@
                                     </el-form>
                                 </div>
                                 <!-- 车辆信息 -->
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-show="step === 4 || step === 5">
                                     <el-form label-width="100px">
                                         <el-form-item label="是否有车">
                                             <el-radio-group v-model="form.isCar">
@@ -399,7 +403,7 @@
                                             </el-radio-group>
                                         </el-form-item>
                                         <div v-show="form.isCar">
-                                            <div v-for="(car, index) in form.cars">
+                                            <div v-for="(car, index) in form.cars" :key="index">
                                                 <el-form-item :label="'车辆'+ (index+1)" style="margin-bottom: 0">
                                                     <el-button type="info" size="mini" @click="removeCar(index)">移除车辆{{index+1}}</el-button>
                                                 </el-form-item>
@@ -437,10 +441,12 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1" v-show="step === 1">返回</div>
-                        <div class="info-bottom-btn2" v-show="step > 1" @click="step -= 1">上一步</div>
-                        <div class="info-bottom-btn2" v-show="step < 3" @click="step += 1">下一步</div>
-                        <div class="info-bottom-btn2">进入首页</div>
+                        <div class="info-bottom-btn1" v-show="step === 1" @click="goHome">返回</div>
+                        <div class="info-bottom-btn2" v-show="step > 2 && step < 5" @click="step -= 1">上一步</div>
+                        <!-- <div class="info-bottom-btn2" v-show="step = 1" @click="saveBankCard">下一步</div> -->
+                        <div class="info-bottom-btn2" v-show="step < 4" @click="step += 1">下一步</div>
+                        <div class="info-bottom-btn2" v-show="step == 4" @click="save">完成</div>
+                        <div class="info-bottom-btn2" v-show="step == 5" @click="goHome">进入首页</div>
                     </div>
                 </el-card>
             </el-col>
@@ -449,6 +455,7 @@
 </template>
 
 <script>
+    const Bank = require('../../common/util/bank.js');
     export default {
         name: 'business-manager-authen',
         data() {
@@ -467,10 +474,10 @@
                         let _than = this;
                         // aliyun 银行卡号自动识别
                         this.$axios.get('https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8' +
-                            '&cardNo='+this.form.bankCardNo+'&cardBinCheck=true').then(function (response) {
-                            _than.bankCheck = response.data;
-                            _than.bankCode = response.data.bank;
-                            _than.form.bank = _than.getBankName(response.data.bank);
+                            '&cardNo='+this.form.bankCardNo+'&cardBinCheck=true').then( res => {
+                            _than.bankCheck = res.data;
+                            _than.bankCode = res.data.bank;
+                            _than.form.bank = Bank.getBankName(res.data.bank);
                         }).catch(function (error) {
                             console.log(error);
                         });
@@ -500,7 +507,6 @@
                 }, 1000);
             };
             return {
-                name: localStorage.getItem('ms_username'),
                 labelPosition: "right",
                 userInfo: null,
                 uploadPath: localStorage.getItem("uploadPath"),
@@ -510,8 +516,13 @@
                 bankCode: null, // 银行代码
                 cardNo: '', // 银行卡号
                 cardType: '',
+                bankCardInfo: '',
+                vercode:'',
+                btnDisabled:false,
+                btnText:'获取验证码',
+
                 form: {
-                    id: localStorage.getItem('userInfoId'),
+                    userId: localStorage.getItem('userId'),
                     name:'',
                     idCard: null,
                     bankCardNo: null,
@@ -579,80 +590,123 @@
         computed: {
         },
         created(){
+            let userId = localStorage.getItem('userId');
+            this.getNameAndIdCard(userId);
         },
         activated(){
         },
         deactivated(){
         },
         methods: {
+            /**
+             * 获取用户信息
+             */
+            getNameAndIdCard(userId){
+                let _than = this;
+                this.$axios.get('api/business/user_id',{params:{
+                        userId: userId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.form.name = res.data.extend.name;
+                    _than.form.idCard = res.data.extend.idCard;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            // 获取验证码
+            sendMessage(){
+                if(this.btnDisabled){
+                    return;
+                }
+                this.getSecond(60);
+            },
+            //发送验证码
+            getSecond(wait){
+                let _this=this;
+                let _wait = wait;
+                if(wait == 0) {
+                    this.btnDisabled=false;
+                    this.btnText="获取验证码";                    
+                    wait = _wait;
+                } else {
+                    this.btnDisabled=true;
+                    this.btnText="验证码(" + wait + "s)"
+                    wait--;
+                    setTimeout(function() {
+                        _this.getSecond(wait);
+                    },
+                    1000);
+                }
+            },
+
             // 身份证正面上传成功回调函数
-            idCardSideFace(response,file,files){
-                console.log(response);
-                this.form.idCardSideFace = response.extend.fileSystem.filePath;
+            idCardSideFace(res,file,files){
+                console.log(res);
+                this.form.idCardSideFace = res.extend.fileSystem.filePath;
             },
             // 身份证反面上传成功回调函数
-            idCardSideBack(response,file,files){
-                this.form.idCardSideBack = response.extend.fileSystem.filePath;
+            idCardSideBack(res,file,files){
+                this.form.idCardSideBack = res.extend.fileSystem.filePath;
             },
             // 手持身份证上传成功回调函数
-            idCardHand(response,file,files){
-                this.form.idCardHand = response.extend.fileSystem.filePath;
+            idCardHand(res,file,files){
+                this.form.idCardHand = res.extend.fileSystem.filePath;
             },
             // 户口本主页上传成功回调函数
-            householdRegHome(response,file,files){
-                this.form.householdRegHome = response.extend.fileSystem.filePath;
+            householdRegHome(res,file,files){
+                this.form.householdRegHome = res.extend.fileSystem.filePath;
             },
             // 户口本个人页上传成功回调函数
-            householdRegPersonal(response,file,files){
-                this.form.householdRegPersonal = response.extend.fileSystem.filePath;
+            householdRegPersonal(res,file,files){
+                this.form.householdRegPersonal = res.extend.fileSystem.filePath;
             },
             // 配偶身份证正面上传成功回调函数
-            spouseIdCardSideFace(response,file,files){
-                this.form.spouseIdCardSideFace = response.extend.fileSystem.filePath;
+            spouseIdCardSideFace(res,file,files){
+                this.form.spouseIdCardSideFace = res.extend.fileSystem.filePath;
             },
             // 配偶身份证反面上传成功回调函数
-            spouseIdCardSideBack(response,file,files){
-                this.form.spouseIdCardSideBack = response.extend.fileSystem.filePath;
+            spouseIdCardSideBack(res,file,files){
+                this.form.spouseIdCardSideBack = res.extend.fileSystem.filePath;
             },
             // 结婚证上传成功回调函数
-            marriageCertificate(response,file,files){
-                this.form.marriageCertificate = response.extend.fileSystem.filePath;
+            marriageCertificate(res,file,files){
+                this.form.marriageCertificate = res.extend.fileSystem.filePath;
             },
             // 配偶户口本主页上传成功回调函数
-            sHouseholdRegHome(response,file,files){
-                this.form.sHouseholdRegHome = response.extend.fileSystem.filePath;
+            sHouseholdRegHome(res,file,files){
+                this.form.sHouseholdRegHome = res.extend.fileSystem.filePath;
             },
             // 配偶户口本个人页上传成功回调函数
-            sHouseholdRegPersonal(response,file,files){
-                this.form.sHouseholdRegPersonal = response.extend.fileSystem.filePath;
+            sHouseholdRegPersonal(res,file,files){
+                this.form.sHouseholdRegPersonal = res.extend.fileSystem.filePath;
             },
             // 离婚证上传成功回调函数
-            divorceCertificate(response,file,files){
-                this.form.divorceCertificate = response.extend.fileSystem.filePath;
+            divorceCertificate(res,file,files){
+                this.form.divorceCertificate = res.extend.fileSystem.filePath;
             },
             // 公司营业执照上传成功回调函数
-            companyBusinessLicense(response,file,files){
-                this.form.companyBusinessLicense = response.extend.fileSystem.filePath;
+            companyBusinessLicense(res,file,files){
+                this.form.companyBusinessLicense = res.extend.fileSystem.filePath;
             },
             // 公司规章制度上传成功回调函数
-            articlesAssoCompany(response,file,files){
-                this.form.articlesAssoCompany = response.extend.fileSystem.filePath;
+            articlesAssoCompany(res,file,files){
+                this.form.articlesAssoCompany = res.extend.fileSystem.filePath;
             },
             // 办公场所租赁合同上传成功回调函数
-            officeSpaceLeaseContract(response,file,files){
-                this.form.officeSpaceLeaseContract = response.extend.fileSystem.filePath;
+            officeSpaceLeaseContract(res,file,files){
+                this.form.officeSpaceLeaseContract = res.extend.fileSystem.filePath;
             },
             // 最近缴纳社保清单上传成功回调函数
-            paySocialInsurDetails(response,file,files){
-                this.form.paySocialInsurDetails = response.extend.fileSystem.filePath;
+            paySocialInsurDetails(res,file,files){
+                this.form.paySocialInsurDetails = res.extend.fileSystem.filePath;
             },
             // 房产证明上传成功回调函数
-            premisesPermit(response,file,files){
-                this.form.houses[this.house_index].premisesPermit = response.extend.fileSystem.filePath;
+            premisesPermit(res,file,files){
+                this.form.houses[this.house_index].premisesPermit = res.extend.fileSystem.filePath;
             },
             // 车辆行驶证上传成功回调函数
-            carDriveLicense(response,file,files){
-                this.form.cars[this.car_index].carDriveLicense = response.extend.fileSystem.filePath;
+            carDriveLicense(res,file,files){
+                this.form.cars[this.car_index].carDriveLicense = res.extend.fileSystem.filePath;
             },
 
             // 添加房产信息
@@ -693,28 +747,26 @@
             // 保存车辆数据
             saveCar() {
                 let _that = this;
-                let csrs = _that.form.cars;
-                console.log(csrs);
+                let cars = _that.form.cars;
+                console.log(cars);
                 if (this.form.isCar === 1) {
-                    for( let index in csrs) {
-                        console.log(index,csrs[index]);
-                        _that.$axios.post('api/authen/save/car',
+                    for( let car of cars) {
+                        if(car.carNumber != null && car.carNumber != ""){
+                            _that.$axios.post('api/authen/save/car',
                             _that.qs.stringify({
-                                fId: _that.form.id,
-                                carNumber: csrs[index].carNumber,
-                                carDriveLicense: csrs[index].carDriveLicense,
-                                carDesc: csrs[index].carDesc
+                                userId: _that.form.userId,
+                                number: car.carNumber,
+                                driveLicense: car.carDriveLicense,
+                                remarks: car.carDesc
                             })
-                        ).then(function (response) {
-                            console.log(response);
-                            // this.$router.push("business-manager-list")
-                        }).catch(function (error) {
-                            console.log(error);
-                        })
+                            ).then(function (res) {
+                                console.log(res);
+                            }).catch(function (error) {
+                                console.log(error);
+                            })
+                        }                        
                     };
                 }
-
-
             },
             // 保存房子数据
             saveHouse() {
@@ -722,41 +774,38 @@
                 let houses = _that.form.houses;
                 console.log(houses);
                 if (this.form.isHouse === 1) {
-                    for( let index in houses) {
-                        console.log(index,houses[index]);
-                        _that.$axios.post('api/authen/save/house',
-                            _that.qs.stringify({
-                                fId: _that.form.id,
-                                houseAddress: houses[index].houseAddress,
-                                premisesPermit: houses[index].premisesPermit,
-                                houseDesc: houses[index].houseDesc
+                    for( let house of houses) {
+                        if(house.houseAddress != null && house.houseAddress != ""){
+                            _that.$axios.post('api/authen/save/house',
+                                _that.qs.stringify({
+                                    userId: _that.form.userId,
+                                    address: house.houseAddress,
+                                    premisesPermit: house.premisesPermit,
+                                    remarks: house.houseDesc
+                                })
+                            ).then(function (res) {
+                                console.log(res);
+                            }).catch(function (error) {
+                                console.log(error);
                             })
-                        ).then(function (response) {
-                            console.log(response);
-                            // this.$router.push("business-manager-list")
-                        }).catch(function (error) {
-                            console.log(error);
-                        })
+                        }                        
                     };
                 }
-
-
             },
             // 保存数据
             save(){
+                let _this = this;
                 this.$axios.post('api/authen/save',
                     this.qs.stringify({
                         id: this.form.id,
-                        fid: this.form.id,
+                        userId: this.form.userId,
+                        name: this.form.name,
                         idCard: this.form.idCard,
                         bankCardNo: this.form.bankCardNo,
                         bank: this.form.bank,
                         bankCardPhone: this.form.bankCardPhone,
-                        cardType: this.cardType,
+                        cardTypeCode: this.cardType,
                         bankCode: this.bankCode,
-                        code: this.form.code,
-                        number: this.form.id,
-                        name: this.form.name,
                         domicile: this.form.domicile,
                         idCardSideFace: this.form.idCardSideFace,
                         idCardSideBack: this.form.idCardSideBack,
@@ -767,27 +816,27 @@
                         spouseName: this.form.spouseName,
                         spouseIdCard: this.form.spouseIdCard,
                         spouseDomicile: this.form.spouseDomicile,
-                        spouseIdCardSideFace: this.form.spouseIdCardSideFace,
-                        spouseIdCardSideBack: this.form.spouseIdCardSideBack,
-                        marriageCertificate: this.form.marriageCertificate,
-                        sHouseholdRegHome: this.form.sHouseholdRegHome,
-                        sHouseholdRegPersonal: this.form.sHouseholdRegPersonal,
-                        divorceCertificate: this.form.divorceCertificate,
+                        sidCardSideFace: this.form.spouseIdCardSideFace,
+                        sidCardSideBack: this.form.spouseIdCardSideBack,
+                        marriageCert: this.form.marriageCertificate,
+                        shouseholdRegHome: this.form.sHouseholdRegHome,
+                        shouseholdRegPersonal: this.form.sHouseholdRegPersonal,
+                        divorceCert: this.form.divorceCertificate,
                         companyName: this.form.companyName,
                         creditCode: this.form.creditCode,
                         companyBusinessLicense: this.form.companyBusinessLicense,
                         articlesAssoCompany: this.form.articlesAssoCompany,
                         officeSpaceLeaseContract: this.form.officeSpaceLeaseContract,
                         socialInsurCardNo: this.form.socialInsurCardNo,
-                        buySocialInsurCompany: this.form.buySocialInsurCompany,
-                        paySocialInsurDetails: this.form.paySocialInsurDetails,
+                        socialInsurCompany: this.form.buySocialInsurCompany,
+                        socialInsurDetails: this.form.paySocialInsurDetails,
                         isCar: this.form.isCar,
                         isHouse: this.form.isHouse,
                         isSocialecurity: this.form.isSocialecurity,
 
-                    }),{indices: false }).then(function (response) {
-                    console.log(response);
-                    // this.$router.push("business-manager-list")
+                    }),{indices: false }).then(function (res) {
+                    console.log(res);
+                    _this.step += 1;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -799,177 +848,42 @@
                 this.saveCar();
             },
 
-            // 获取银行名称
-            getBankName(bank){
-                let data = {
-                    "SRCB": "深圳农村商业银行",
-                    "BGB": "广西北部湾银行",
-                    "SHRCB": "上海农村商业银行",
-                    "BJBANK": "北京银行",
-                    "WHCCB": "威海市商业银行",
-                    "BOZK": "周口银行",
-                    "KORLABANK": "库尔勒市商业银行",
-                    "SPABANK": "平安银行",
-                    "SDEB": "顺德农商银行",
-                    "HURCB": "湖北省农村信用社",
-                    "WRCB": "无锡农村商业银行",
-                    "BOCY": "朝阳银行",
-                    "CZBANK": "浙商银行",
-                    "HDBANK": "邯郸银行",
-                    "BOC": "中国银行",
-                    "BOD": "东莞银行",
-                    "CCB": "中国建设银行",
-                    "ZYCBANK": "遵义市商业银行",
-                    "SXCB": "绍兴银行",
-                    "GZRCU": "贵州省农村信用社",
-                    "ZJKCCB": "张家口市商业银行",
-                    "BOJZ": "锦州银行",
-                    "BOP": "平顶山银行",
-                    "HKB": "汉口银行",
-                    "SPDB": "上海浦东发展银行",
-                    "NXRCU": "宁夏黄河农村商业银行",
-                    "NYNB": "广东南粤银行",
-                    "GRCB": "广州农商银行",
-                    "BOSZ": "苏州银行",
-                    "HZCB": "杭州银行",
-                    "HSBK": "衡水银行",
-                    "HBC": "湖北银行",
-                    "JXBANK": "嘉兴银行",
-                    "HRXJB": "华融湘江银行",
-                    "BODD": "丹东银行",
-                    "AYCB": "安阳银行",
-                    "EGBANK": "恒丰银行",
-                    "CDB": "国家开发银行",
-                    "TCRCB": "江苏太仓农村商业银行",
-                    "NJCB": "南京银行",
-                    "ZZBANK": "郑州银行",
-                    "DYCB": "德阳商业银行",
-                    "YBCCB": "宜宾市商业银行",
-                    "SCRCU": "四川省农村信用",
-                    "KLB": "昆仑银行",
-                    "LSBANK": "莱商银行",
-                    "YDRCB": "尧都农商行",
-                    "CCQTGB": "重庆三峡银行",
-                    "FDB": "富滇银行",
-                    "JSRCU": "江苏省农村信用联合社",
-                    "JNBANK": "济宁银行",
-                    "CMB": "招商银行",
-                    "JINCHB": "晋城银行JCBANK",
-                    "FXCB": "阜新银行",
-                    "WHRCB": "武汉农村商业银行",
-                    "HBYCBANK": "湖北银行宜昌分行",
-                    "TZCB": "台州银行",
-                    "TACCB": "泰安市商业银行",
-                    "XCYH": "许昌银行",
-                    "CEB": "中国光大银行",
-                    "NXBANK": "宁夏银行",
-                    "HSBANK": "徽商银行",
-                    "JJBANK": "九江银行",
-                    "NHQS": "农信银清算中心",
-                    "MTBANK": "浙江民泰商业银行",
-                    "LANGFB": "廊坊银行",
-                    "ASCB": "鞍山银行",
-                    "KSRB": "昆山农村商业银行",
-                    "YXCCB": "玉溪市商业银行",
-                    "DLB": "大连银行",
-                    "DRCBCL": "东莞农村商业银行",
-                    "GCB": "广州银行",
-                    "NBBANK": "宁波银行",
-                    "BOYK": "营口银行",
-                    "SXRCCU": "陕西信合",
-                    "GLBANK": "桂林银行",
-                    "BOQH": "青海银行",
-                    "CDRCB": "成都农商银行",
-                    "QDCCB": "青岛银行",
-                    "HKBEA": "东亚银行",
-                    "HBHSBANK": "湖北银行黄石分行",
-                    "WZCB": "温州银行",
-                    "TRCB": "天津农商银行",
-                    "QLBANK": "齐鲁银行",
-                    "GDRCC": "广东省农村信用社联合社",
-                    "ZJTLCB": "浙江泰隆商业银行",
-                    "GZB": "赣州银行",
-                    "GYCB": "贵阳市商业银行",
-                    "CQBANK": "重庆银行",
-                    "DAQINGB": "龙江银行",
-                    "CGNB": "南充市商业银行",
-                    "SCCB": "三门峡银行",
-                    "CSRCB": "常熟农村商业银行",
-                    "SHBANK": "上海银行",
-                    "JLBANK": "吉林银行",
-                    "CZRCB": "常州农村信用联社",
-                    "BANKWF": "潍坊银行",
-                    "ZRCBANK": "张家港农村商业银行",
-                    "FJHXBC": "福建海峡银行",
-                    "ZJNX": "浙江省农村信用社联合社",
-                    "LZYH": "兰州银行",
-                    "JSB": "晋商银行",
-                    "BOHAIB": "渤海银行",
-                    "CZCB": "浙江稠州商业银行",
-                    "YQCCB": "阳泉银行",
-                    "SJBANK": "盛京银行",
-                    "XABANK": "西安银行",
-                    "BSB": "包商银行",
-                    "JSBANK": "江苏银行",
-                    "FSCB": "抚顺银行",
-                    "HNRCU": "河南省农村信用",
-                    "COMM": "交通银行",
-                    "XTB": "邢台银行",
-                    "CITIC": "中信银行",
-                    "HXBANK": "华夏银行",
-                    "HNRCC": "湖南省农村信用社",
-                    "DYCCB": "东营市商业银行",
-                    "ORBANK": "鄂尔多斯银行",
-                    "BJRCB": "北京农村商业银行",
-                    "XYBANK": "信阳银行",
-                    "ZGCCB": "自贡市商业银行",
-                    "CDCB": "成都银行",
-                    "HANABANK": "韩亚银行",
-                    "CMBC": "中国民生银行",
-                    "LYBANK": "洛阳银行",
-                    "GDB": "广东发展银行",
-                    "ZBCB": "齐商银行",
-                    "CBKF": "开封市商业银行",
-                    "H3CB": "内蒙古银行",
-                    "CIB": "兴业银行",
-                    "CRCBANK": "重庆农村商业银行",
-                    "SZSBK": "石嘴山银行",
-                    "DZBANK": "德州银行",
-                    "SRBANK": "上饶银行",
-                    "LSCCB": "乐山市商业银行",
-                    "JXRCU": "江西省农村信用",
-                    "ICBC": "中国工商银行",
-                    "JZBANK": "晋中市商业银行",
-                    "HZCCB": "湖州市商业银行",
-                    "NHB": "南海农村信用联社",
-                    "XXBANK": "新乡银行",
-                    "JRCB": "江苏江阴农村商业银行",
-                    "YNRCC": "云南省农村信用社",
-                    "ABC": "中国农业银行",
-                    "GXRCU": "广西省农村信用",
-                    "PSBC": "中国邮政储蓄银行",
-                    "BZMD": "驻马店银行",
-                    "ARCU": "安徽省农村信用社",
-                    "GSRCU": "甘肃省农村信用",
-                    "LYCB": "辽阳市商业银行",
-                    "JLRCU": "吉林农信",
-                    "URMQCCB": "乌鲁木齐市商业银行",
-                    "XLBANK": "中山小榄村镇银行",
-                    "CSCB": "长沙银行",
-                    "JHBANK": "金华银行",
-                    "BHB": "河北银行",
-                    "NBYZ": "鄞州银行",
-                    "LSBC": "临商银行",
-                    "BOCD": "承德银行",
-                    "SDRCU": "山东农信",
-                    "NCB": "南昌银行",
-                    "TCCB": "天津银行",
-                    "WJRCB": "吴江农商银行",
-                    "CBBQS": "城市商业银行资金清算中心",
-                    "HBRCU": "河北省农村信用社"
-                }
-                return data[bank];
+            /**
+             * 保存银行卡信息
+             */
+            saveBankCard(){
+                this.$refs['form'].validate((valid) => {
+                    console.log(valid);
+                    if(!valid){
+                        return;
+                    }
+                    let _this = this;
+                    this.$axios.post('api/authen/bankCard/save',
+                        _this.qs.stringify({
+                            userId: _this.form.id,
+                            realName: _this.form.name,
+                            idCard: _this.form.idCard,
+                            accountNo: _this.form.bankCardNo,
+                            phone: _this.form.bankCardPhone,
+                            bankCode: _this.bankCode,
+                            bank: _this.form.bank,
+                            cardTypeCode: _this.cardType,
+                        })
+                    ).then(function (res) {
+                        console.log(res);
+                    }).catch(function (error) {
+                        console.log(error);
+                    }) 
+                });                                           
             },
+
+            /**
+             * 进入首页
+             */
+            goHome(){
+                this.$router.push("/home2");
+                localStorage.setItem("authenStatus", 1)
+            }
         }
     }
 

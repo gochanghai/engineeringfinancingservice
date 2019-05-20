@@ -19,32 +19,32 @@
                                 </div>
                                 <div class="content-info-box">
                                     <div class="form-box">
-                                        <el-form label-width="100px" :model="form" :rules="rules">
+                                        <el-form label-width="100px" :model="form" :rules="rules" ref="form">
                                             <el-form-item label="申请编号：" >
-                                                <el-input v-model="applyNo" style="width: 200px" disabled/>
+                                                <el-input v-model="form.applyNo" style="width: 300px" disabled/>
                                             </el-form-item>
                                             <el-form-item label="申请日期：">
-                                                <el-input v-model="date" style="width: 200px" disabled/>
+                                                <el-input v-model="form.applyDate" style="width: 300px" disabled/>
                                                 <!--<el-date-picker type="date" placeholder="选择日期" value-format="yyyy-MM-dd" v-model="date" style="width: 200px"></el-date-picker>-->
                                             </el-form-item>
                                             <el-form-item label="申请人：">
-                                                <el-input v-model="name" style="width: 200px"/>
+                                                <el-input v-model="form.name" style="width: 300px" disabled/>
                                             </el-form-item>
-                                            <el-form-item label="项目名称：" prop="pId">
-                                                <el-select v-model="pId" placeholder="请选择">
+                                            <el-form-item label="项目名称：" prop="projectId">
+                                                <el-select v-model="form.projectId" placeholder="请选择" style="width: 300px">
                                                     <el-option v-for="item in projectList" :key="item.id" :label="item.projectName" :value="item.id"></el-option>
                                                 </el-select>
                                             </el-form-item>
-                                            <el-form-item label="合同编号：">
-                                                <el-input v-model="contractNo" style="width: 200px"/>
+                                            <el-form-item label="合同编号：" prop="projectNo">
+                                                <el-input v-model="form.projectNo" style="width: 300px"/>
                                             </el-form-item>
                                             <el-form-item label="申请额度：" prop="applyAmount">
-                                                <el-input v-model="form.applyAmount" style="width: 200px"/>
+                                                <el-input v-model="form.applyAmount" style="width: 300px"/>
                                             </el-form-item>
-                                            <el-form-item label="申请事由：">
-                                                <el-input type="textarea" rows="5" v-model="form.originIncident"/>
+                                            <el-form-item label="申请事由：" prop="reason">
+                                                <el-input type="textarea" rows="5" v-model="form.reason"/>
                                             </el-form-item>
-                                            <el-form-item label="银行流水：">
+                                            <el-form-item label="银行流水：" prop="bankWater">
                                                 <div class="file-box">
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
                                                         <el-upload
@@ -53,7 +53,7 @@
                                                                 :action="uploadPath"
                                                                 :on-success="bankListFile"
                                                                 :show-file-list="false">
-                                                            <img v-if="form.bankListFile !== null" class="avatar" :src=" filesystem + form.bankListFile">
+                                                            <img v-if="form.bankWater !== null" class="avatar" :src=" filesystem + form.bankWater">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
@@ -73,7 +73,7 @@
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="onReturn">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
-                        <div class="info-bottom-btn2" @click="saveAndSubmit">保存并提交</div>
+                        <div class="info-bottom-btn2"  @click="saveAndSubmit">保存并提交</div>
                     </div>
                 </el-card>
             </el-col>
@@ -107,37 +107,35 @@
                 }, 1000);
             };
             return {
-                name: localStorage.getItem('ms_username'),
                 uploadPath: localStorage.getItem("uploadPath"),
-                filesystem: localStorage.getItem("fileBasePath"),
-                userId: localStorage.getItem('userId'),
-                userName: localStorage.getItem('user_name'),
-                applyNo: formatDate(new Date(),'yyyyMMdd') + new Date().getTime(),
+                filesystem: localStorage.getItem("fileBasePath"),               
                 projectList: [],
-                creditNo: null,
-                creditAmount: 0,
-                date: formatDate(new Date(),'yyyy-MM-dd'),
-                pId: null,
-                contractNo: null,
-                applyAmount: null,
-                originIncident: null,
                 form:{
-                    pId: null,
+                    id: "",
+                    userId: localStorage.getItem('userId'),
+                    applyNo: formatDate(new Date(),'yyyyMMdd') + new Date().getTime(),
+                    applyDate: formatDate(new Date(),'yyyy-MM-dd'),
+                    name: localStorage.getItem('user_name'),
+                    projectId: null,
+                    projectNo: '',
                     applyAmount: null,
-                    originIncident: null,
-                    bankListFile: null,
+                    reason: null,
+                    bankWater: null,
                 },
                 rules: {
-                    pId: [
+                    projectId: [
                         { required: true, message: '请选择项目', trigger: 'blur' },
                     ],
                     applyAmount: [
                         { required: true, message: '请输入申请授信额度', trigger: 'blur' },
                         { validator:  checkCreditAmount, trigger: 'blur' }
                     ],
-                    originIncident: [
+                    reason: [
                         { required: true, message: '请输入申请事由', trigger: 'blur' },
-                    ]
+                    ],
+                    bankWater:[
+                        { required: true, message: '请输上传银行流水', trigger: 'blur' },
+                    ],
                 },
                 status: 0,
                 isAgree: false,
@@ -145,25 +143,26 @@
         },
         // 监听器
         watch: {
-            pId:function(val) {
+            'form.projectId':function(val) {
                 let _than = this;
                 for (let item in _than.projectList) {
                     console.log("foreach: " + item);
-                    if (_than.projectList[item].id === _than.pId) {
-                        _than.contractNo = _than.projectList[item].contractNo;
+                    if (_than.projectList[item].id === _than.form.projectId) {
+                        _than.form.projectNo = _than.projectList[item].contractNo;
                         _than.form.applyAmount = _than.projectList[item].shouldCreditAmount;
-                        _than.creditAmount = _than.projectList[item].shouldCreditAmount;
-                        _than.form.pId = val;
                     }
                 }
             },
+
         },
         components: {
         },
         computed: {
         },
         created(){
-            this.getProjectList();
+            let userId = this.form.userId;
+            this.getProjectList(userId);
+            this.getNameAndIdCard(userId);
         },
         activated(){
         },
@@ -171,22 +170,38 @@
         },
         methods: {
             // 获取项目数据
-            getProjectList(){
+            getProjectList(userId){
                 let _than = this;
                 this.$axios.get('api/project/list/bm',{params:{
-                        userId: _than.userId
-                    }}).then((response)=> {
-                    console.log(response);
-                    _than.projectList = response.data.extend.list;
-                    _than.creditNo = response.data.extend.applyNo;
+                        userId: userId
+                    }}).then(res=> {
+                    console.log(res);
+                    _than.projectList = res.data.extend.list;
+                    _than.creditNo = res.data.extend.applyNo;
                 }).catch(function (error) {
 
                 });
             },
 
+            /**
+             * 获取用户信息
+             */
+            getNameAndIdCard(userId){
+                let _than = this;
+                this.$axios.get('api/business/user_id',{params:{
+                        userId: userId
+                    }}).then(function (res) {
+                    console.log(res);
+                    _than.form.name = res.data.extend.name;
+                    _than.form.idCard = res.data.extend.idCard;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+
             // 银行流水上传成功回调函数
-            bankListFile(response,file,files){
-                this.form.bankListFile = response.extend.fileSystem.filePath;
+            bankListFile(res,file,files){
+                this.form.bankWater = res.extend.fileSystem.filePath;
             },
 
             // 返回
@@ -195,28 +210,35 @@
             },
             // 保存
             save(){
-                // this.$refs['form'].validate((valid) => {
-                //     if (!valid) {
-                //         return;
-                //     }
-                // });
+                this.$refs['form'].validate((valid) => {
+                    if (!valid) {
+                        return;
+                    }
+                });
                 let _than = this;
-                this.$axios.post('api/credit/save',
+                let URL = "api/credit/apply/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
                         {
-                            date: this.date,
-                            creditNo: this.creditNo,
-                            fId: this.userId,
+                            applyDate: this.form.applyDate,
+                            applyNo: this.form.applyNo,
+                            userId: this.form.userId,
+                            name: this.form.name,
                             applyAmount: this.form.applyAmount,
-                            pId: this.form.pId,
-                            contractNo: this.contractNo,
-                            originIncident: this.form.originIncident,
-                            bankListFile: this.bankListFile,
+                            projectId: this.form.projectId,
+                            projectNo: this.projectNo,
+                            reason: this.form.reason,
+                            bankWater: this.form.bankWater,
                             status: this.status,
                         }
-                    )).then(function (response) {
+                    )).then(function (res) {
                     _than.$router.push("my-credit-el");
-                    console.log(response);
+                    console.log(res);
                 }).catch(function (error) {
                     console.log(error);
                 });

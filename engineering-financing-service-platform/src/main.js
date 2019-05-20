@@ -15,6 +15,7 @@ Vue.use(ElementUI, {
     size: 'small'
 });
 Vue.prototype.$axios = axios;
+// axios.defaults.baseURL = 'http://119.23.105.191:8088/';
 axios.defaults.baseURL = 'http://192.168.1.101:8088/';
 Vue.prototype.qs = Qs;
 

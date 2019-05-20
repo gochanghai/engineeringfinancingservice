@@ -7,7 +7,7 @@
         <div class="logo" v-show="!collapse">
             <!--<img src="../../../static/img/logo.png">-->
             <!--后台管理系统-->
-            <div class="logo-name">工程融资平台</div>
+            <div class="logo-name">工程投融资平台</div>
         </div>
         <div class="header-right">
             <div class="header-user-con">
@@ -69,7 +69,11 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                     localStorage.removeItem('ms_username')
+                    // 清除缓存
+                    localStorage.clear();
                     this.$router.push('/login');
+                    // 刷新缓存
+                    this.$router.go("/login");
                 }
             },
             // 侧边栏折叠
@@ -155,7 +159,7 @@
     }
     .header-right{
         float: right;
-        padding-right: 50px;
+        padding-right: 20px;
         color: #303133;
     }
     .header-user-con{

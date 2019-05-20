@@ -28,7 +28,7 @@ public class ProjectOtherController {
      * @param other
      * @return
      */
-    @PostMapping("other")
+    @PostMapping("other/insert")
     public Msg save(ProjectOther other){
         System.out.println("保存项目数据");
         boolean b = projectOtherService.save(other);
@@ -43,7 +43,7 @@ public class ProjectOtherController {
      * @param other
      * @return
      */
-    @PutMapping("other")
+    @PostMapping("other/update")
     public Msg update(ProjectOther other){
         System.out.println("更新项目其它信息");
         boolean b = projectOtherService.updateById(other);

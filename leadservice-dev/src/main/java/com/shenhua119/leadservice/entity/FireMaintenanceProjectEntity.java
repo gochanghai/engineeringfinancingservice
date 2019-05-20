@@ -22,7 +22,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("tb_fire_maintenance_project")
+@TableName("fire_maintenance_project")
 public class FireMaintenanceProjectEntity {
 
     /**

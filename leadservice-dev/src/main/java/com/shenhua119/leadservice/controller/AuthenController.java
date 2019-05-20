@@ -44,16 +44,16 @@ public class AuthenController {
      * @param id
      * @return
      */
-    @GetMapping("bm_info_details")
+    @GetMapping("bm_info")
     public Msg getBusinessManagerInfo(Long id){
-        System.out.println("bm_info_details: " + id);
-        BusinessManager financier = businessManagerService.getById(id);
-        BusinessManagerAuthen authen = financierAuthenService.getById(id);
-        List<Car> cars = financierCarInfoService.list(new QueryWrapper<Car>().eq("f_id", id));
-        List<House> houses = financierHouseInfoService.list(new QueryWrapper<House>().eq("f_id", id));
+        System.out.println("bm_info: " + id);
+        BusinessManager regInfo = businessManagerService.getById(id);
+        BusinessManagerAuthen authenInfo = financierAuthenService.getById(id);
+        List<Car> cars = financierCarInfoService.list(new QueryWrapper<Car>().eq("user_id", id));
+        List<House> houses = financierHouseInfoService.list(new QueryWrapper<House>().eq("user_id", id));
         return Msg.success()
-                .add("baseinfo",financier)
-                .add("authenInfo",authen)
+                .add("reginfo",regInfo)
+                .add("authenInfo",authenInfo)
                 .add("cars",cars)
                 .add("houses",houses);
     }
@@ -148,8 +148,13 @@ public class AuthenController {
         logger.info(bankCard.toString());
         bankCard.setUserId(business.getId()).setPhone(business.getBankCardPhone()).setAccountNo(business.getBankCardNo());
         business.setStatus(2);
-        boolean res = financierAuthenService.updateById(business);
-        bankCardService.updateById(bankCard);
+        boolean res = financierAuthenService.save(business);
+        if(res){
+            BusinessManager bm = new BusinessManager();
+            bm.setId(business.getUserId()).setStatus(1);
+            res = businessManagerService.updateById(bm);
+        }
+        bankCardService.save(bankCard);
         if(res){
             return Msg.success();
         }
@@ -165,7 +170,7 @@ public class AuthenController {
     public Msg saveCar(Car car){
         logger.info(car.toString());
         System.out.println("save car " + car.toString());
-        boolean res = financierCarInfoService.saveOrUpdate(car);
+        boolean res = financierCarInfoService.save(car);
         if(res){
             return Msg.success();
         }
@@ -181,7 +186,7 @@ public class AuthenController {
     public Msg saveHouse(House house){
         logger.info(house.toString());
         System.out.println("save house" + house.toString());
-        boolean res = financierHouseInfoService.saveOrUpdate(house);
+        boolean res = financierHouseInfoService.save(house);
         if(res){
             return Msg.success();
         }

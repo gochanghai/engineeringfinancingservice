@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("list")
     public Msg getCompanyUserById(Long id){
         System.out.println("用户" + id + " 获取账号");
-        List<User> list = userService.list(new QueryWrapper<User>().eq("user_info_id", id));
+        List<User> list = userService.findCompanyUsers(id);
         return Msg.success().add("list", list);
     }
 
@@ -108,6 +108,7 @@ public class UserController {
                     .add("companyId",companyId)
                     .add("nickname", user.getNickname())
                     .add("status", user.getStatus())
+                    .add("userType", user.getUserType())
                     .add("fileBasePath",fileBasePath);
         }
         return Msg.fail();

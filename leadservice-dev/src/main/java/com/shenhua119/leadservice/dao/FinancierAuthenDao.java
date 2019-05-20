@@ -11,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FinancierAuthenDao extends BaseMapper<BusinessManagerAuthen> {
 
+    BusinessManagerAuthen selectAuthDetailByUserId(Long userId);
+
 }

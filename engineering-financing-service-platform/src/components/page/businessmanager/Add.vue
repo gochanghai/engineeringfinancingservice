@@ -50,7 +50,7 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="onReturn">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
@@ -221,8 +221,7 @@
             },
             // 返回
             onReturn() {
-                this.$message.success('返回！');
-                this.$router.push("business-manager-list")
+                this.$router.go(-1);
             },
             // 保存
             save(){
@@ -249,8 +248,8 @@
                             rateDesc: this.form.rateDesc,
                             status: this.form.status,
                         }
-                    )).then(function (response) {
-                    console.log(response);
+                    )).then(res => {
+                    console.log(res);
                     this.$router.push("business-manager-list")
                 }).catch(function (error) {
                     console.log(error);

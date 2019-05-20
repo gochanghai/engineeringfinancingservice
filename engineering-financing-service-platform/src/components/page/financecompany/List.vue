@@ -25,7 +25,7 @@
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">详情信息</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -105,7 +105,7 @@
                 //
                 console.log(projectId);
                 this.$router.push({
-                    path:'businessmanager-info-details?id=' + projectId
+                    path:'financecompany-info?id=' + projectId
                 })
             },
             // 添加

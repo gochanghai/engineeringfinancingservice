@@ -28,7 +28,7 @@ public class ProjectPaymentController {
      * @param payment
      * @return
      */
-    @PutMapping("payment")
+    @PostMapping("payment/update")
     public Msg update(ProjectPayment payment){
         boolean b = projectPaymentService.updateById(payment);
         if (b){
@@ -42,7 +42,7 @@ public class ProjectPaymentController {
      * @param payment
      * @return
      */
-    @PostMapping("payment")
+    @PostMapping("payment/insert")
     public Msg save(ProjectPayment payment){
         boolean result = projectPaymentService.save(payment);
         if (result){

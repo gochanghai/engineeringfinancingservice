@@ -3,8 +3,6 @@ package com.shenhua119.leadservice.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,8 +15,6 @@ import java.util.Date;
  * 贷款审批信息
  */
 @Data
-@Getter
-@Setter
 @Accessors(chain = true)
 @TableName("project_credit_examineapprove")
 public class CreditExamineapprove {
@@ -59,6 +55,9 @@ public class CreditExamineapprove {
     /** 贷后管理 */
     private String afterLoandesc;
 
+    /** 审批人 */
+    private String name;
+
     /** 授信开始日期 */
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -74,5 +73,8 @@ public class CreditExamineapprove {
 
     /** 审批时间 */
     private Date createTime;
+
+    /** 标题 */
+    private String title;
 
 }

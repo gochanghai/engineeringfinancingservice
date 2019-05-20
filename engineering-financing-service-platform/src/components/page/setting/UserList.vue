@@ -14,7 +14,7 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" >
                             <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
                             <el-table-column type="index" label="序号" width="100" align="center"/>
-                            <el-table-column prop="userName" label="用户名"/>
+                            <el-table-column prop="username" label="用户名"/>
                             <el-table-column prop="phone" label="手机号" align="center"/>
                             <el-table-column prop="" label="类别" align="center">
                                 <template slot-scope="scope">
@@ -28,8 +28,8 @@
                             </el-table-column>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">修改密码</el-tag></el-button>
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">停止</el-tag></el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">修改密码</el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">停止</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -46,10 +46,10 @@
 
 <script>
     export default {
-        name: 'my-project-list',
+        name: 'user-list',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('companyId'),
                 loading: true,
                 tableData: [],
                 cur_page: 1,
@@ -62,7 +62,6 @@
             }
         },
         created() {
-            // this.getData();
             // 获取Table数据
             this.getDataList();
         },
@@ -93,13 +92,12 @@
                 this.getData();
             },
             getDataList(){
-                let _than = this;
-                this.$axios.get('user/list',{params:{
+                this.$axios.get('api/user/list',{params:{
                         id: this.userId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
-                    _than.loading= false;
+                    }}).then(res => {
+                    console.log(res);
+                    this.tableData = res.data.extend.list;
+                    this.loading= false;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -113,8 +111,6 @@
 
             // 查看详情信息
             detailsInfo(projectId){
-                //
-                console.log(projectId);
                 this.$router.push({
                     path:'businessmanager-info-details?id=' + projectId
                 })

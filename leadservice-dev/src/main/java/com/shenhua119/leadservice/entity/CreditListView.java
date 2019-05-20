@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -16,14 +14,16 @@ import java.util.Date;
  */
 
 @Data
-@Getter
-@Setter
 @Accessors(chain = true)
 public class CreditListView {
 
     // 主键ID
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
+
+    // 项目ID
+    @JsonSerialize(using= ToStringSerializer.class)
+    private Long projectId;
 
     // 授信编号
     private String applyNo;

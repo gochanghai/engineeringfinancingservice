@@ -28,7 +28,7 @@ public class ProjectCostController {
      * @param cost
      * @return
      */
-    @PutMapping("cost")
+    @PostMapping("cost/update")
     public Msg update(ProjectCost cost){
         boolean b = projectCostService.updateById(cost);
         if (b){
@@ -42,7 +42,7 @@ public class ProjectCostController {
      * @param cost
      * @return
      */
-    @PostMapping("cost")
+    @PostMapping("cost/insert")
     public Msg save(ProjectCost cost){
         boolean result = projectCostService.save(cost);
         if (result){

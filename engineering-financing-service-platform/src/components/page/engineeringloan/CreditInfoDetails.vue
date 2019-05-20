@@ -9,6 +9,14 @@
                     <!-- 进度条 -->
                     <div class="info-box">
                         <div class="steps-box">
+                            <ul class="step">
+                                <li v-for="(item, index) in getStepStatusList" :key="index" :class="item.class">
+                                    {{item.name}}
+                                    <div class="triangle"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="steps-box" v-show="false">
                             <!--<div class="triangle"></div>-->
                             <ul class="step">
                                 <li class="active">
@@ -52,26 +60,26 @@
                                     <table border="1">
                                     <tr>
                                         <td rowspan="3" class="person">
-                                            <p>申请人：{{financierInfo.name}}</p>
+                                            <p>申请人：{{applyInfo.name}}</p>
                                             <p>申请额度：{{applyInfo.applyAmount}}万元</p>
                                         </td>
                                         <td class="align-r">申请日期</td>
-                                        <td class="align-l">{{applyInfo.date}}</td>
+                                        <td class="align-l">{{applyInfo.applyDate}}</td>
                                         <td class="align-r">申请编号</td>
-                                        <td class="align-l">{{applyInfo.creditNo}}</td>
+                                        <td class="align-l">{{applyInfo.applyNo}}</td>
                                         <td class="align-r">项目名称</td>
-                                        <td class="align-l">{{applyInfo.applyAmount}}</td>
+                                        <td class="align-l">{{projectInfo.projectName}}</td>
                                         <td class="align-r">项目合同编号</td>
-                                        <td class="align-l">{{applyInfo.contractNo}}</td>
+                                        <td class="align-l">{{projectInfo.contractNo}}</td>
                                     </tr>
                                     <tr>
                                         <td class="align-r">申请事由</td>
-                                        <td colspan="7" class="align-l">{{applyInfo.originIncident}}</td>
+                                        <td colspan="7" class="align-l">{{applyInfo.reason}}</td>
                                     </tr>
                                     <tr>
                                         <td class="align-r">个人近12个月银行流水</td>
                                         <td colspan="7" class="img">
-                                            <img :src="fileUrl + applyInfo.bankListFile">
+                                            <img :src="fileUrl + applyInfo.bankWater">
                                             <!--<img src="../../../../static/img/gcd.png">-->
                                             <!--<img src="../../../../static/img/gcd.png">-->
                                             <!--<img src="../../../../static/img/gcd.png">-->
@@ -96,12 +104,12 @@
                                 <div class="content-info-box">
                                     <el-form>
                                         <el-form-item label="甲方名称：" style="margin-bottom: 0">{{projectContractInfo.partyAName}}</el-form-item>
-                                        <el-form-item label="项目地址：" style="margin-bottom: 0">{{projectContractInfo.projectAdress}}</el-form-item>
+                                        <el-form-item label="项目地址：" style="margin-bottom: 0">{{projectContractInfo.address}}</el-form-item>
                                         <el-form-item label="合同金额：" style="margin-bottom: 0"> {{projectInfo.contractAmount}}</el-form-item>
                                         <el-form-item label="预计结算金额：" style="margin-bottom: 0">{{projectContractInfo.shouldClearAmount}}</el-form-item>
                                         <el-form-item label="保函要求：" style="margin-bottom: 0">{{projectContractInfo.guaranteeClaim}}</el-form-item>
-                                        <el-form-item label="施工期限：" style="margin-bottom: 0">{{projectContractInfo.constructionStartDate}} 至 {{projectContractInfo.constructionEndDate}}</el-form-item>
-                                        <el-form-item label="项目施工进度：" style="margin-bottom: 0">{{projectInfo.projectProgress}}</el-form-item>
+                                        <el-form-item label="施工期限：" style="margin-bottom: 0">{{projectContractInfo.startDate}} 至 {{projectContractInfo.endDate}}</el-form-item>
+                                        <el-form-item label="项目施工进度：" style="margin-bottom: 0">{{projectInfo.projectProgress}}%</el-form-item>
                                         <el-form-item label="项目结算方式：" style="margin-bottom: 0">{{projectContractInfo.clearType}}</el-form-item>
                                         <el-form-item label="项目付款方式" style="margin-bottom: 0;"></el-form-item>
                                         <el-form-item style="width: 900px; margin-bottom: 0">
@@ -186,37 +194,37 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="前期累计开票额：" style="margin-bottom: 0">{{projectPaymentInfo.sumBillAmount}}万</el-form-item>
+                                        <el-form-item label="前期累计开票额：" style="margin-bottom: 0">{{projectPaymentInfo.totalBillAmount}}万</el-form-item>
                                         <el-form-item>
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + projectPaymentInfo.invoiceFile" class="image">
+                                                    <img :src="fileUrl + projectPaymentInfo.invoice" class="image">
                                                     <span>发票凭证</span>
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="前期累计回款额：" style="margin-bottom: 0">{{projectPaymentInfo.sumPaybackAmount}}万</el-form-item>
+                                        <el-form-item label="前期累计回款额：" style="margin-bottom: 0">{{projectPaymentInfo.totalPaybackAmount}}万</el-form-item>
                                         <el-form-item>
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + projectPaymentInfo.transferFile" class="image">
+                                                    <img :src="fileUrl + projectPaymentInfo.transfer" class="image">
                                                     <span>转账凭证</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + projectPaymentInfo.transferToInvoiceFile" class="image">
+                                                    <img :src="fileUrl + projectPaymentInfo.transferInvoice" class="image">
                                                     <span>对应发票凭证</span>
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="前期累计付款额：" style="margin-bottom: 0">{{projectPaymentInfo.sumPaymentAmount}}万</el-form-item>
+                                        <el-form-item label="前期累计付款额：" style="margin-bottom: 0">{{projectPaymentInfo.totalPaymentAmount}}万</el-form-item>
                                         <el-form-item>
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + projectPaymentInfo.buyContractFile" class="image">
+                                                    <img :src="fileUrl + projectPaymentInfo.purchaseContract" class="image">
                                                     <span>采购合同</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + projectPaymentInfo.buyInvoiceFile" class="image">
+                                                    <img :src="fileUrl + projectPaymentInfo.purchaseInvoice" class="image">
                                                     <span>采购发票</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
@@ -273,10 +281,10 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="姓名：" style="margin-bottom: 0">{{financierInfo.name}}</el-form-item>
-                                        <el-form-item label="身份证号：" style="margin-bottom: 0">{{financierInfo.idCard}}</el-form-item>
+                                        <el-form-item label="姓名：" style="margin-bottom: 0">{{authenInfo.name}}</el-form-item>
+                                        <el-form-item label="身份证号：" style="margin-bottom: 0">{{authenInfo.idCard}}</el-form-item>
                                         <el-form-item label="户籍所在地：" style="margin-bottom: 0"> {{authenInfo.domicile}}</el-form-item>
-                                        <el-form-item label="手机号码：" style="margin-bottom: 0">{{financierInfo.phone}}</el-form-item>
+                                        <el-form-item label="手机号码：" style="margin-bottom: 0">{{authenInfo.bankCardPhone}}</el-form-item>
                                         <el-form-item label="银行卡号：" style="margin-bottom: 0">{{authenInfo.bankCardNo}}</el-form-item>
                                         <el-form-item label="开户行：" style="margin-bottom: 0">{{authenInfo.bank}}</el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
@@ -319,27 +327,27 @@
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.spouseIdCardSideFace" class="image">
+                                                    <img :src="fileUrl + authenInfo.sidCardSideFace" class="image">
                                                     <span>配偶身份证正面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.spouseIdCardSideBack" class="image">
+                                                    <img :src="fileUrl + authenInfo.sidCardSideBack" class="image">
                                                     <span>配偶身份证反面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.marriageCertificate" class="image">
+                                                    <img :src="fileUrl + authenInfo.marriageCert" class="image">
                                                     <span>结婚证</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.sHouseholdRegHome" class="image">
+                                                    <img :src="fileUrl + authenInfo.shouseholdRegHome" class="image">
                                                     <span>配偶户口本主页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.sHouseholdRegPersonal" class="image">
+                                                    <img :src="fileUrl + authenInfo.shouseholdRegPersonal" class="image">
                                                     <span>配偶户口本个人页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" hidden class="card-file">
-                                                    <img :src="fileUrl + authenInfo.divorceCertificate" class="image">
+                                                    <img :src="fileUrl + authenInfo.divorceCert" class="image">
                                                     <span>离婚证</span>
                                                 </el-card>
                                             </div>
@@ -383,11 +391,11 @@
                                 <div class="content-info-box">
                                     <el-form>
                                         <el-form-item label="社保电脑号：" style="margin-bottom: 0">{{authenInfo.socialInsurCardNo }}</el-form-item>
-                                        <el-form-item label="当前购买社保公司：" style="margin-bottom: 0">{{authenInfo.buySocialInsurCompany }}</el-form-item>
+                                        <el-form-item label="当前购买社保公司：" style="margin-bottom: 0">{{authenInfo.socialInsurCompany }}</el-form-item>
                                         <el-form-item label="近一年缴纳社保清单：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.paySocialInsurDetails" class="image">
+                                                    <img :src="fileUrl + authenInfo.socialInsurDetails" class="image">
                                                     <!--<span>社保清单</span>-->
                                                 </el-card>
                                             </div>
@@ -401,34 +409,34 @@
                                 </div>
                                 <!-- 房产信息 -->
                                 <div class="content-info-box">
-                                    <el-form>
-                                        <el-form-item label="房产 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="房产所在地：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                    <el-form v-for="(house, index) in authenInfo.houses" :key="index">
+                                        <el-form-item :label="'房产 - '+ (index+1)" style="margin-bottom: 0"></el-form-item>
+                                        <el-form-item label="房产所在地：" style="margin-bottom: 0">{{house.address}}</el-form-item>
                                         <el-form-item label="房产证明：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.paySocialInsurDetails" class="image">
+                                                    <img :src="fileUrl + house.premisesPermit" class="image">
                                                     <!--<span>房产证明</span>-->
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="房产说明：" style="margin-bottom: 0">房产说明</el-form-item>
+                                        <el-form-item label="房产说明：" style="margin-bottom: 0">{{house.remarks}}</el-form-item>
                                     </el-form>
                                 </div>
                                 <!-- 车辆信息 -->
                                 <div class="content-info-box">
-                                    <el-form>
-                                        <el-form-item label="车辆 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="车牌号：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                    <el-form v-for="(car, index) in authenInfo.cars" :key="index">
+                                        <el-form-item :label="'车辆 - '+ (index+1)" style="margin-bottom: 0"></el-form-item>
+                                        <el-form-item label="车牌号：" style="margin-bottom: 0">{{car.number}}</el-form-item>
                                         <el-form-item label="车辆行驶证：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="fileUrl + authenInfo.paySocialInsurDetails" class="image">
+                                                    <img :src="fileUrl + car.driveLicense" class="image">
                                                     <!--<span>车辆行驶证</span>-->
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="车辆说明：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                        <el-form-item label="车辆说明：" style="margin-bottom: 0">{{car.remarks}}</el-form-item>
                                     </el-form>
                                 </div>
                             </div>
@@ -440,108 +448,31 @@
                         <div class="info-btn-box">
                             <div class="is-show-btn" @click="isPackUpReplyInfo = !isPackUpReplyInfo">{{ isPackUpReplyInfo ==  true ? '展开' :'收起'}}</div>
                             <div v-show="!isPackUpReplyInfo">
-                                <!-- 担保审批 -->
-                                <div class="info-content">
-                                    <div class="approve-title-box">
-                                        <div class="approve-title-left">担保评估结果</div>
-                                        <div class="approve-title-right">评估人：习总   评估时间：2019-01-01 19:30:26</div>
-                                    </div>
-                                    <!-- 审批意见 -->
-                                    <div class="approve-content-box">
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">是否可授信</div>
-                                            <div class="approve-item-right">是</div>
+                                <!-- 审批 -->
+                                <div v-for="(item, index) in approveList" :key="index">
+                                    <div class="info-content" >
+                                        <div class="approve-title-box">
+                                            <div class="approve-title-left">{{item.title}}</div>
+                                            <div class="approve-title-right">评估人：{{item.name}}   评估时间：{{item.createTime}}</div>
                                         </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">授信金额</div>
-                                            <div class="approve-item-right">300万元</div>
+                                        <!-- 评估结果 -->
+                                        <div class="approve-content-box">
+                                            <div class="approve-item" v-for=" (item2, index) in item.list" :key="index">
+                                                <div class="approve-item-left">{{item2.lable}}</div>
+                                                <div class="approve-item-right">{{item2.value}}</div>
+                                            </div>
                                         </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">授信期限</div>
-                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">还款方式（建议）</div>
-                                            <div class="approve-item-right">0000000是</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">内控要点</div>
-                                            <div class="approve-item-right">是0000000000000</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">贷后管理</div>
-                                            <div class="approve-item-right">是0000000000000</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 平台审批 -->
-                                <div class="info-content">
-                                    <div class="approve-title-box">
-                                        <div class="approve-title-left">平台审批结果</div>
-                                        <div class="approve-title-right">审批人：习总   审批时间：2019-01-01 19:30:26</div>
-                                    </div>
-                                    <!-- 审批意见 -->
-                                    <div class="approve-content-box" style="height: 160px">
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">是否可授信</div>
-                                            <div class="approve-item-right">是</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">补充意见</div>
-                                            <div class="approve-item-right">经核对，资料均符合要求，同意授信。</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">拒接原因</div>
-                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">退回原因</div>
-                                            <div class="approve-item-right">0000000是</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 资金方审批 -->
-                                <div class="info-content">
-                                    <div class="approve-title-box">
-                                        <div class="approve-title-left">资金方批复结果</div>
-                                        <div class="approve-title-right">批复人：习总   批复时间：2019-01-01 19:30:26</div>
-                                    </div>
-                                    <!-- 审批意见 -->
-                                    <div class="approve-content-box">
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">是否可授信</div>
-                                            <div class="approve-item-right">是</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">授信金额</div>
-                                            <div class="approve-item-right">300万元</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">授信期限</div>
-                                            <div class="approve-item-right">2019-01-01 至 2020-12-31</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">还款方式（建议）</div>
-                                            <div class="approve-item-right">0000000是</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">内控要点</div>
-                                            <div class="approve-item-right">是0000000000000</div>
-                                        </div>
-                                        <div class="approve-item">
-                                            <div class="approve-item-left">贷后管理</div>
-                                            <div class="approve-item-right">是0000000000000</div>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <!-- 平台补充资料 -->
-                                <div class="info-content">
+                                <!-- <div class="info-content">
                                     <div class="approve-title-box">
                                         <div class="approve-title-left">平台补充资料</div>
                                         <div class="approve-title-right">补充人：习总   补充时间：2019-01-01 19:30:26</div>
-                                    </div>
+                                    </div> -->
                                     <!-- 特批平台补充资料 -->
-                                    <div class="approve-content-box">
+                                    <!-- <div class="approve-content-box">
                                         <div class="approve-item" style="height: 100px">
                                             <div class="approve-item-left" style="height: 100px">补充说明</div>
                                             <div class="approve-item-right" style="height: 100px">是</div>
@@ -559,25 +490,26 @@
                                                 <div class="info-bottom-btn2">保存</div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div> 
+                                </div> -->
                             </div>
                         </div>
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="goBack">返回</div>
-                        <div class="info-bottom-btn2" v-show="progress === 1" @click="vouchApprovalVisible = !vouchApprovalVisible">审批</div>
-                        <div class="info-bottom-btn2" v-show="progress === 3" @click="platformApprovalVisible = !platformApprovalVisible">审批</div>
-                        <div class="info-bottom-btn2" v-show="progress === 4" @click="replyVisible = !replyVisible">批复</div>
+                        <div class="info-bottom-btn2" v-show="progress === 2 && role === '1'" @click="vouchApprovalVisible = !vouchApprovalVisible">立即审批</div>
+                        <div class="info-bottom-btn2" v-show="progress === 3 && status === 0" v-if="role === '0'"  @click="platformApprovalVisible = !platformApprovalVisible">立即审批</div>
+                        <div class="info-bottom-btn2" v-show="progress === 3 && status === 2" v-if="role === '0'"  @click="platformApprovalVisible = !platformApprovalVisible">立即补充资料</div>
+                        <div class="info-bottom-btn2" v-show="progress === 4 || progress === 6" v-if="role === '2'" @click="replyVisible = !replyVisible">批复</div>
                     </div>
                 </el-card>
             </el-col>
         </el-row>
 
         <!-- 担保审批弹出框 -->
-        <el-dialog :visible.sync="vouchApprovalVisible" width="500px" center="">
-            <el-form ref="form" :model="vform" label-width="100px">
+        <el-dialog :visible.sync="vouchApprovalVisible" width="550px" center="">
+            <el-form ref="form" :model="vform" label-width="130px">
                 <el-form-item>
                     <el-form-item>
                         <el-radio-group v-model="vform.pResult">
@@ -587,14 +519,33 @@
                         </el-radio-group>
                     </el-form-item>
                 </el-form-item>
-                <el-form-item label="说明"  v-show="vform.pResult === 1">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                <el-form-item label="授信金额"  v-show="vform.pResult === 1">
+                    <el-input type="input" v-model="vform.amount" placeholder="请输入授信金额" style="width: 300px"/>
+                </el-form-item>
+                <el-form-item label="授信期限"  v-show="vform.pResult === 1">
+                    <el-date-picker
+                        v-model="vform.date"
+                        value-format="yyyy-MM-dd"
+                        type="daterange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="还款方式（建议）"  v-show="vform.pResult === 1">
+                    <el-input type="textarea" v-model="vform.repayOpinion" placeholder="请输入还款方式（建议）" style="width: 300px"/>
+                </el-form-item>
+                <el-form-item label="内控要点"  v-show="vform.pResult === 1">
+                    <el-input type="textarea" v-model="vform.incontrol" placeholder="请输入内控要点" style="width: 300px"/>
+                </el-form-item>
+                <el-form-item label="贷后管理"  v-show="vform.pResult === 1">
+                    <el-input type="textarea" v-model="vform.afterLoandesc" placeholder="请输入贷后管理" style="width: 300px"/>
                 </el-form-item>
                 <el-form-item label="拒绝原因"  v-show="vform.pResult === -1">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                    <el-input type="textarea" v-model="vform.opinion" placeholder="请输入拒绝原因" style="width: 300px"/>
                 </el-form-item>
                 <el-form-item label="退回原因"  v-show="vform.pResult === 2">
-                    <el-input type="textarea" v-model="vform.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                    <el-input type="textarea" v-model="vform.opinion" placeholder="请输入退回原因" style="width: 300px"/>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -604,55 +555,72 @@
         </el-dialog>
 
         <!-- 平台审批弹出框 -->
-        <el-dialog :visible.sync="platformApprovalVisible" width="500=px%" center="">
-            <el-form ref="form" :model="pform" label-width="100px">
+        <el-dialog :visible.sync="platformApprovalVisible" width="500px" center="">
+            <el-form ref="form" :model="pform" label-width="100px" v-if="status === 0">
                 <el-form-item>
                     <el-form-item>
                         <el-radio-group v-model="pform.pResult">
-                            <el-radio :label="1">是</el-radio>
-                            <el-radio :label="-1">否</el-radio>
+                            <el-radio :label="1">通过</el-radio>
+                            <el-radio :label="-1">拒绝</el-radio>
                             <el-radio :label="2">退回</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-form-item>
                 <el-form-item label="说明"  v-show="pform.pResult === 1">
-                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入通过说明" style="width: 300px"></el-input>
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入通过说明" style="width: 300px"/>
                 </el-form-item>
                 <el-form-item label="拒绝原因"  v-show="pform.pResult === -1">
-                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"></el-input>
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入拒绝原因" style="width: 300px"/>
                 </el-form-item>
                 <el-form-item label="退回原因"  v-show="pform.pResult === 2">
-                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入退回原因" style="width: 300px"></el-input>
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入退回原因" style="width: 300px"/>
+                </el-form-item>
+            </el-form>
+            <el-form ref="form" :model="pform" label-width="100px" v-if="status === 2">
+                <el-form-item label="补充说明">
+                    <el-input type="textarea" v-model="pform.pDesc" placeholder="请输入通过说明" style="width: 300px"/>
+                </el-form-item>
+                <el-form-item label="附件">
+                    <el-upload id="uploadfile"
+                        class="upload-demo"
+                        ref="upload"
+                        :action="uploadPath"
+                        :on-success="uploadSuccessP"
+                        :limit="1"
+                        :file-list="fileList"
+                    >
+                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                    </el-upload>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button type="info" @click="platformApprovalVisible = false">取 消</el-button>
-                <el-button type="warning" @click="platformCommit">确 定</el-button>
+                <el-button type="warning" @click="platformCommit">提 交</el-button>
             </span>
         </el-dialog>
 
         <!-- 资金方批复弹出框 -->
         <el-dialog title="批复意见" :visible.sync="replyVisible" center width="550px">
             <el-form ref="form" :model="fform" label-width="120px">
-                <el-form-item label="是否可授信" v-show="fform.creditType === 1">
-                    <el-radio-group v-model="fform.fResult">
+                <el-form-item label="是否可授信" v-show="applyInfo.creditType === 1">
+                    <el-radio-group v-model="fform.result">
                         <el-radio :label="1">是</el-radio>
                         <el-radio :label="-1">否</el-radio>
                         <el-radio :label="3">特批(有条件同意)</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="是否可授信" v-show="fform.creditType === 2">
-                    <el-radio-group v-model="fform.fResult">
+                <el-form-item label="是否可授信" v-show="applyInfo.creditType === 2">
+                    <el-radio-group v-model="fform.result">
                         <el-radio :label="1">是</el-radio>
                         <el-radio :label="-1">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="授信金额"  v-show="fform.fResult === 1">
-                    <el-input v-model="fform.fAmount" style="width: 100px"></el-input> 万
+                <el-form-item label="授信金额"  v-show="fform.result === 1">
+                    <el-input v-model="fform.amount" style="width: 100px"/> 万
                 </el-form-item>
-                <el-form-item label="授信期限"  v-show="fform.fResult === 1" style="width: 250px">
+                <el-form-item label="授信期限"  v-show="fform.result === 1" style="width: 250px">
                     <el-date-picker
-                            v-model="creditDate"
+                            v-model="fform.date"
                             value-format="yyyy-MM-dd"
                             type="daterange"
                             range-separator="至"
@@ -660,16 +628,26 @@
                             end-placeholder="结束日期">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="还款方式"  v-show="fform.fResult === 1">
-                    <el-input v-model="fform.fRepayType" style="width: 350px"></el-input>
+                <el-form-item label="还款方式"  v-show="fform.result === 1">
+                    <el-input v-model="fform.repayType" style="width: 350px"/>
                 </el-form-item>
-                <el-form-item label="批复文件"  v-show="fform.fResult === 1">
+                <el-form-item label="批复文件"  v-show="fform.result === 1">
+                    <el-upload id="uploadfile"
+                        class="upload-demo"
+                        ref="upload"
+                        :action="uploadPath"
+                        :on-success="uploadSuccess"
+                        :limit="1"
+                        :file-list="fileList"
+                        :auto-upload="true">
+                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                    </el-upload>
                 </el-form-item>
-                <el-form-item label="拒绝原因"  v-show="fform.fResult === -1">
-                    <el-input type="textarea" v-model="fform.fDesc" placeholder="请输入拒绝原因"  style="width: 350px"></el-input>
+                <el-form-item label="拒绝原因"  v-show="fform.result === -1">
+                    <el-input type="textarea" v-model="fform.desc" placeholder="请输入拒绝原因"  style="width: 350px"/>
                 </el-form-item>
-                <el-form-item label="补充意见"  v-show="fform.fResult === 2">
-                    <el-input type="textarea" v-model="fform.fSpecialDesc" placeholder="请输入补充资料" style="width: 350px"></el-input>
+                <el-form-item label="补充意见"  v-show="fform.result === 3">
+                    <el-input type="textarea" v-model="fform.desc" placeholder="请输入补充资料" style="width: 350px"/>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -685,20 +663,123 @@
         name: 'credit-info-dateils',
         data() {
             return {
+                stepStatusList: [],
                 name: localStorage.getItem('ms_username'),
                 fileUrl: localStorage.getItem("fileBasePath"),
+                uploadPath: localStorage.getItem("uploadPath"),
+                role: localStorage.getItem("role"),
                 isPackUpProjectInfo: false,
                 isPackUpBusinessInfo: false,
                 isPackUpReplyInfo: false,
                 id: this.$route.query.id,
-                applyInfo: '',
-                projectInfo:'',
-                projectContractInfo: '',
-                projectCostInfo: '',
-                projectPaymentInfo: '',
-                projectOtherInfo: '',
-                financierInfo: '',
-                authenInfo: '',
+                applyInfo: {
+                    projectName: '',
+                    applyNo: "",
+                    applyDate: "",
+                    name: "",
+                    projectId: null,
+                    contractNo: '',
+                    applyAmount: null,
+                    reason: null,
+                    bankWater: null,
+                    creditType: 1,
+                },
+                projectInfo:{
+
+                },
+                projectContractInfo: {
+                    partyAName: "",
+                    address: "",
+                    shouldClearAmount: "",
+                    guaranteeClaim: "",
+                    startDate: "",
+                    endDate: "",
+                    clearType: "",
+                    shouldPaymentAmount: "",
+                    shouldPaymentDate: "",
+                    progressPaymentType: "",
+                    monthClearDay: "",
+                    progressPaymentRatio: "",
+                    checkPaymentRatio: "",
+                    checkPaymentDesc: "",
+                    clearPaymentRatio: "",
+                    clearDesc: "",
+                    warrantyMoneyPaymentRatio: "",
+                    warranty: "",
+                    warrantyPayType: "",
+
+                    contractFile: "",
+                    contractPaymentFile: "",
+                    inContractLiabilityBook: "",
+                    constructionSitePhoto: ""
+                },
+                projectCostInfo: {
+                    profitMargin: "",
+                    progressReturnAccount: "",
+                    outputValueTable: "",
+                    costAnalysisTable: "",
+                    costAccount: "",
+                },
+                projectPaymentInfo: {
+                    totalBillAmount: "",
+                    totalPaybackAmount: "",
+                    totalPaymentAmount: "",
+                    invoice: "",
+                    transfer: "",
+                    transferInvoice: "",
+                    purchaseContract: "",
+                    purchaseInvoice: "",
+                    deliveryNote: "",
+                    banckTransfer: "",
+                },
+                projectOtherInfo: {
+                    isInsur: "",
+                    insurEndDate: "",
+                    insurAmount: "",
+                    insurPersonNumber: "",
+                    insurFile: "",
+                    unusualDesc: ""
+                },
+                financierInfo: {
+
+                },
+                authenInfo: {
+                    name: "",
+                    idCard: '',
+                    bankCardNo: '',
+                    bank: '',
+                    bankCardPhone: '',
+                    cardTypeCode: '',
+                    bankCode: '',
+                    domicile: '',
+                    idCardSideFace: '',
+                    idCardSideBack: '',
+                    idCardHand:'',
+                    householdRegHome:'',
+                    householdRegPersonal: '',
+                    marriageStatus: '',
+                    spouseName: '',
+                    spouseIdCard: '',
+                    spouseDomicile: '',
+                    sidCardSideFace: '',
+                    sidCardSideBack: '',
+                    marriageCert: '',
+                    shouseholdRegHome: '',
+                    shouseholdRegPersonal:'',
+                    divorceCert: '',
+                    companyName: '',
+                    creditCode: '',
+                    companyBusinessLicense: '',
+                    articlesAssoCompany: '',
+                    officeSpaceLeaseContract: '',
+                    socialInsurCardNo: '',
+                    socialInsurCompany: '',
+                    socialInsurDetails: '',
+                    cars: [],
+                    houses: [],
+                },
+                creditExams: [],
+                approveList: [],
                 // 审批进度及状态
                 progress: '',
                 status: 0,
@@ -709,9 +790,13 @@
                 // 担保审批表单
                 vform: {
                     pResult: 1,
-                    pDesc: '',
-                    pPerson: '',
-                    creditId: ''
+                    afterLoandesc: '',
+                    incontrol: '',
+                    opinion: '',
+                    repayOpinion: '',
+                    amount: '',
+                    creditDate: '',
+                    date: ""
                 },
 
                 // 平台审批表单
@@ -719,23 +804,24 @@
                     pResult: 1,
                     pDesc: '',
                     pPerson: '',
-                    creditId: ''
+                    creditId: '',
+                    file: ''
                 },
                 // 资金方审批表单
                 creditDate: '',
                 fform: {
-                    fResult: 1,
-                    fAmount: '',
-                    fRepayType: '',
-                    fCreditStartDate: '',
-                    fCreditEndDate: '',
-                    fReplyFile: '',
-                    fSpecialDesc: '',
-                    fDesc: '',
-                    fPerson: '',
-                    creditType: '',
+                    result: 1,
+                    amount: '',
+                    repayType: '',
+                    startTime: '',
+                    endTime: '',
+                    replyFile: '',
+                    desc: '',
+                    creditType: 1,
+                    creditDate: '',
+                    date: []
                 },
-
+                fileList: [],
             }
         },
         components: {
@@ -746,6 +832,16 @@
             creditDate:function() {
                 this.fform.fCreditStartDate = this.creditDate[0];
                 this.fform.fCreditEndDate = this.creditDate[1];
+            },
+            'vform.date':function() {
+                this.vform.startTime = this.vform.date[0];
+                this.vform.endTime = this.vform.date[1];
+                this.vform.creditDate = this.vform.date[0] + " 至 " + this.vform.date[1];
+            },
+            'fform.date':function() {
+                this.fform.startTime = this.fform.date[0];
+                this.fform.endTime = this.fform.date[1];
+                this.fform.creditDate = this.fform.date[0] + " 至 " + this.fform.date[1];
             },
         },
         created(){
@@ -761,20 +857,153 @@
              */
             getData(id) {
                 let _than = this;
-                this.$axios.get('api/credit/apply/info',{params:{id: id }}).then(function (res){
+                this.$axios.get('api/credit/apply/info',{params:{id: id }}).then(res => {
                     console.log(res);
-                    _than.applyInfo = res.data.extend.applyInfo;
-                    _than.projectInfo = res.data.extend.projectInfo;
-                    _than.projectContractInfo = res.data.extend.projectContractInfo;
-                    _than.projectPaymentInfo = res.data.extend.projectPaymentInfo;
-                    _than.projectOtherInfo = res.data.extend.projectOtherInfo;
-                    _than.financierInfo = res.data.extend.financierInfo;
-                    _than.authenInfo = res.data.extend.authenInfo;
-                    _than.progress = res.data.extend.applyInfo.step+3;
-                    _than.status = res.data.extend.applyInfo.status;
+                    let data =  res.data.extend;
+                    if(null != data){
+                        if(null != data.applyInfo){
+                            _than.applyInfo =data.applyInfo;
+                            _than.progress = data.applyInfo.step;
+                            _than.status = data.applyInfo.status;
+                        }
+                        if(null != data.projectInfo){
+                            _than.projectInfo = data.projectInfo;
+                        }
+                        if(null != data.projectContractInfo){
+                            _than.projectContractInfo = data.projectContractInfo;
+                        }
+                        if(null != data.projectCostInfo){
+                            _than.projectCostInfo = data.projectCostInfo;
+                        }
+                        if(null != data.projectPaymentInfo){
+                            _than.projectPaymentInfo = data.projectPaymentInfo;
+                        }
+                        if(null != data.projectOtherInfo){
+                            _than.projectOtherInfo = data.projectOtherInfo;
+                        }
+                        if(null != data.financierInfo){
+                            _than.financierInfo = data.financierInfo;
+                        }
+                        if(null != data.authenInfo){
+                            _than.authenInfo = data.authenInfo;
+                        }
+                        _than.creditExams = data.creditExams;
+                        let resultList = [];
+                        for(let item of data.creditExams){
+                            let data = {
+                                createTime: item.createTime,
+                                name: item.name,
+                                title: item.title,
+                                list: [],                               
+                            }
+                            
+                            if(item.title === "担保评估结果"){
+                                let list = [];
+                                if(item.result === 1){
+                                    list.push({lable: "是否可授信", value: "是"});
+                                    list.push({lable: "授信金额", value: item.amount});
+                                    list.push({lable: "授信期限", value: item.creditDate});
+                                    list.push({lable: "还款方式（建议）", value: item.repayOpinion});
+                                    list.push({lable: "内控要点", value: item.incontrol});
+                                    list.push({lable: "贷后管理", value: item.afterLoandesc});
+                                }                                
+                                if(item.result === 2){
+                                    list.push({lable: "是否可授信", value: "退回"});
+                                    list.push({lable: "退回原因", value: item.opinion});
+                                }
+                                if(item.result === -1){
+                                    list.push({lable: "是否可授信", value: "否"});
+                                    list.push({lable: "拒绝原因", value: item.opinion});
+                                }
+                                console.log(list);
+                                data.list = list;
+                            }
+
+                            if(item.title === "平台方审批结果"){
+                                let list = [];
+                                if(item.result === 1){
+                                    list.push({lable: "是否可授信", value: "是"});
+                                    list.push({lable: "说明", value: item.opinion});
+                                }                                
+                                if(item.result === 2){
+                                    list.push({lable: "是否可授信", value: "退回"});
+                                    list.push({lable: "退回原因", value: item.opinion});
+                                }
+                                if(item.result === -1){
+                                    list.push({lable: "是否可授信", value: "否"});
+                                    list.push({lable: "拒绝原因", value: item.opinion});
+                                }
+                                console.log(list);
+                                data.list = list;
+                            }
+
+                            if(item.title === "平台补充资料"){
+                                let list = [
+                                    {lable: "补充说明", value: item.opinion},
+                                    {lable: "附件", value: item.replyFile}
+                                ];
+                                data.list = list;
+                            }
+
+                            if(item.title === "资金方批复结果"){
+                                let list = [];
+                                if(item.result === 1){
+                                    list.push({lable: "是否可授信", value: "是"});
+                                    list.push({lable: "授信金额", value: item.amount});
+                                    list.push({lable: "授信期限", value: item.creditDate});
+                                    list.push({lable: "还款方式", value: item.repayType});
+                                    list.push({lable: "批复文件", value: item.replyFile});
+                                }                                
+                                if(item.result === 3){
+                                    list.push({lable: "是否可授信", value: "特批（有条件同意）"});
+                                    list.push({lable: "特批原因", value: item.opinion});
+                                }
+                                if(item.result === -1){
+                                    list.push({lable: "是否可授信", value: "否"});
+                                    list.push({lable: "拒绝原因", value: item.opinion});
+                                }
+                                console.log(list);
+                                data.list = list;
+                            }
+                            resultList.push(data);
+                        }
+                        _than.approveList = resultList;
+
+                    }
+                    if(null != data.applyInfo){
+                        this.getStepStatusList(data.applyInfo.step, data.applyInfo.status);
+                    }else{
+                        this.getStepStatusList(0,0);
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });
+            },
+
+            getStepStatusList(step,status){
+                let list = ['已完善项目资料','已提交担保','已通过担保审批','平台审批','资金方批复','签署协议','授信完成'];
+                let list2 = [];
+                for(let index in list){
+                    let step1 = {name: '', class: ''};
+                    step1.name = list[index];
+                    index = 1+parseInt(index);
+                    if(index <= step){                        
+                        step1.class = 'active';                        
+                        if(index == step && status == -1){
+                            step1.class = 'active3';
+                        }
+                    }
+                    if(index == 2 && step == 2){
+                      step1.class = 'active';
+                    }
+                    if(index == step && status == 2){
+                      step1.class = 'active2';
+                    }
+                    console.log(index);
+                    // console.log(step);
+                    list2.push(step1);
+                }
+                this.getStepStatusList = list2;
             },
 
             /**
@@ -787,28 +1016,35 @@
             /**
              * 担保审批提交数据
              */
-            vouchApprovalCommit( ){
+            vouchApprovalCommit(){
                 // this.$refs['form'].validate((valid) => {
                 //     if (!valid) {
                 //         return;
                 //     }
                 // });
-                this.$axios.post('credit-appr/ec/save',
+                this.$axios.post('api/credit/appr/save',
                     this.qs.stringify(
                         {
-                            creditId:this.vform.creditId,
-                            pResult: this.vform.pResult,
-                            pDesc: this.vform.pDesc,
-                            pPerson: this.vform.pPerson,
+                            applyId: this.id,
+                            result: this.vform.pResult,
+                            amount: this.vform.amount,
+                            opinion: this.vform.opinion,
+                            creditDate: this.vform.creditDate,
+                            repayOpinion: this.vform.repayOpinion,
+                            incontrol: this.vform.incontrol,
+                            afterLoandesc: this.vform.afterLoandesc,
+                            name: localStorage.getItem('ms_username'),
+                            startTime: this.vform.startTime,
+                            endTime: this.vform.endTime,
+                            title: "担保评估结果"
                         }
-                    )).then(function (response) {
-                    console.log(response);
+                    )).then(res => {
+                    console.log(res);
                     this.$message.success('提交成功！');
-                    this.$router.push("credit-apply-list")
+                    this.$router.go(-1);
                 }).catch(function (error) {
                     console.log(error);
                 });
-                console.log(this.form);
             },
             /**
              * 平台审批提交按钮
@@ -819,21 +1055,43 @@
                 //         return;
                 //     }
                 // });
-                this.$axios.post('credit-appr/ec/save',
+                if(this.status === 0){
+                    this.$axios.post('api/credit/appr/save',
                     this.qs.stringify(
                         {
-                            creditId:this.pform.creditId,
-                            pResult: this.pform.pResult,
-                            pDesc: this.pform.pDesc,
-                            pPerson: this.pform.pPerson,
+                            applyId: this.id,
+                            result: this.pform.pResult,
+                            opinion: this.pform.pDesc,
+                            name: localStorage.getItem('ms_username'),
+                            title: "平台方审批结果"
                         }
-                    )).then(function (response) {
-                    console.log(response);
-                    this.$message.success('提交成功！');
-                    this.$router.push("credit-apply-list")
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                    )).then(res => {
+                        this.$message.success('提交成功！');
+                        this.$router.go(-1);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+
+                if(this.status === 2){
+                    this.$axios.post('api/credit/appr/save',
+                    this.qs.stringify(
+                        {   
+                            result: 1,
+                            applyId: this.id,
+                            opinion: this.pform.pDesc,
+                            replyFile: this.pform.file,
+                            name: localStorage.getItem('ms_username'),
+                            title: "平台补充资料"
+                        }
+                    )).then(res => {
+                        this.$message.success('提交成功！');
+                        this.$router.go(-1);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+                
                 console.log(this.form);
             },
             /**
@@ -845,31 +1103,54 @@
                 //         return;
                 //     }
                 // });
-                this.$axios.post('credit-appr/ec/save',
+                this.$refs.upload.submit();
+                this.$axios.post('api/credit/appr/save',
                     this.qs.stringify(
                         {
-                            creditId:this.fform.creditId,
-                            fResult: this.fform.fResult,
-                            fAmount: this.fform.fAmount,
-                            fRepayType: this.fform.fRepayType,
-                            fCreditStartDate: this.fform.fCreditStartDate,
-                            fCreditEndDate: this.fform.fCreditEndDate,
-                            fReplyFile: this.fform.fReplyFile,
-                            fSpecialDesc: this.fform.fSpecialDesc,
-                            fDesc: this.fform.fDesc,
+                            applyId: this.id,
+                            amount: this.fform.amount,
+                            result: this.fform.result,
+                            opinion: this.fform.desc,
                             creditType: this.fform.creditType,
-                            fPerson: this.fform.fPerson,
+                            name: localStorage.getItem('ms_username'),
+                            title: "资金方批复结果",
+                            repayType: this.fform.repayType,
+                            creditDate: this.fform.creditDate,
+                            startTime: this.fform.startTime,
+                            endTime: this.fform.endTime,
+                            replyFile: this.fform.replyFile,
                         }
-                    )).then(function (response) {
-                    console.log(response);
+                    )).then(res => {
+                    console.log(res);
                     this.$message.success('提交成功！');
-                    this.$router.push("fund-credit-apply-list")
+                    this.$router.go(-1)
                 }).catch(function (error) {
                     console.log(error);
                 });
                 console.log(this.form);
             },
+            uploadSuccess(res,file,files){
+                this.fform.replyFile = res.extend.fileSystem.filePath;
+            },
+            uploadSuccessP(res,file,files){
+                console.log(res);
+                this.pform.file = res.extend.fileSystem.filePath;
+            },
 
+        },
+        filters: {
+            resultFilter1(val){
+                if(val === -1){
+                    return "否"
+                }
+                if(val === 2){
+                    return "退回"
+                }
+                if(val === 3){
+                    return "特批(有条件同意)"
+                }
+                return "是"
+            }
         }
     }
 
@@ -934,6 +1215,15 @@
     }
     .step li.active2 .triangle:after {
         border-left-color: #FFB267;
+    }
+
+    .step li.active3 {
+        color: #fff;
+        background: rgb(248, 28, 28);
+        /*width: 152px;*/
+    }
+    .step li.active3 .triangle:after {
+        border-left-color: rgb(248, 28, 28);
     }
 
     /* 申请信息 */
@@ -1160,4 +1450,11 @@
         color: rgba(255,255,255,1);
     }
 
+</style>
+
+<style>
+#uploadfile /deep/ .el-upload--text {
+  width: 80px;
+  height: 35px;
+}
 </style>

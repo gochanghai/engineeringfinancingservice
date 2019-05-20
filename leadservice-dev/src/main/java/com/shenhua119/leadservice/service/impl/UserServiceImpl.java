@@ -95,6 +95,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         return null;
     }
 
+    @Override
+    public List<User> findCompanyUsers(Long id) {
+        return userDao.selectCompanyUserS(id);
+    }
+
     /**
      * 修改密码
      * @param id

@@ -27,8 +27,8 @@
                                                 <el-input v-model="form.productName" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="产品大类：">
-                                                <el-select v-model="form.productTypeId" placeholder="请选择" style="width: 200px">
-                                                    <el-option v-for="type in this.productTypes" :key="type.id" :label="type.name" :value="type.id"/>
+                                                <el-select v-model="form.productType" placeholder="请选择" style="width: 200px">
+                                                    <el-option v-for="type in this.productTypes" :key="type.id" :label="type.name" :value="type.name"/>
                                                 </el-select>
                                             </el-form-item>
                                         </el-form>
@@ -36,11 +36,11 @@
                                     <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="基础年利率：" >
-                                                <el-input v-model="form.baseYearRate" style="width: 200px"/>
+                                                <el-input v-model="form.yearRate" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="资金渠道：" >
-                                                <el-select v-model="form.fComId" style="width: 200px" placeholder="请选择">
-                                                    <el-option v-for="funcom in this.financeComList" :key="funcom.id" :label="funcom.companyFullName + funcom.cooperationBank" :value="funcom.id"></el-option>
+                                                <el-select v-model="form.fcompanyId" style="width: 200px" placeholder="请选择">
+                                                    <el-option v-for="funcom in financeComList" :key="funcom.id" :label="funcom.companyName + funcom.coopBank" :value="funcom.id"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="产品图标：">
@@ -48,9 +48,10 @@
                                                     <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
                                                         <el-upload
                                                                 class="avatar-uploader"
-                                                                action="https://jsonplaceholder.typicode.com/posts/"
+                                                                :action="uploadPath"
+                                                                :on-success="productImg"
                                                                 :show-file-list="false">
-                                                            <img v-if="name === null" class="avatar">
+                                                            <img v-if="form.productImg !== ''" class="avatar" :src=" filesystem + form.productImg">
                                                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                                                         </el-upload>
                                                         <!--<span>法人身份证正面</span>-->
@@ -90,7 +91,7 @@
                                     <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="逾期罚息利率：" >
-                                                <el-input v-model="form.lateChargeRate" style="width: 200px"/>
+                                                <el-input v-model="form.overdueRate" style="width: 200px"/>
                                             </el-form-item>
                                             <el-form-item label="是否可申请展期：" >
                                                 <el-radio-group v-model="form.isDelay">
@@ -130,15 +131,15 @@
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="服务费比例：">
-                                                <el-input v-model="form.assureServiceFeeRate" style="width: 200px"></el-input>
+                                                <el-input v-model="form.assureFeeRate" style="width: 200px"></el-input>
                                             </el-form-item>
                                         </el-form>
                                     </div>
                                     <div class="form-box-r">
                                         <el-form label-width="150px">
                                             <el-form-item label="担保公司：" >
-                                                <el-select v-model="form.assureComId" placeholder="请选择">
-                                                    <el-option v-for="engicom in this.engineeringComList" :key="engicom.id"
+                                                <el-select v-model="form.assureCompanyId" placeholder="请选择">
+                                                    <el-option v-for="engicom in engineeringComList" :key="engicom.id"
                                                                :label="engicom.companyName" :value="engicom.id"></el-option>
                                                 </el-select>
                                             </el-form-item>
@@ -180,8 +181,8 @@
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">保存</div>
-                        <div class="info-bottom-btn2">保存并提交</div>
+                        <div class="info-bottom-btn2" @click="save">保存</div>
+                        <div class="info-bottom-btn2" @click="save2">保存并提交</div>
                     </div>
                 </el-card>
             </el-col>
@@ -194,7 +195,8 @@
         name: 'add-product',
         data() {
             return {
-                name: localStorage.getItem('ms_username'),
+                uploadPath: localStorage.getItem("uploadPath"),
+                filesystem: localStorage.getItem("fileBasePath"),
                 financeComList: null,
                 engineeringComList: null,
                 productTypes:[
@@ -204,23 +206,24 @@
                     {id:4, name:'融资租赁'},
                 ],
                 form: {
-                    productNo: null,
-                    productName: null,
-                    productType: null,
-                    baseYearRate: null,
-                    fundCompanyId: null,
+                    productNo: '',
+                    productName: '',
+                    productImg: '',
+                    productType: '',
+                    yearRate: '',
+                    fcompanyId: '',
                     deadlineType: 'y',
-                    lateChargeRate: null,
-                    deadlineMin: null,
-                    deadlineMax: null,
+                    overdueRate: '',
+                    deadlineMin: 1,
+                    deadlineMax: 2,
                     isDelay: '1',
                     serviceFeeType: '按比例一次性收取',
-                    serviceFeeRate: null,
-                    repaymentType: 1,
+                    serviceFeeRate: 0,
+                    repaymentType: '1',
                     isAssure: '1',
                     assureFeeType: '按比例一次性收取',
-                    assureCompanyId: null,
-                    assureServiceFeeRate: '',
+                    assureCompanyId: '',
+                    assureFeeRate: '',
                     mortgageType: '无',
                     status: 0
                 },
@@ -243,7 +246,7 @@
             getFinanceCompanyList(){
                 // 获取获取资金公司数据
                 let _this = this;
-                this.$axios.get('fc/options').then((response) => {
+                this.$axios.get('api/finance/options').then((response) => {
                     console.log(response.data.extend);
                     _this.financeComList = response.data.extend.list;
                 }).catch(function (error) {
@@ -259,26 +262,32 @@
                 });
             },
 
+            // 上传成功回调函数
+            productImg(res,file,files){
+                console.log(res);
+                this.form.productImg = res.extend.fileSystem.filePath;
+            },
+
             // 返回
             onReturn() {
-                this.$message.success('返回！');
-                this.$router.push("business-manager-list")
+                this.$router.go(-1);
             },
             // 仅保存
             save(){
                 // 产品状态
                 // this.form.status = 0;
-                this.$message.success('保存成功！');
-                this.$axios.post('api/product/save',
+                
+                this.$axios.post('api/product/',
                     this.qs.stringify(
                         {
                             productNo: this.form.productNo,
                             productName: this.form.productName,
-                            productTypeId: this.form.productTypeId,
-                            baseYearRate: this.form.baseYearRate,
-                            fComId: this.form.fComId,
+                            productType: this.form.productType,
+                            yearRate: this.form.yearRate,
+                            productImg: this.form.productImg,
+                            fcompanyId: this.form.fcompanyId,
                             deadlineType: this.form.deadlineType,
-                            lateChargeRate: this.form.lateChargeRate,
+                            overdueRate: this.form.overdueRate,
                             deadlineMin: this.form.deadlineMin,
                             deadlineMax: this.form.deadlineMax,
                             isDelay: this.form.isDelay,
@@ -287,14 +296,14 @@
                             repaymentType: this.form.repaymentType,
                             isAssure: this.form.isAssure,
                             assureFeeType: this.form.assureFeeType,
-                            assureComId: this.form.assureComId,
-                            assureServiceFeeRate: this.form.assureServiceFeeRate,
+                            assureCompanyId: this.form.assureCompanyId,
+                            assureFeeRate: this.form.assureFeeRate,
                             mortgageType: this.form.mortgageType,
                             status: this.form.status
                         }
                     )).then(function (response) {
-                    console.log(response);
-                    this.$router.push("product-list")
+                    this.$message.success('保存成功！');
+                    this.$router.go(-1);
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -302,9 +311,9 @@
 
             },
             // 保存并提交
-            saveAndSubmit(){
-                this.$message.success('提交成功！');
-                this.$router.push("product-list");
+            save2(){
+                this.form.status = 1;
+                this.save();
             }
 
 

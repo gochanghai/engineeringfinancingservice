@@ -28,15 +28,17 @@
                             </el-table-column>
                             <el-table-column label="审批进度" width="150" align="center">
                                 <template slot-scope="scope">
-                                    <el-tag type="warning" v-show="scope.row.step === 4 && scope.row.status === 0">待我批复</el-tag>
-                                    <el-tag type="warning" v-show="scope.row.step === 5 && scope.row.status === 0">待我发起协议</el-tag>
+                                    <el-tag type="warning">
+                                        {{scope.row.step +'-'+ scope.row.status | statusToText}}
+                                    </el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
                                     <el-button type="primary" size="mini" round @click="gotoInfoDetails(scope.row.id)">详情</el-button>
                                     <el-button type="warning" size="mini" round v-show="scope.row.step === 4" @click="gotoReply(scope.row.id,scope.row.creditType)">去批复</el-button>
-                                    <el-button type="warning" size="mini" round v-show="scope.row.step === 5" @click="gotoReply(scope.row.id,scope.row.creditType)">去发起协议</el-button>
+                                    <el-button type="warning" size="mini" round v-show="scope.row.step === 5" @click="initAgreement(scope.row.id,scope.row.creditType)">去发起协议</el-button>
+                                    <el-button type="warning" size="mini" round v-show="scope.row.step === 7" @click="confirmAgreementBut(scope.row.id)">确认协议</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -95,6 +97,65 @@
                 <el-button type="primary" class="btn-submit" @click="save">确 定</el-button>
             </span>
         </el-dialog>
+
+        <!-- 签署协议弹窗 -->
+        <el-dialog :title="contrTitle" :visible.sync="agreementVisible" width="700px" center="">
+            <div v-if="contrIndex === 1">
+                一，甲方承诺：
+                1，向乙房申请购房贷款银行或贷款银行认可的机构提供符合要求的房屋资料以备查核.
+                2，保证对出售的房屋拥有独立产权.如果该房屋为共有房屋，则必须取得其他所有共有人的同意出售书面文件.
+                3，保证该出售房屋未予出租.因出租所产生的任何问题由甲方承担并负责解决.
+                4，自签订本协议起，保证将该房屋按约定价格售给乙方，期间不得反悔或将房屋出售给第三人.
+                5，按照前述业务的需要，及时签订各项合同文件和办理各种手续.
+                6，在办理产权过户时，应依要求将房屋产权资料交付贷款银行或贷款银行认可的机构持有.
+                二，乙方承诺：
+                1，向贷款银行或贷款银行认可的机构提供符合要求的资料以备查核，并依规定支付费用.
+                2，保证按原约定价格向甲方购买前述房屋，并及时将贷款所得支付甲方之售房款.
+                3，将所购房屋向贷款银行申请抵押贷款.
+                4，按照前述业务需要，及时签订各项合同文件和办理各种手续，并承担各项费用.
+                5，在办理房屋过户时，应依要求将房屋产权资料交付贷款银行或其认可的机构持有.
+                三，本协议以乙方向贷款银行申请购房抵押贷款获得批准为正式生效条件.如果贷款银行认为乙方的借款申请不符合条件而不予批准，则甲，乙双方可以解除本协议.甲方若向乙方收取定金,应如数退还给乙方.
+            </div>
+            <div v-if="contrIndex === 2">
+                一，甲方承诺：
+                1，向乙房申请购房贷款银行或贷款银行认可的机构提供符合要求的房屋资料以备查核.
+                2，保证对出售的房屋拥有独立产权.如果该房屋为共有房屋，则必须取得其他所有共有人的同意出售书面文件.
+                3，保证该出售房屋未予出租.因出租所产生的任何问题由甲方承担并负责解决.
+                4，自签订本协议起，保证将该房屋按约定价格售给乙方，期间不得反悔或将房屋出售给第三人.
+                5，按照前述业务的需要，及时签订各项合同文件和办理各种手续.
+                6，在办理产权过户时，应依要求将房屋产权资料交付贷款银行或贷款银行认可的机构持有.
+                二，乙方承诺：
+                1，向贷款银行或贷款银行认可的机构提供符合要求的资料以备查核，并依规定支付费用.
+                2，保证按原约定价格向甲方购买前述房屋，并及时将贷款所得支付甲方之售房款.
+                3，将所购房屋向贷款银行申请抵押贷款.
+                4，按照前述业务需要，及时签订各项合同文件和办理各种手续，并承担各项费用.
+                5，在办理房屋过户时，应依要求将房屋产权资料交付贷款银行或其认可的机构持有.
+                三，本协议以乙方向贷款银行申请购房抵押贷款获得批准为正式生效条件.如果贷款银行认为乙方的借款申请不符合条件而不予批准，则甲，乙双方可以解除本协议.甲方若向乙方收取定金,应如数退还给乙方.
+            </div>
+            <div v-if="contrIndex === 3">
+                一，甲方承诺：
+                1，向乙房申请购房贷款银行或贷款银行认可的机构提供符合要求的房屋资料以备查核.
+                2，保证对出售的房屋拥有独立产权.如果该房屋为共有房屋，则必须取得其他所有共有人的同意出售书面文件.
+                3，保证该出售房屋未予出租.因出租所产生的任何问题由甲方承担并负责解决.
+                4，自签订本协议起，保证将该房屋按约定价格售给乙方，期间不得反悔或将房屋出售给第三人.
+                5，按照前述业务的需要，及时签订各项合同文件和办理各种手续.
+                6，在办理产权过户时，应依要求将房屋产权资料交付贷款银行或贷款银行认可的机构持有.
+                二，乙方承诺：
+                1，向贷款银行或贷款银行认可的机构提供符合要求的资料以备查核，并依规定支付费用.
+                2，保证按原约定价格向甲方购买前述房屋，并及时将贷款所得支付甲方之售房款.
+                3，将所购房屋向贷款银行申请抵押贷款.
+                4，按照前述业务需要，及时签订各项合同文件和办理各种手续，并承担各项费用.
+                5，在办理房屋过户时，应依要求将房屋产权资料交付贷款银行或其认可的机构持有.
+                三，本协议以乙方向贷款银行申请购房抵押贷款获得批准为正式生效条件.如果贷款银行认为乙方的借款申请不符合条件而不予批准，则甲，乙双方可以解除本协议.甲方若向乙方收取定金,应如数退还给乙方.
+            </div>
+            <el-button type="warning" @click="contrIndex = 1">借款合同</el-button>
+            <el-button type="warning" @click="contrIndex = 2">保证合同</el-button>
+            <el-button type="warning" @click="contrIndex = 3">担保合同</el-button>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="info" @click="agreementVisible = false">取 消</el-button>
+                <el-button type="warning" @click="confirmAgreement">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -103,7 +164,7 @@
         name: 'CreditReplyList',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('userId'),
                 url: './static/vuetable.json',
                 tableData: [],
                 cur_page: 1,
@@ -129,6 +190,10 @@
                     fPerson: null,
                     creditType: null,
                 },
+                agreementVisible: false,
+                contrTitle: "借款合同",
+                contrIndex: 1,
+                creditId: '',
                 idx: -1
             }
         },
@@ -141,6 +206,17 @@
                 this.form.fCreditStartDate = this.sxDate[0];
                 this.form.fCreditEndDate = this.sxDate[1];
             },
+            contrIndex:function(val){
+                if(val == 1){
+                    this.contrTitle = "借款合同";
+                }
+                if(val == 2){
+                    this.contrTitle = "保证合同";
+                }
+                if(val == 3){
+                    this.contrTitle = "担保合同";
+                }
+            }
         },
         computed: {
             data() {
@@ -167,7 +243,7 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('api/credit/f_list', {
+                this.$axios.get('api/credit/f', {
                     params: {
                         id: this.userId
                     }
@@ -274,7 +350,93 @@
                 console.log(this.form);
 
             },
-        }
+
+            // 提交
+            initAgreement(applyId){
+                this.$confirm('您确定要发起协议吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.$axios.post('api/credit/apply/status',
+                        this.qs.stringify(
+                            {   id: applyId,
+                                // creditId:this.creditId,
+                                step: 6,
+                                status: 0,
+                            }
+                        )).then(res => {
+                        this.$message({type: 'success', message: '发起成功!'});
+                        this.getCreditDataList();                        
+                    }).catch(function (error) {
+                        console.log(error);
+                    });                    
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消'});
+                });
+                
+            },
+            // 确认协议
+            confirmAgreementBut(id){
+                this.creditId = id;
+                this.agreementVisible = true;
+            },
+            confirmAgreement(){
+                this.$confirm('您确定要确认协议吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.$axios.post('api/credit/appr/sign',
+                        this.qs.stringify(
+                            {   id: this.creditId,
+                                userId:this.userId,
+                                step: 7,
+                                status: 1,
+                            }
+                        )).then(res => {
+                        this.$message({type: 'success', message: '确认成功!'});
+                        this.getCreditDataList();
+                        this.agreementVisible = false;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });                    
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消'});
+                });
+            }
+        },
+        // 过滤器
+        filters: {
+            statusToText(oldValue) {
+                switch (oldValue) {                    
+                    case '4-0':
+                        return '待资金方批复';
+                        break;
+                    case '5-0':
+                        return '待发起协议';
+                        break;
+                    case '6-0':
+                        return '待签署协议';
+                        break;
+                    case '6-1':
+                        return '待担保方签署协议';
+                        break;
+                    case '6-2':
+                        return '待融资人签署协议';
+                        break;
+                    case '7-0':
+                        return '待确认协议';
+                        break;
+                    case '8-0':
+                        return '授信完成';
+                        break;
+                    default:
+                        return '';
+                        break;
+                }
+            },
+        },
     }
 
 </script>

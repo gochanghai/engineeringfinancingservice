@@ -41,12 +41,12 @@
                                         </el-form-item>
                                         <el-form-item label="施工期限：" style="margin-bottom: 0">
                                             <el-date-picker
-                                                    v-model="startEndDate"
-                                                    value-format="yyyy-MM-dd"
-                                                    type="daterange"
-                                                    range-separator="至"
-                                                    start-placeholder="开始日期"
-                                                    end-placeholder="结束日期">
+                                                v-model="startEndDate"
+                                                value-format="yyyy-MM-dd"
+                                                type="daterange"
+                                                range-separator="至"
+                                                start-placeholder="开始日期"
+                                                end-placeholder="结束日期">
                                             </el-date-picker>
                                         </el-form-item>
                                         <el-form-item label="项目施工进度：" style="margin-bottom: 0">
@@ -85,9 +85,9 @@
                                             <el-form style="float: left; width: 300px">
                                                 <el-form-item label="预付款支付日期：" style="margin-bottom: 0">
                                                     <el-date-picker v-model="form.shouldPaymentDate"
-                                                                    type="date"
-                                                                    value-format="yyyy-MM-dd"
-                                                                    placeholder="选择日期"
+                                                        type="date"
+                                                        value-format="yyyy-MM-dd"
+                                                        placeholder="选择日期"
                                                     style="width: 120px"/>
                                                 </el-form-item>
                                                 <el-form-item label="月结算日：" style="margin-bottom: 0">
@@ -449,7 +449,7 @@
                     <div class="info-bottom-box">
                         <div class="info-bottom-btn1" @click="goBack">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
-                        <!--<div class="info-bottom-btn2" @click="sumbit">提交</div>-->
+                        <div class="info-bottom-btn2" @click="sumbit">提交</div>
                     </div>
                 </el-card>
             </el-col>
@@ -466,13 +466,14 @@
                 name: localStorage.getItem('ms_username'),
                 uploadPath: localStorage.getItem("uploadPath"),
                 filesystem: localStorage.getItem("fileBasePath"),
-                projectId: this.$route.query.id,
+                projectId: this.$route.query.projectId,
+                applyId: this.$route.query.id,
                 projectInfo: null,
                 startEndDate:'',
                 thisUploadType: 1,
                 form:{
-                    name: '123',
-                    id: 1,
+                    name: '',
+                    id: '',
                     contractAmount: 0.00,
                     projectProgress: 0.00,
                     partyAName:null,
@@ -706,18 +707,17 @@
             },
             // 提交
             sumbit(){
-                this.$axios.put('credit/apply/update',
+                this.$axios.post('api/credit/apply/status',
                     this.qs.stringify(
-                        {   id:this.creditId,
-                            creditId:this.creditId,
+                        {   id:this.applyId,
+                            // creditId:this.creditId,
                             step: 2,
                             status: 0,
                         }
-                    )).then(function (response) {
-                    console.log(response);
-                    _that.getCreditDataInfo();
-                    _that.$message.success('提交成功！');
-                    _that.pingguVisible = false;
+                    )).then(res => {
+                    this.$message.success('提交成功！');
+                    this.pingguVisible = false;
+                    this.goBack();
 
                 }).catch(function (error) {
                     console.log(error);
@@ -728,15 +728,21 @@
              * 获取合同信息
              */
             getProjectContract(){
-                let _than = this;
                 this.$axios.get('api/project/contract',{params:{
                         projectId: this.projectId
-                    }}).then(function (res) {
+                }}).then( res => {
                     console.log(res);
                     var contract = res.data.extend.contract;
-                    _than.startEndDate = [contract.startDate,contract.endDate]
-                    _than.form = contract;
-
+                    this.startEndDate = [contract.startDate,contract.endDate]
+                    if(null != contract){
+                        this.form = contract;
+                        this.contractFile = contract.contractFile;
+                        this.contractPaymentFile = contract.contractPaymentFile;
+                        this.inContractLiabilityBook = contract.inContractLiabilityBook;
+                        this.constructionSitePhoto = contract.constructionSitePhoto;
+                    }
+                    this.form.contractAmount = res.data.extend.project.contractAmount;
+                    this.form.projectProgress = res.data.extend.project.projectProgress;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -745,13 +751,18 @@
              * 获取成本信息
              */
             getProjectCost(){
-                let _than = this;
                 this.$axios.get('api/project/cost',{params:{
                         projectId: this.projectId
-                    }}).then(function (res) {
+                    }}).then(res => {
                     console.log(res);
                     var cost = res.data.extend.cost;
-                    _than.form = cost;
+                    if(null != cost){
+                        this.form = cost;
+                        this.progressReturnAccount = cost.progressReturnAccount;
+                        this.outputValueTable = cost.outputValueTable;
+                        this.costAnalysisTable = cost.costAnalysisTable;
+                        this.costAccount = cost.costAccount;
+                    }
 
                 }).catch(function (error) {
                     console.log(error);
@@ -764,10 +775,19 @@
                 let _than = this;
                 this.$axios.get('api/project/payment',{params:{
                         projectId: this.projectId
-                    }}).then(function (res) {
+                    }}).then(res => {
                     console.log(res);
                     var payment = res.data.extend.payment;
-                    _than.form = payment;
+                    if(null != payment){
+                        this.form = payment;
+                        this.invoiceFile = payment.invoice;
+                        this.transferFile = payment.transfer;
+                        this.transferToInvoiceFile = payment.transferInvoice;
+                        this.buyContractFile = payment.purchaseContract;
+                        this.buyInvoiceFile = payment.purchaseInvoice;
+                        this.deliveryNote = payment.deliveryNote;
+                        this.banckTransfer = payment.banckTransfer;
+                    }
 
                 }).catch(function (error) {
                     console.log(error);
@@ -777,13 +797,19 @@
              * 获取其它信息
              */
             getProjectOther(){
-                let _than = this;
                 this.$axios.get('api/project/other',{params:{
                         projectId: this.projectId
-                    }}).then(function (res) {
+                    }}).then(res => {
                     console.log(res);
+
                     var other = res.data.extend.other;
-                    _than.form = other;
+                    if(null != other){
+                        let isInsur = other.isInsur.toString();
+                        other.isInsur = isInsur;
+                        this.form = other;
+                        this.insurFile = other.insurFile;
+                    }
+                    
 
                 }).catch(function (error) {
                     console.log(error);
@@ -817,7 +843,13 @@
              * 保存合同信息
              */
             saveContractInfo(){
-                this.$axios.put('api/project/contract',
+                let URL = "api/project/contract/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
                         {   id:this.form.id,
                             projectId:this.projectId,
@@ -846,10 +878,10 @@
                             inContractLiabilityBook: this.inContractLiabilityBook,
                             constructionSitePhoto: this.constructionSitePhoto,
                         }
-                    )).then(function (res){
+                    )).then( res => {
                     console.log(res);
-                    _that.$message.success('提交成功！');
-                    _that.pingguVisible = false;
+                    this.$message.success('保存成功！');
+                    this.pingguVisible = false;
 
                 }).catch(function (error) {
                     console.log(error);
@@ -860,9 +892,15 @@
              * 保存成本信息
              */
             saveCostInfo(){
-                this.$axios.post('api/project/cost',
+                let URL = "api/project/cost/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
-                        {   id:this.id,
+                        {   id:this.form.id,
                             projectId:this.projectId,
                             profitMargin: this.form.profitMargin,
                             progressReturnAccount: this.progressReturnAccount,
@@ -870,10 +908,10 @@
                             costAnalysisTable: this.costAnalysisTable,
                             costAccount: this.costAccount,
                         }
-                    )).then(function (res){
+                    )).then(res => {
                     console.log(res);
-                    _that.$message.success('提交成功！');
-                    _that.pingguVisible = false;
+                    this.$message.success('保存成功！');
+                    this.pingguVisible = false;
 
                 }).catch(function (error) {
                     console.log(error);
@@ -884,7 +922,13 @@
              * 保存款项信息
              */
             savePaymentInfo(){
-                this.$axios.post('api/project/payment',
+                let URL = "api/project/payment/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
                         {   id:this.form.id,
                             projectId:this.projectId,
@@ -899,10 +943,10 @@
                             deliveryNote: this.deliveryNote,
                             banckTransfer: this.banckTransfer,
                         }
-                    )).then(function (res){
+                    )).then( res => {
                     console.log(res);
-                    _that.$message.success('提交成功！');
-                    _that.pingguVisible = false;
+                    this.$message.success('保存成功！');
+                    this.pingguVisible = false;
 
                 }).catch(function (error) {
                     console.log(error);
@@ -913,21 +957,27 @@
              * 保存其它信息
              */
             saveOtherInfo(){
-                this.$axios.post('api/project/other',
+                let URL = "api/project/other/";
+                if(this.form.id != null && this.form.id != ""){
+                    URL += "update";
+                }else{
+                    URL += "insert";
+                }
+                this.$axios.post(URL,
                     this.qs.stringify(
                         {   id:this.form.id,
                             projectId:this.projectId,
-                            isInsur: this.form.isBuyInsur,
+                            isInsur: this.form.isInsur,
                             insurEndDate: this.form.insurEndDate,
                             insurAmount: this.form.insurAmount,
                             insurPersonNumber: this.form.insurPersonNumber,
                             insurFile: this.insurFile,
                             unusualDesc: this.form.unusualDesc,
                         }
-                    )).then(function (res){
+                    )).then( res => {
                     console.log(res);
-                    _that.$message.success('提交成功！');
-                    _that.pingguVisible = false;
+                    this.$message.success('保存成功！');
+                    this.pingguVisible = false;
 
                 }).catch(function (error) {
                     console.log(error);

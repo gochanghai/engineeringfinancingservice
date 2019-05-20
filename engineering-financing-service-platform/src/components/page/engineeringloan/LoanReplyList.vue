@@ -12,21 +12,22 @@
                             <el-option key="1" label="待完善项目资料" value="1001"></el-option>
                             <el-option key="2" label="待提交" value="1002"></el-option>
                         </el-select>
-                        <el-button type="primary" class="btn-queren" icon="search" @click="search">查询</el-button>
+                        <el-button type="primary" class="btn-queren" icon="search">查询</el-button>
                     </div>
                     <div class="loan-info-box">
-                        <div class="list" v-for=" (item, index) in tableData">
+                        <div class="list" v-for=" (item, index) in tableData" :key="index">
                             <div class="loan-info-box list loan-info">
-                                <div class="item">申请日期: {{item.loanDate}}</div>
-                                <div class="item">申请编号: {{item.loanNo}}</div>
+                                <div class="item">申请日期: {{item.applyDate}}</div>
+                                <div class="item">申请编号: {{item.applyNo}}</div>
                                 <div class="item">申请人: {{item.name}}</div>
                                 <div class="item">项目名称: {{item.projectName}}</div>
-                                <div class="item">申请放款金额: {{item.loanAmount}}.00万</div>
+                                <div class="item">申请放款金额: {{item.applyAmount}}.00万</div>
                                 <div class="btn-sz" v-show="isShowPurchase === index" @click="isShowPurchaseInfo(-1)">收起 ▲</div>
                                 <div class="btn-sz" v-show="isShowPurchase !== index" @click="isShowPurchaseInfo(index)">展开 ▼</div>
-                                <div class="tag-status">待确认</div>
-                                <div class="btn-cancel" @click="gotoSubmit(item.id, -1)">拒绝</div>
-                                <div class="btn-submit" @click="gotoSubmit(item.id, 1)">确认</div>
+                                <div class="tag-status" v-if="item.step === 3 && item.status != -1">待确认</div>
+                                <div class="tag-status" v-if="item.step === 3 && item.status == -1">已拒绝</div>
+                                <div class="btn-cancel" v-if="item.step === 3 && item.status != -1" @click="gotoSubmit(item.id,item.applyNo, -1)">拒绝</div>
+                                <div class="btn-submit" v-if="item.step === 3 && item.status != -1" @click="gotoSubmit(item.id,item.applyNo, 1)">确认</div>
                             </div>
                             <div class="purchase-info" v-show="isShowPurchase === index">
                                 <el-table border :data="item.purchaseOrders">
@@ -37,9 +38,9 @@
                                             <img :src="filesysip + scope.row.contractFile" @click="filePreview(scope.row.contractFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="orderSumAmount" label="采购订单总金额" align="center">
+                                    <el-table-column prop="orderAmount" label="采购订单总金额" align="center">
                                         <template slot-scope="scope">
-                                            {{ scope.row.orderSumAmount}} 万
+                                            {{ scope.row.orderAmount}} 万
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="orderFile" label="采购订单附件" align="center">
@@ -47,9 +48,9 @@
                                             <img :src="filesysip + scope.row.orderFile" @click="filePreview(scope.row.orderFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="invoiceSumAmount" label="采购发票总金额" align="center">
+                                    <el-table-column prop="invoiceAmount" label="采购发票总金额" align="center">
                                         <template slot-scope="scope">
-                                            {{ scope.row.invoiceSumAmount}} 万
+                                            {{ scope.row.invoiceAmount}} 万
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="invoiceFile" label="采购发票附件" align="center">
@@ -57,16 +58,16 @@
                                             <img :src="filesysip + scope.row.invoiceFile" @click="filePreview(scope.row.invoiceFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="deliveryBillFile" label="送货单附件" align="center">
+                                    <el-table-column prop="deliveryFile" label="送货单附件" align="center">
                                         <template slot-scope="scope">
-                                            <img :src="filesysip + scope.row.deliveryBillFile" @click="filePreview(scope.row.deliveryBillFile)" width="30" height="25"/>
+                                            <img :src="filesysip + scope.row.deliveryFile" @click="filePreview(scope.row.deliveryBillFile)" width="30" height="25"/>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="bankCardNo" label="供应商银行账户名" align="center">
+                                    <el-table-column prop="accountName" label="供应商银行账户名" align="center">
                                     </el-table-column>
-                                    <el-table-column prop="bankAccountName" label="供应商银行账号" align="center">
+                                    <el-table-column prop="bankAccount" label="供应商银行账号" align="center">
                                     </el-table-column>
-                                    <el-table-column prop="openAccountBank" label="开户行" align="center">
+                                    <el-table-column prop="bank" label="开户行" align="center">
                                     </el-table-column>
                                 </el-table>
                             </div>
@@ -81,8 +82,8 @@
         </el-row>
 
         <!-- 批复弹出框 -->
-        <el-dialog :visible.sync="submitVisible" :rules="rules" center width="30%">
-            <el-form ref="form" :model="form" label-width="170px">
+        <el-dialog :visible.sync="submitVisible" :rules="rules" center width="450px">
+            <el-form ref="form" :model="form" label-width="100px">
                 <el-form-item label="是否同意放款">
                     <el-radio-group v-model="form.isLend">
                         <el-radio :label="1">是</el-radio>
@@ -96,7 +97,7 @@
             <span slot="footer" class="dialog-footer">
                 <div v-show=" form.isLend === 1">
                     <el-button type="primary" class="btn-queren" @click="addLoanInfo">立即登记放款信息</el-button>
-                    <el-button  @click="saveEdit">再等等</el-button>
+                    <el-button  @click="submitVisible = false">再等等</el-button>
                 </div>
                 <div v-show=" form.isLend === -1">
                     <el-button @click="submitVisible = false">取 消</el-button>
@@ -106,22 +107,23 @@
         </el-dialog>
 
         <!-- 登记放款信息 -->
-        <el-dialog title="登记放款信息" :visible.sync="addLoanInfoVisible" center>
+        <el-dialog title="登记放款信息" :visible.sync="addLoanInfoVisible" width="1000px">
             <el-form :inline="true" :model="form" class="demo-form-inline">
                 <div style="width: 100%">
                     <el-form-item label="放款日期">
-                        <el-input v-model="form.isLend" placeholder="审批人"></el-input>
+                        <!-- <el-input v-model="form.loanDate" placeholder="输入放款日期"></el-input> -->
+                        <el-date-picker type="date" placeholder="输入放款日期" v-model="form.loanDate" value-format="yyyy-MM-dd" style="width: 200px;"/>
                     </el-form-item>
                     <el-form-item label="还款方式">
-                        <el-select v-model="form.isLend" placeholder="活动区域">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
+                        <el-select v-model="form.type" placeholder="还款方式">
+                            <el-option label="到期还款分期付息" value="到期还款分期付息"></el-option>
+                            <el-option label="到期还本付息" value="到期还本付息"></el-option>
                         </el-select>
                     </el-form-item>
                 </div>
                 <div style="width: 100%">
                     <el-form-item label="放款金额">
-                        <el-input v-model="form.isLend" placeholder="万元"></el-input>
+                        <el-input v-model="form.amount" placeholder="万元"></el-input>
                     </el-form-item>
                     <el-form-item label="账期">
                         <el-date-picker
@@ -132,7 +134,7 @@
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期">
                         </el-date-picker>
-                        共 9 期
+                        共 {{repaymentInfo.length}} 期
                     </el-form-item>
                 </div>
                 <div style="width: 100%; height: 30px">还款计划</div>
@@ -147,27 +149,27 @@
                         </el-table-column>
                         <el-table-column prop="name" label="资金类型" width="150" align="center">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.Amount2"></el-input>
+                                <el-input v-model="scope.row.type"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column prop="projectName" label="计划收入金额" width="200" align="center">
                             <template slot-scope="scope">
-                                <el-input></el-input>
+                                <el-input v-model="scope.row.amount1"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column label="计划支出金额" width="150" align="center">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.Amount1"></el-input>
+                                <el-input v-model="scope.row.amount2"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column label="计划到账日"  align="center">
                             <template slot-scope="scope">
-                                <el-input></el-input>
+                                <el-input v-model="scope.row.endDate"></el-input>
                             </template>
                         </el-table-column>
                         <el-table-column label="状态">
                             <template slot-scope="scope">
-                                <el-input></el-input>
+                                <el-input v-model="scope.row.status"></el-input>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -175,7 +177,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button class="btn-cancel" @click="addLoanInfoVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveLoanInfo">确 定</el-button>
+                <el-button type="primary" @click="save('form')">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -186,13 +188,12 @@
         name: 'loan-apply-list',
         data() {
             return {
-                userId: localStorage.getItem('userInfoId'),
+                userId: localStorage.getItem('userId'),
                 filesysip: localStorage.getItem("fileBasePath"),
                 tableData: [],
                 repaymentInfo: [
-                    {num: 1, Amount1: 100, Amount2: 0},
-                    {num: 1, Amount1: 100, Amount2: 0},
-                    {num: 1, Amount1: 100, Amount2: 0}
+                    {num: 0, type: '', amount1: '', amount2: '',endDate: '',status:''},
+                    {num: 1, type: '', amount1: '', amount2: '',endDate: '',status:''},
                     ],
                 cur_page: 1,
                 multipleSelection: [],
@@ -206,17 +207,19 @@
                 apDate: null,
                 isShowPurchase: 0,
                 submitVisible: false,
-                addLoanInfoVisible: true,
+                addLoanInfoVisible: false,
                 form: {
                     id: null,
                     isLend: 1,
                     fDesc: null,
-                    date:null,
+                    loanDate:null,
                     amount: null,
                     repaymentType: null,
                     apStartDate: null,
                     apEndDate: null,
                     apNumber: null,
+                    applyNo: '',
+                    applyId: '',
                 },
                 rules: {
                     fDesc: [
@@ -234,6 +237,7 @@
             apDate:function(val) {
                 this.form.apStartDate = this.apDate[0];
                 this.form.apEndDate = this.apDate[1];
+                this.getIntervalMonth(this.apDate[0],this.apDate[1]);
             },
 
             bankListFile:function() {
@@ -271,12 +275,8 @@
         methods: {
             // 获取项目数据
             getTableData(){
-                let _than = this;
-                this.$axios.get('http://192.168.1.98:8088/la/fund/list',{params:{
-                        id: this.userId
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                this.$axios.post('la/fcompany/list',this.qs.stringify({id: this.userId})).then( res => {
+                    this.tableData = res.data.extend.list;
                 }).catch(function (error) {
 
                 });
@@ -287,36 +287,11 @@
                 this.cur_page = val;
                 this.getData();
             },
-            // 获取 easy-mock 的模拟数据
-            getData() {
-                // 开发环境使用 easy-mock 数据，正式环境使用 json 文件
-                if (process.env.NODE_ENV === 'development') {
-                    this.url = '/ms/table/list';
-                };
-                this.$axios.post(this.url, {
-                    page: this.cur_page
-                }).then((res) => {
-                    this.tableData = res.data.list;
-                })
-            },
-            search() {
-                this.is_search = true;
-            },
             formatter(row, column) {
                 return row.address;
             },
             filterTag(value, row) {
                 return row.tag === value;
-            },
-            handleEdit(index, row) {
-                this.idx = index;
-                const item = this.tableData[index];
-                this.form = {
-                    name: item.name,
-                    date: item.date,
-                    address: item.address
-                }
-                this.editVisible = true;
             },
             handleDelete(index, row) {
                 this.idx = index;
@@ -331,9 +306,6 @@
                 }
                 this.$message.error('删除了' + str);
                 this.multipleSelection = [];
-            },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
             },
             // 保存编辑
             saveEdit() {
@@ -358,9 +330,40 @@
                 console.log("index: " + index);
             },
 
+            // 获取期数
+            getIntervalMonth(startDate, endDate){
+                console.log(startDate);
+                console.log(endDate);
+                // 拆分年月日
+                let start = startDate.split('-');
+                // 得到月数
+                let star = parseInt(start[0]) * 12 + parseInt(start[1]);
+                // 拆分年月日
+                let end = endDate.split('-');
+                // 得到月数
+                let en = parseInt(end[0]) * 12 + parseInt(end[1]);
+                var m = Math.abs(star - en);
+                    console.log(m);
+                let list = [];
+                for(let i= 0 ;i<= m+1; i++){
+                    let item = {
+                        num: i,
+                        type: '',
+                        amount1: '',
+                        amount2: '',
+                        endDate: '',
+                        status: '',
+                    }
+                    list.push(item);
+                }
+                this.repaymentInfo = list;
+                return m;
+            },
+
             // 放款批复
-            gotoSubmit(id, result){
-                this.form.id = id;
+            gotoSubmit(id, no, result){
+                this.form.applyId = id;
+                this.form.applyNo = no,
                 this.form.isLend = result;
                 this.submitVisible = true;
             },
@@ -369,16 +372,27 @@
                 let _than = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        _than.$axios.post('loan_appr/f_save',
-                            _than.qs.stringify(
+                        this.$axios.post('loan/appr/f/save',
+                            this.qs.stringify(
                                 {
-                                    id: this.form.id,
-                                    fResult: this.form.isLend,
-                                    fDesc: this.form.fDesc,
+                                    result: this.form.isLend,
+                                    applyId: this.form.applyId,
+                                    applyNo: this.form.applyNo,
+                                    opinion: this.form.fDesc,
+                                    amount: this.form.amount,
+                                    loanDate: this.form.loanDate,
+                                    type: this.form.type,
+                                    startDate: this.form.apStartDate,
+                                    endDate: this.form.apEndDate,
+                                    num: this.repaymentInfo.length,
+                                    name: localStorage.getItem('ms_username'),
                                 }
-                            )).then(function (response) {
-                            console.log(response);
-                            _than.submitVisible = false;
+                            )).then( res =>{
+                            console.log(res);
+                            this.submitVisible = false;
+                            this.addLoanInfoVisible = false;
+                            this.$message.success('保存成功！');
+                            this.getTableData();
                         }).catch(function (error) {
                             console.log(error);
                         });
@@ -387,8 +401,6 @@
                         return false;
                     }
                 });
-                this.$message.success('保存成功！');
-
             },
 
             addLoanInfo(){

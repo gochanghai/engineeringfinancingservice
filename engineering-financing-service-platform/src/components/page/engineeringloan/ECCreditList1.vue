@@ -19,9 +19,9 @@
                         <el-table :data="tableData" border class="table" ref="multipleTable" @selection-change="handleSelectionChange">
                             <el-table-column type="index" label="序号" width="50" align="center">
                             </el-table-column>
-                            <el-table-column prop="creditNo" label="申请编号" sortable width="160" align="center">
+                            <el-table-column prop="applyNo" label="申请编号" sortable width="160" align="center">
                             </el-table-column>
-                            <el-table-column prop="date" label="申请日期" width="100" align="center">
+                            <el-table-column prop="applyDate" label="申请日期" width="100" align="center">
                             </el-table-column>
                             <el-table-column prop="name" label="申请人" width="80" align="center">
                             </el-table-column>
@@ -42,7 +42,7 @@
                             </el-table-column>
                             <el-table-column prop="companyName" label="担保企业" width="150" align="center">
                             </el-table-column>
-                            <el-table-column prop="companyFullName" label="资金渠道" width="150" align="center">
+                            <el-table-column prop="fcompanyName" label="资金渠道" width="150" align="center">
                             </el-table-column>
                             <el-table-column label="审批进度" width="80" align="center">
                                 <template slot-scope="scope">
@@ -53,9 +53,9 @@
                             </el-table-column>
                             <el-table-column label="操作" width="180" align="left">
                                 <template slot-scope="scope">
-                                    <el-button type="warning" size="mini" @click="gotoInfoDetails(scope.row.id)" >详情</el-button>
-                                    <el-button type="warning" size="mini" v-show="scope.row.step === 1 && scope.row.status === 0" @click="goAddInfo(scope.row.id)">去完善资料</el-button>
-                                    <!--<el-button type="text" @click="handleEdit(scope.$index, scope.row)">去审批</el-button>-->
+                                    <el-button type="text" size="mini" @click="gotoInfoDetails(scope.row.id)" >详情</el-button>
+                                    <el-button type="text" size="mini" @click="goAddInfo(scope.row.projectId,scope.row.id)" v-show="scope.row.step === 1 && scope.row.status >= 0">去完善资料</el-button>
+                                    <el-button type="text" @click="gosumbit(scope.row.id)" v-show="scope.row.step === 1 && scope.row.status >= 0">提交</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -153,8 +153,8 @@
             // 获取项目数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('api/credit/ec_list',{params:{
-                        id: localStorage.getItem('userInfoId')
+                this.$axios.get('api/credit/ec',{params:{
+                        companyId: localStorage.getItem('companyId')
                     }}).then(function (res){
                     console.log(res);
                     _than.tableData = res.data.extend.list;
@@ -214,10 +214,34 @@
                 this.$router.push("/credit-info-details?id=" + id)
             },
             // 去完善资料
-            goAddInfo(id){
-                // this.auditVisible = true;
-                // this.form.creditId = id;
-                this.$router.push("edit-project-info?id=" + id)
+            goAddInfo(projectId, id){
+                this.$router.push("edit-project-info?id=" + id + "&projectId=" + projectId)
+            },
+
+            // 提交
+            gosumbit(applyId){
+                this.$confirm('确认提交信息吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.$axios.post('api/credit/apply/status',
+                        this.qs.stringify(
+                            {   id: applyId,
+                                // creditId:this.creditId,
+                                step: 2,
+                                status: 0,
+                            }
+                        )).then(res => {
+                        this.$message({type: 'success', message: '提交成功!'});
+                        this.getCreditDataList();
+                    }).catch(function (error) {
+                        console.log(error);
+                    });                    
+                }).catch(() => {
+                    this.$message({type: 'info', message: '已取消'});
+                });
+                
             },
             // 保存审批结果
             save(){
@@ -266,6 +290,21 @@
                         break;
                     case '5-0':
                         return '待发起协议';
+                        break;
+                    case '6-0':
+                        return '待签署协议';
+                        break;
+                    case '6-1':
+                        return '待签署协议';
+                        break;
+                    case '6-2':
+                        return '待签署协议';
+                        break;
+                    case '7-0':
+                        return '待确认协议';
+                        break;
+                    case '8-0':
+                        return '授信完成';
                         break;
                     default:
                         return '审批中';

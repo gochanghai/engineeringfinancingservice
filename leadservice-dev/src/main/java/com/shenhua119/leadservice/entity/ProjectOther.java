@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -17,8 +15,6 @@ import java.util.Date;
  */
 
 @Data
-@Getter
-@Setter
 @TableName("project_other")
 public class ProjectOther {
 

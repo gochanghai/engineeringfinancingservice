@@ -20,7 +20,7 @@
                             <el-table-column prop="address" label="公司地址"/>
                             <el-table-column label="操作" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="detailsInfo(scope.row.id)"><el-tag type="warning">详情信息</el-tag></el-button>
+                                    <el-button type="text" @click="detailsInfo(scope.row.id)">详情信息</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -100,6 +100,13 @@
                 let id = this.userId;
                 this.$router.push({
                     path:'childcompany-add?id=' + id
+                })
+            },
+
+            // 添加分公司
+            detailsInfo(id){
+                this.$router.push({
+                    path:'childcompany-info?id=' + id
                 })
             }
         }

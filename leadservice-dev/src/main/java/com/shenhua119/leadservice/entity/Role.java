@@ -2,8 +2,6 @@ package com.shenhua119.leadservice.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author liuchanghai
@@ -11,9 +9,7 @@ import lombok.Setter;
  * 角色实体类
  */
 @Data
-@Getter
-@Setter
-@TableName("tb_role")
+@TableName("sys_role")
 public class Role {
     private Long roleId;
     private String roleName;

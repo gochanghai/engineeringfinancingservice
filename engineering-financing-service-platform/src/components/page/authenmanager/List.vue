@@ -8,27 +8,24 @@
                     </div>
                     <el-table :data="tableData" border class="table" v-loading="loading" ref="multipleTable">
                         <el-table-column type="index" label="序号" width="50" align="center"/>
-                        <el-table-column prop="fileName" label="文件名称" width="200" align="left"/>
-                        <el-table-column prop="fileType" label="文件类型" width="100" align="center"/>
-                        <el-table-column label="文件大小" width="120" align="center">
+                        <el-table-column prop="name" label="姓名" width="200" align="left"/>
+                        <el-table-column prop="birthdate" label="出生日期" width="100" align="center"/>
+                        <el-table-column label="性别" width="120" align="center">
                             <template slot-scope="scope">
-                                {{scope.row.fileSize}}
+                                {{scope.row.gender | genderToText}}
                             </template>
                         </el-table-column>
-                        <el-table-column prop="filePath" label="文件路径" align="left" />
-                        <el-table-column prop="createDate" label="上传时间" width="200" align="center" />
-                        <el-table-column label="文件预览" width="200" align="center">
+                        <el-table-column prop="phone" label="手机号" align="left" width="200"/>
+                        <el-table-column prop="companyName" label="所属公司" align="left"/>
+                        <el-table-column prop="status" label="状态" align="center" width="100">
                             <template slot-scope="scope">
-                                <div>
-                                    <img v-if="scope.row.fileType === '.pdf'" src="../../../../static/img/pdf.jpg" width="23px" height="23px" @click="filePDFPreview(scope.row.filePath)"/>
-                                    <img v-else="scope.row.fileType === '.jpg'" :src="filesysip + scope.row.filePath" width="23px" height="23px" @click="filePreview(scope.row.filePath)"/>
-                                </div>
+                                {{scope.row.status | statusToText}}
                             </template>
                         </el-table-column>
                         <el-table-column label="操作" width="150" align="center">
                             <template slot-scope="scope">
-                                <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">下载</el-button>
-                                <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+                                <el-button size="mini" round @click="getInfoDetail(scope.row.id)">详情</el-button>
+                                <!-- <el-button size="mini" round @click="handleEdit(scope.$index, scope.row)">删除</el-button> -->
                             </template>
                         </el-table-column>
                     </el-table>
@@ -38,19 +35,6 @@
         <!-- 图片放大 -->
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-        <el-dialog :visible.sync="pdfDialogVisible" width="800px" top="20px">
-            <div style="width: 100%; height: 900px">
-            <embed :src="pdfPath"
-                   width="100%"
-                   height="100%"
-                   frameborder="no"
-                   border="0"
-                   marginwidth="0"
-                   marginheight="0"
-                   scrolling="no"
-                   allowtransparency="no"/>
-        </div>
         </el-dialog>
 
     </div>
@@ -75,17 +59,38 @@
                 return this.name === 'admin' ? '超级管理员' : '普通用户';
             }
         },
+        // 过滤器
+        filters: {
+            genderToText(oldValue) {
+                if(oldValue === 'M'){
+                    return '男'
+                }
+                if(oldValue === 'F'){
+                    return '女'
+                }
+                return '未知';
+            },
+            statusToText(value) {
+                if(1 === value){
+                    return '待审核'
+                }
+                if(2 === value){
+                    return '已认证'
+                }
+                return '未认证';
+            }
+        },
         created(){
             this.getCreditDataList();
         },
         methods: {
 
-            // 获取文件列表数据
+            // 获取列表数据
             getCreditDataList() {
                 let _than = this;
-                this.$axios.get('filesystem/all').then(function (response) {
-                    console.log(response);
-                    _than.tableData = response.data.extend.list;
+                this.$axios.get('api/business/all').then(function (res) {
+                    console.log(res);
+                    _than.tableData = res.data.extend.list;
                     _than.loading = false;
                 }).catch(function (error) {
                     console.log(error);
@@ -99,6 +104,9 @@
                 this.pdfPath =  this.filesysip + filePath;
                 this.pdfDialogVisible = true;
             },
+            getInfoDetail(id){
+                this.$router.push({ path:'businessmanager-authen-info?id=' + id})
+            }
         }
     }
 

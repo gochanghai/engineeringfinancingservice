@@ -5,6 +5,7 @@ import com.shenhua119.leadservice.entity.FileSystem;
 import com.shenhua119.leadservice.service.FileSystemService;
 import com.shenhua119.leadservice.util.Msg;
 import com.shenhua119.leadservice.util.SerialNumber;
+import org.apache.commons.io.IOUtils;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -92,15 +94,39 @@ public class FileServerController {
         return Msg.success().add("fileSystem", fileSystem);
     }
 
+    @PostMapping("download")
+    public void fastDFSDownload(String filePath) {
+        try {
+            ClientGlobal.initByProperties("fastdfs-client.properties");
+            // 链接FastDFS服务器，创建tracker和Stroage
+            TrackerClient trackerClient = new TrackerClient();
+            TrackerServer trackerServer = trackerClient.getConnection();
+            StorageServer storageServer = null;
+            StorageClient storageClient = new StorageClient(trackerServer, storageServer);
+            int indexOf = filePath.indexOf("/");
+            String group_name = filePath.substring(0, indexOf);
+            String remote_filename = filePath.substring(indexOf+1);
+            byte[] b = storageClient.download_file(group_name,remote_filename);
+            if (b == null) {
+                throw new IOException("文件" + filePath + "不存在");
+            }
+            String fileName = SerialNumber.Getnum() + remote_filename.substring(remote_filename.lastIndexOf("."));
+            FileOutputStream fileOutputStream = new FileOutputStream(upload_location +"\\"+ fileName);
+            IOUtils.write(b, fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+
     /**
      * 删除文件
      * @param fileId
      * @return
      */
-    @DeleteMapping("delete")
-    @ResponseBody
+    @PostMapping("delete")
     public Msg delete(Long id, String fileId){
-
         try {
             // 初始化
             ClientGlobal.initByProperties("fastdfs-client.properties");

@@ -37,7 +37,7 @@
                             </el-table-column>
                             <el-table-column label="操作" width="200" align="center">
                                 <template slot-scope="scope">
-                                    <el-button type="text" @click="findProgress(scope.row.id)"><el-tag type="warning">查看进度</el-tag></el-button>
+                                    <el-button size="mini" round @click="findProgress(scope.row.id)">查看进度</el-button>
                                     <el-button size="mini" round @click="editProjectInfo(scope.row.id)">项目资料</el-button>
                                 </template>
                             </el-table-column>

@@ -1,8 +1,15 @@
 package com.shenhua119.leadservice.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 工程公司授信信息
  */
+@Data
+@Accessors(chain = true)
+@TableName("company_credit_product")
 public class CreditCompanyProduct {
     /** 主键ID */
     private Long id;

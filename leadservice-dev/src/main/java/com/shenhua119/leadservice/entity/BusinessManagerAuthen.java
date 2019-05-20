@@ -1,5 +1,6 @@
 package com.shenhua119.leadservice.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * @author liuchanghai
@@ -124,5 +127,10 @@ public class BusinessManagerAuthen {
      * 认证状态
      */
     private Integer status;
+
+    @TableField(exist=false)
+    private List<Car> cars;
+    @TableField(exist=false)
+    private List<House> houses;
 
 }

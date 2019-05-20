@@ -19,32 +19,32 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="姓名：" style="margin-bottom: 0">{{businessInfo.baseinfo.name}}</el-form-item>
-                                        <el-form-item label="身份证号：" style="margin-bottom: 0">{{businessInfo.baseinfo.idCard}}</el-form-item>
-                                        <el-form-item label="户籍所在地：" style="margin-bottom: 0">{{businessInfo.authenInfo.domicile}}</el-form-item>
-                                        <el-form-item label="手机号码：" style="margin-bottom: 0">{{businessInfo.authenInfo.bankCardPhone}}</el-form-item>
-                                        <el-form-item label="银行卡号：" style="margin-bottom: 0">{{businessInfo.authenInfo.bankCardNo}}</el-form-item>
-                                        <el-form-item label="开户行：" style="margin-bottom: 0">{{businessInfo.authenInfo.bank}}</el-form-item>
+                                        <el-form-item label="姓名：" style="margin-bottom: 0">{{authenInfo.name}}</el-form-item>
+                                        <el-form-item label="身份证号：" style="margin-bottom: 0">{{authenInfo.idCard}}</el-form-item>
+                                        <el-form-item label="户籍所在地：" style="margin-bottom: 0">{{authenInfo.domicile}}</el-form-item>
+                                        <el-form-item label="手机号码：" style="margin-bottom: 0">{{authenInfo.bankCardPhone}}</el-form-item>
+                                        <el-form-item label="银行卡号：" style="margin-bottom: 0">{{authenInfo.bankCardNo}}</el-form-item>
+                                        <el-form-item label="开户行：" style="margin-bottom: 0">{{authenInfo.bank}}</el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.idCardSideFace" class="image">
+                                                    <img :src="filesystem + authenInfo.idCardSideFace" class="image">
                                                     <span>身份证正面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.idCardSideBack" class="image">
+                                                    <img :src="filesystem + authenInfo.idCardSideBack" class="image">
                                                     <span>身份证反面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.idCardHand" class="image">
+                                                    <img :src="filesystem + authenInfo.idCardHand" class="image">
                                                     <span>手持身份证</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.householdRegHome" class="image">
+                                                    <img :src="filesystem + authenInfo.householdRegHome" class="image">
                                                     <span>户口本主页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.householdRegPersonal" class="image">
+                                                    <img :src="filesystem + authenInfo.householdRegPersonal" class="image">
                                                     <span>户口本个人页</span>
                                                 </el-card>
                                             </div>
@@ -59,33 +59,33 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="配偶姓名：" style="margin-bottom: 0">{{businessInfo.authenInfo.spouseName}}</el-form-item>
-                                        <el-form-item label="配偶身份证号：" style="margin-bottom: 0">{{businessInfo.authenInfo.spouseIdCard}}</el-form-item>
-                                        <el-form-item label="配偶户籍所在地：" style="margin-bottom: 0">{{businessInfo.authenInfo.spouseDomicile}}</el-form-item>
+                                        <el-form-item label="配偶姓名：" style="margin-bottom: 0">{{authenInfo.spouseName}}</el-form-item>
+                                        <el-form-item label="配偶身份证号：" style="margin-bottom: 0">{{authenInfo.spouseIdCard}}</el-form-item>
+                                        <el-form-item label="配偶户籍所在地：" style="margin-bottom: 0">{{authenInfo.spouseDomicile}}</el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.spouseIdCardSideFace" class="image">
+                                                    <img :src="filesystem + authenInfo.sidCardSideFace" class="image">
                                                     <span>配偶身份证正面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.spouseIdCardSideBack" class="image">
+                                                    <img :src="filesystem + authenInfo.sidCardSideBack" class="image">
                                                     <span>配偶身份证反面</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.marriageCertificate" class="image">
+                                                    <img :src="filesystem + authenInfo.marriageCert" class="image">
                                                     <span>结婚证</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.shouseholdRegHome" class="image">
+                                                    <img :src="filesystem + authenInfo.shouseholdRegHome" class="image">
                                                     <span>配偶户口本主页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.shouseholdRegPersonal" class="image">
+                                                    <img :src="filesystem + authenInfo.shouseholdRegPersonal" class="image">
                                                     <span>配偶户口本个人页</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" hidden class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.divorceCertificate" class="image">
+                                                    <img :src="filesystem + authenInfo.divorceCert" class="image">
                                                     <span>离婚证</span>
                                                 </el-card>
                                             </div>
@@ -100,20 +100,20 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="公司全称：" style="margin-bottom: 0">{{businessInfo.authenInfo.companyName}}</el-form-item>
-                                        <el-form-item label="信用代码证编号：" style="margin-bottom: 0">{{businessInfo.authenInfo.creditCode}}</el-form-item>
+                                        <el-form-item label="公司全称：" style="margin-bottom: 0">{{authenInfo.companyName}}</el-form-item>
+                                        <el-form-item label="信用代码证编号：" style="margin-bottom: 0">{{authenInfo.creditCode}}</el-form-item>
                                         <el-form-item label="附件：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.companyBusinessLicense" class="image">
+                                                    <img :src="filesystem + authenInfo.companyBusinessLicense" class="image">
                                                     <span>公司营业执照</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.articlesAssoCompany" class="image">
+                                                    <img :src="filesystem + authenInfo.articlesAssoCompany" class="image">
                                                     <span>公司章程</span>
                                                 </el-card>
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.officeSpaceLeaseContract" class="image">
+                                                    <img :src="filesystem + authenInfo.officeSpaceLeaseContract" class="image">
                                                     <span>办公场所租赁合同</span>
                                                 </el-card>
                                             </div>
@@ -128,12 +128,12 @@
                                 </div>
                                 <div class="content-info-box">
                                     <el-form>
-                                        <el-form-item label="社保电脑号：" style="margin-bottom: 0">{{businessInfo.authenInfo.socialInsurCardNo}}</el-form-item>
-                                        <el-form-item label="当前购买社保公司：" style="margin-bottom: 0">{{businessInfo.authenInfo.buySocialInsurCompany}}</el-form-item>
+                                        <el-form-item label="社保电脑号：" style="margin-bottom: 0">{{authenInfo.socialInsurCardNo}}</el-form-item>
+                                        <el-form-item label="当前购买社保公司：" style="margin-bottom: 0">{{authenInfo.socialInsurCompany}}</el-form-item>
                                         <el-form-item label="近一年缴纳社保清单：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img :src="filesystem + businessInfo.authenInfo.paySocialInsurDetails" class="image">
+                                                    <img :src="filesystem + authenInfo.socialInsurDetails" class="image">
                                                     <!--<span>社保清单</span>-->
                                                 </el-card>
                                             </div>
@@ -147,42 +147,42 @@
                                     <!--<div class="content-lable2">已认证</div>-->
                                 </div>
                                 <!-- 房产信息 -->
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-for="(house,index) in houses" :key="index">
                                     <el-form>
-                                        <el-form-item label="房产 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="房产所在地：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                        <el-form-item :label="'房产' + (index + 1)" style="margin-bottom: 0"></el-form-item>
+                                        <el-form-item label="房产所在地：" style="margin-bottom: 0">{{house.houseAddress}}</el-form-item>
                                         <el-form-item label="房产证明：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/fyd.png" class="image">
+                                                    <img :src=" filesystem + house.premisesPermit" class="image">
                                                     <!--<span>房产证明</span>-->
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="房产说明：" style="margin-bottom: 0">房产说明</el-form-item>
+                                        <el-form-item label="房产说明：" style="margin-bottom: 0">{{house.houseDesc}}</el-form-item>
                                     </el-form>
                                 </div>
                                 <!-- 车辆信息 -->
-                                <div class="content-info-box">
+                                <div class="content-info-box" v-for="(car, index) in cars" :key="index">
                                     <el-form>
-                                        <el-form-item label="车辆 1" style="margin-bottom: 0"></el-form-item>
-                                        <el-form-item label="车牌号：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                        <el-form-item :label="'车辆'+ (index+1)" style="margin-bottom: 0"></el-form-item>
+                                        <el-form-item label="车牌号：" style="margin-bottom: 0">{{car.carNumber}}</el-form-item>
                                         <el-form-item label="车辆行驶证：" style="margin-bottom: 0">
                                             <div class="file-box">
                                                 <el-card shadow="hover" :body-style="{ padding: '0px' }" class="card-file">
-                                                    <img src="../../../../static/img/fyd.png" class="image">
+                                                    <img :src=" filesystem + car.carDriveLicense" class="image">
                                                     <!--<span>车辆行驶证</span>-->
                                                 </el-card>
                                             </div>
                                         </el-form-item>
-                                        <el-form-item label="车辆说明：" style="margin-bottom: 0">430426198502134569</el-form-item>
+                                        <el-form-item label="车辆说明：" style="margin-bottom: 0">{{car.carDesc}}</el-form-item>
                                     </el-form>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- 审批记录 -->
-                    <div class="info-box">
+                    <div class="info-box" v-show=" false">
                         <div class="info-title">审批记录</div>
                         <div class="info-btn-box">
                             <div class="is-show-btn">展开</div>
@@ -224,8 +224,8 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
-                        <div class="info-bottom-btn2">进入首页</div>
+                        <div class="info-bottom-btn1" @click="$router.go(-1)">返回</div>
+                        <!-- <div class="info-bottom-btn2">立即审核</div> -->
                     </div>
                 </el-card>
             </el-col>
@@ -240,9 +240,40 @@
             return {
                 name: localStorage.getItem('ms_username'),
                 filesystem: localStorage.getItem("fileBasePath"),
-                // id: this.$route.query.id,
-                businessInfo: null,
-
+                reginfo: {},
+                authenInfo: {
+                    bankCardNo: '',
+                    bank: '',
+                    bankCardPhone: '',
+                    cardTypeCode: '',
+                    bankCode: '',
+                    domicile: '',
+                    idCardSideFace: '',
+                    idCardSideBack: '',
+                    idCardHand: '',
+                    householdRegHome: '',
+                    householdRegPersonal: '',
+                    marriageStatus: '',
+                    spouseName: '',
+                    spouseIdCard: '',
+                    spouseDomicile: '',
+                    sidCardSideFace: '',
+                    sidCardSideBack: '',
+                    marriageCert: '',
+                    shouseholdRegHome: '',
+                    shouseholdRegPersonal: '',
+                    divorceCert: '',
+                    companyName: '',
+                    creditCode: '',
+                    companyBusinessLicense: '',
+                    articlesAssoCompany: '',
+                    officeSpaceLeaseContract: '',
+                    socialInsurCardNo: '',
+                    socialInsurCompany: '',
+                    socialInsurDetails: '',
+                },
+                cars: [],
+                houses: [],
             }
         },
         components: {
@@ -259,16 +290,28 @@
         methods: {
             // 获取信息
             getDataInfo(){
-                let _than = this;
-                this.$axios.get('api/authen/bm_info_details',{params:{
+                this.$axios.get('api/authen/bm_info',{params:{
                         id: this.$route.query.id
-                    }}).then(function (response) {
-                    console.log(response);
-                    _than.businessInfo = response.data.extend;
+                    }}).then( res => {
+                    console.log(res);
+                    let data = res.data.extend;
+                    if(null != data.authenInfo){
+                        this.authenInfo = data.authenInfo;
+                    }
+                    if(null != data.houses){
+                        this.houses = data.houses;
+                    }
+                    if(null != data.cars){
+                        this.cars = data.cars;
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
+
+            goBack(){
+                this.$router.go(-1);
+            }
 
 
         }

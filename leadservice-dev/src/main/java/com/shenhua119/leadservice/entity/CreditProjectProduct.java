@@ -59,6 +59,6 @@ public class CreditProjectProduct {
      */
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date createDate;
+    private Date createTime;
 
 }

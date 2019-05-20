@@ -1,6 +1,5 @@
 package com.shenhua119.leadservice.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -74,18 +73,6 @@ public class EngineeringCompany implements Serializable {
 
     // 用户名2
     private String username2;
-
-    //资金方ID
-    @JsonSerialize(using= ToStringSerializer.class)
-    @TableField(exist=false)
-    private Long fComId;
-
-    // 授信资方名称
-    @TableField(exist=false)
-    private String companyFullName;
-
-    // 授信额度
-    private Double creditAmount;
 
     // 状态
     private Integer status;

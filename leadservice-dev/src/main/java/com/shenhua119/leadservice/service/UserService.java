@@ -42,4 +42,6 @@ public interface UserService extends IService<User> {
      * @return
      */
     User loginByUsernameOrPhone(String username, String password);
+
+    List<User> findCompanyUsers(Long id);
 }

@@ -4,15 +4,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 @Data
-@Getter
-@Setter
 @Accessors(chain = true)
 @TableName("sys_user")
 public class User implements Serializable {
@@ -63,7 +59,7 @@ public class User implements Serializable {
      * 用户信息ID
      */
     @JsonSerialize(using=ToStringSerializer.class)
-    private Long userInfoId;
+    private Long companyId;
 
     /**
      * 用户类别（融资人、工程公司、资金方、平台）

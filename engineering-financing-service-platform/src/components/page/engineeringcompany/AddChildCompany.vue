@@ -31,7 +31,7 @@
                     </div>
                     <!-- 底部按钮 -->
                     <div class="info-bottom-box">
-                        <div class="info-bottom-btn1">返回</div>
+                        <div class="info-bottom-btn1" @click="goBack">返回</div>
                         <div class="info-bottom-btn2" @click="save">保存</div>
                     </div>
                 </el-card>
@@ -98,6 +98,15 @@
         deactivated(){
         },
         methods: {
+            /**
+             * 返回处理函数
+             */
+            goBack(){
+                this.$router.go(-1);
+            },
+            /**
+             * 保存处理函数
+             */
             save(){
                 let _than = this;
                 this.$axios.post('api/company/branch',
