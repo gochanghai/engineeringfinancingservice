@@ -1,6 +1,7 @@
 package com.shenhua119.leadservice.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shenhua119.leadservice.entity.FileSystem;
 import com.shenhua119.leadservice.service.FileSystemService;
 import com.shenhua119.leadservice.util.Msg;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
 
 /**
  * @author liuchanghai
@@ -159,9 +159,12 @@ public class FileServerController {
     @GetMapping("/all")
     @ResponseBody
     public Msg getAllList(){
-        List<FileSystem> list = fileSystemService.list(new QueryWrapper<FileSystem>()
-                .isNotNull("id")
-                .orderByDesc("create_date"));
+        Page<FileSystem> page = new Page<>(1,10);
+        System.out.println(page.toString());
+        Page<FileSystem> list = fileSystemService.selectPageVo(page);
+//        List<FileSystem> list = fileSystemService.list(new QueryWrapper<FileSystem>()
+//                .isNotNull("id")
+//                .orderByDesc("create_date"));
         return Msg.success().add("list",list);
     }
 

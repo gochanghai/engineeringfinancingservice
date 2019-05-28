@@ -1,4 +1,4 @@
-package com.shenhua119.leadservice.configurer;
+package com.shenhua119.leadservice.config;
 
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;

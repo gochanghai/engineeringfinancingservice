@@ -6,10 +6,7 @@ import com.shenhua119.leadservice.service.LoanApprovalService;
 import com.shenhua119.leadservice.service.LoanService;
 import com.shenhua119.leadservice.util.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p> 贷款审批控制器 </p>
@@ -44,19 +41,19 @@ public class LoanApprovalController {
 
     /**
      * 保存资金方批复信息
-     * @param lai
+     * @param dto
      * @return
      */
     @PostMapping("/f/save")
-    public Msg saveFcomApproval(LoanExamineapprove lai){
-        System.out.println("fund com: " + lai);
-        boolean b = loanApplyService.saveExamineApprove(lai);
-        if(b && lai.getResult() == 1){
+    public Msg saveFcomApproval(@RequestBody LoanExamineapprove dto){
+        System.out.println("fund com: " + dto);
+//        boolean b = loanApplyService.saveExamineApprove(lai);
+//        if(b && lai.getResult() == 1){
 //            b = loanService.save(loan);
-        }
-        if(b){
-            return Msg.success();
-        }
+//        }
+//        if(b){
+//            return Msg.success();
+//        }
         return Msg.fail();
     }
 

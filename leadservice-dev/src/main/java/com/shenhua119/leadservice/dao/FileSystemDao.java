@@ -1,8 +1,10 @@
 package com.shenhua119.leadservice.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shenhua119.leadservice.entity.FileSystem;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @author liuchanghai
@@ -10,4 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FileSystemDao extends BaseMapper<FileSystem> {
+
+    @Select("select * from file_system")
+    Page<FileSystem> selectPageVo(Page<FileSystem> page);
 }
