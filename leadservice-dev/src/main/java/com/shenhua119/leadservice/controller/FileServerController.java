@@ -1,11 +1,11 @@
 package com.shenhua119.leadservice.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shenhua119.leadservice.entity.FileSystem;
 import com.shenhua119.leadservice.service.FileSystemService;
 import com.shenhua119.leadservice.util.Msg;
 import com.shenhua119.leadservice.util.SerialNumber;
+import com.shenhua119.leadservice.vo.FileListVO;
 import org.apache.commons.io.IOUtils;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.*;
@@ -159,9 +159,9 @@ public class FileServerController {
     @GetMapping("/all")
     @ResponseBody
     public Msg getAllList(){
-        Page<FileSystem> page = new Page<>(1,10);
+        Page<FileListVO> page = new Page<>(1,10);
         System.out.println(page.toString());
-        Page<FileSystem> list = fileSystemService.selectPageVo(page);
+        Page<FileListVO> list = fileSystemService.selectPageVo(page);
 //        List<FileSystem> list = fileSystemService.list(new QueryWrapper<FileSystem>()
 //                .isNotNull("id")
 //                .orderByDesc("create_date"));

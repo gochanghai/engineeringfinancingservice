@@ -1,11 +1,11 @@
 package com.shenhua119.leadservice.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shenhua119.leadservice.dao.FileSystemDao;
 import com.shenhua119.leadservice.entity.FileSystem;
 import com.shenhua119.leadservice.service.FileSystemService;
+import com.shenhua119.leadservice.vo.FileListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemDao, FileSystem
     }
 
     @Override
-    public Page<FileSystem> selectPageVo(Page<FileSystem> page) {
+    public Page<FileListVO> selectPageVo(Page<FileListVO> page) {
         return fileSystemDao.selectPageVo(page);
     }
 }

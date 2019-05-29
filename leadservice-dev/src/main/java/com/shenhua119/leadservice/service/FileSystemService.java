@@ -3,6 +3,7 @@ package com.shenhua119.leadservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shenhua119.leadservice.entity.FileSystem;
+import com.shenhua119.leadservice.vo.FileListVO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -17,5 +18,5 @@ public interface FileSystemService extends IService<FileSystem> {
      */
     FileSystem upload(MultipartFile file);
 
-    Page<FileSystem> selectPageVo(Page<FileSystem> page);
+    Page<FileListVO> selectPageVo(Page<FileListVO> page);
 }
