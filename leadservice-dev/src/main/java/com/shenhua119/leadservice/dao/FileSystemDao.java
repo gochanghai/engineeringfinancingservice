@@ -7,6 +7,8 @@ import com.shenhua119.leadservice.vo.FileListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * @author liuchanghai
  * @create 2018-12-06 18:09
@@ -15,5 +17,5 @@ import org.apache.ibatis.annotations.Select;
 public interface FileSystemDao extends BaseMapper<FileSystem> {
 
     @Select("select * from file_system")
-    Page<FileListVO> selectPageVo(Page<FileListVO> page);
+    List<FileListVO> selectPageVo(Page<FileListVO> page);
 }

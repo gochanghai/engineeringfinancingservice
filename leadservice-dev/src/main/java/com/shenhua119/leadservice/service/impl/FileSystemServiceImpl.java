@@ -36,6 +36,6 @@ public class FileSystemServiceImpl extends ServiceImpl<FileSystemDao, FileSystem
 
     @Override
     public Page<FileListVO> selectPageVo(Page<FileListVO> page) {
-        return fileSystemDao.selectPageVo(page);
+        return (Page<FileListVO>) page.setRecords(this.baseMapper.selectPageVo(page));
     }
 }

@@ -159,7 +159,7 @@ public class FileServerController {
     @GetMapping("/all")
     @ResponseBody
     public Msg getAllList(){
-        Page<FileListVO> page = new Page<>(1,10);
+        Page<FileListVO> page = new Page<>(1,50);
         System.out.println(page.toString());
         Page<FileListVO> list = fileSystemService.selectPageVo(page);
 //        List<FileSystem> list = fileSystemService.list(new QueryWrapper<FileSystem>()
