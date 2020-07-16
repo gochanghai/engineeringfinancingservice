@@ -29,11 +29,11 @@ public class Aliyunsms {
 
     // 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
 
-    private static String accessKeyId = "LTAI6y8JyXmVcZaA";
+    private static String accessKeyId = "";
 
-    private static String accessKeySecret = "kMVzUEewThTczJ2mCJCBMAOa3UlhBO";
+    private static String accessKeySecret = "";
 
-    private static String signName = "gochanghai";
+    private static String signName = "";
 
     private static String identifyingTempleteCode = "yourAccessKeySecret";
 
